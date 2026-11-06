@@ -24,6 +24,9 @@ wheels/
 .installed.cfg
 *.egg
 
+# Raw large YAML files (re-creatable via scripts/prepare_dataset.py)
+data/raw/obdex/*.yaml
+
 # Virtual Environment
 .env
 !.env.example
@@ -48,3 +51,4 @@ Thumbs.db
 # IDE
 .idea/
 .vscode/
+

@@ -13,8 +13,8 @@
 | **Phase 1** | Project directory structure | Root directory | Completed | Directory tree verified |
 | **Phase 1** | Environment & requirements config | `requirements.txt`, `.env.example`, `.gitignore` | Completed | Config files created |
 | **Phase 1** | README & Documentation foundation | `README.md`, `docs/implementation_checklist.md` | Completed | Documentation initiated |
-| **Phase 2** | Dataset identification & verification | `scripts/prepare_dataset.py`, `src/dataset_loader.py` | Pending | Authenticity, license & schema check |
-| **Phase 2** | Preprocessing, validation & deduplication | `src/preprocessing.py`, `src/dataset_validator.py` | Pending | >= 5,000 unique records report |
+| **Phase 2** | Dataset identification & verification | `scripts/prepare_dataset.py`, `src/dataset_loader.py` | Completed | 9,533 raw ingested; Zenodo (134 records, 403 gate) + OBDex (CC0) documented in `data/source_inventory.csv` |
+| **Phase 2** | Preprocessing, validation & deduplication | `src/preprocessing.py`, `src/dataset_validator.py` | Completed | 9,532 valid unique records; >= 5,000 threshold exceeded (190.6%); 10/10 pytest passed |
 | **Phase 3** | Document & query embeddings generation | `src/embeddings.py` | Pending | `sentence-transformers/all-MiniLM-L6-v2` |
 | **Phase 3** | ChromaDB persistence & collection init | `src/chroma_manager.py` | Pending | Local persistence in `database/chroma_db` |
 | **Phase 3** | Full CRUD implementation & verification | `src/crud_operations.py`, `tests/test_chroma.py` | Pending | Create, Read, Update, Delete test isolated |
@@ -35,9 +35,9 @@
 ## 2. Requirement Verification Criteria
 
 1. **Dataset Authenticity & Volume:**
-   - [ ] No fake or synthetically duplicated records to hit 5,000.
-   - [ ] All records tagged with authentic origin and license.
-   - [ ] Verified unique count $\ge 5,000$.
+   - [x] No fake or synthetically duplicated records to hit 5,000.
+   - [x] All records tagged with authentic origin and license.
+   - [x] Verified unique count $\ge 5,000$ (Achieved: 9,532 records).
 
 2. **ChromaDB Functionality:**
    - [ ] Local persistence reload test passes.
@@ -53,3 +53,4 @@
    - [ ] Explicit hallucination mitigation prompt instructions.
    - [ ] Fallback when context is insufficient.
    - [ ] Mandatory automotive safety disclaimer included.
+

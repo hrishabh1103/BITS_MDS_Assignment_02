@@ -46,5 +46,7 @@ EXTERNAL_API_BASE_URL = os.getenv("EXTERNAL_API_BASE_URL", "https://api.openai.c
 EXTERNAL_MODEL_NAME = os.getenv("EXTERNAL_MODEL_NAME", "gpt-4o-mini")
 
 # Data files
-PROCESSED_DATASET_FILE = PROCESSED_DATA_DIR / "vehicle_troubleshooting_dataset.json"
+PROCESSED_DATASET_FILE = PROCESSED_DATA_DIR / "vehicle_troubleshooting.json"
+PROCESSED_DATASET_JSONL = PROCESSED_DATA_DIR / "vehicle_troubleshooting.jsonl"
 QUERIES_FILE = QUERIES_DIR / "assignment_queries.json"
+
