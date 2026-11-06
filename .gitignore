@@ -31,10 +31,9 @@ data/raw/obdex/*.yaml
 .env
 !.env.example
 
-# ChromaDB local persistence (exclude large vector store binary data if re-creatable, but retain schema)
-# To preserve generated experiment ChromaDB in submission if needed, adjust accordingly
-database/chroma_db/chroma.sqlite3*
-database/chroma_db/*/*.bin
+# ChromaDB local persistence (exclude large vector store binary data, index pickles, sqlite)
+database/chroma_db/*
+!database/chroma_db/.gitkeep
 
 # Pytest / Coverage
 .pytest_cache/

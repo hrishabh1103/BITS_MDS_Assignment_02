@@ -15,9 +15,9 @@
 | **Phase 1** | README & Documentation foundation | `README.md`, `docs/implementation_checklist.md` | Completed | Documentation initiated |
 | **Phase 2** | Dataset identification & verification | `scripts/prepare_dataset.py`, `src/dataset_loader.py` | Completed | 9,533 raw ingested; Zenodo (134 records, 403 gate) + OBDex (CC0) documented in `data/source_inventory.csv` |
 | **Phase 2** | Preprocessing, validation & deduplication | `src/preprocessing.py`, `src/dataset_validator.py` | Completed | 9,532 valid unique records; >= 5,000 threshold exceeded (190.6%); 10/10 pytest passed |
-| **Phase 3** | Document & query embeddings generation | `src/embeddings.py` | Pending | `sentence-transformers/all-MiniLM-L6-v2` |
-| **Phase 3** | ChromaDB persistence & collection init | `src/chroma_manager.py` | Pending | Local persistence in `database/chroma_db` |
-| **Phase 3** | Full CRUD implementation & verification | `src/crud_operations.py`, `tests/test_chroma.py` | Pending | Create, Read, Update, Delete test isolated |
+| **Phase 3** | Document & query embeddings generation | `src/embeddings.py` | Completed | `all-MiniLM-L6-v2` 384-dim; batch encoding; unit norm verified |
+| **Phase 3** | ChromaDB persistence & collection init | `src/chroma_manager.py`, `scripts/build_database.py` | Completed | 9,532 records persisted in `database/chroma_db` (180MB SQLite + HNSW) |
+| **Phase 3** | Full CRUD implementation & verification | `src/crud_operations.py`, `tests/test_chroma.py` | Completed | Create, Read, Update, Delete verified on isolated test fixture; 18/18 pytest passed |
 | **Phase 4** | Semantic search & Top-K retrieval | `src/semantic_search.py` | Pending | Distance & metadata extraction |
 | **Phase 4** | Metadata filtering (single & compound) | `src/metadata_filters.py` | Pending | System, severity, vehicle type filtering |
 | **Phase 4** | 10 Documented troubleshooting queries | `data/queries/assignment_queries.json` | Pending | Diverse automotive subsystems covered |
@@ -40,9 +40,9 @@
    - [x] Verified unique count $\ge 5,000$ (Achieved: 9,532 records).
 
 2. **ChromaDB Functionality:**
-   - [ ] Local persistence reload test passes.
-   - [ ] CRUD tested on sandbox records without corrupting production data.
-   - [ ] Collection inspection accurately reports document counts.
+   - [x] Local persistence reload test passes.
+   - [x] CRUD tested on sandbox records without corrupting production data.
+   - [x] Collection inspection accurately reports document counts (9,532 records).
 
 3. **NumPy vs ChromaDB Mathematics:**
    - [ ] Normalized vs unnormalized vector behavior explicitly documented.
