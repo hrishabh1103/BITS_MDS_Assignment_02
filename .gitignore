@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+.env
+!.env.example
+
+# ChromaDB local persistence (exclude large vector store binary data if re-creatable, but retain schema)
+# To preserve generated experiment ChromaDB in submission if needed, adjust accordingly
+database/chroma_db/chroma.sqlite3*
+database/chroma_db/*/*.bin
+
+# Pytest / Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# OS Specific
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
