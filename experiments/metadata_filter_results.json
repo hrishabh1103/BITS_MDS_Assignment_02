@@ -1,0 +1,899 @@
+{
+  "metadata": {
+    "execution_timestamp": "2026-11-07T07:47:09Z",
+    "total_filter_experiments": 5,
+    "collection_name": "vehicle_troubleshooting_kb"
+  },
+  "experiments": [
+    {
+      "filter_id": "F01",
+      "name": "Brakes & Suspension with High Severity",
+      "description": "Restricts search to safety-critical braking, ABS, and stability dynamic failures.",
+      "query_text": "Brake pedal sinks slowly to the floorboard at red lights with ABS warning light illuminated on dashboard",
+      "filter_conditions": {
+        "$and": [
+          {
+            "vehicle_system": {
+              "$eq": "brakes_and_suspension"
+            }
+          },
+          {
+            "severity": {
+              "$eq": "high"
+            }
+          }
+        ]
+      },
+      "results_count": 5,
+      "results": [
+        {
+          "query_id": "F01",
+          "rank": 1,
+          "id": "VTR-C0291",
+          "record_id": "VTR-C0291",
+          "distance": 0.4759,
+          "raw_distance": 0.47589,
+          "similarity_score": 0.5241,
+          "title": "DTC C0291 - Brake Pedal Apply Sensor Circuit Malfunction",
+          "excerpt": "Electrical fault in the brake pedal apply sensor circuit. The module cannot reliably detect whether the brake pedal is pressed, which affects ABS, ESP and brake assist functions.",
+          "document": "Title: DTC C0291 - Brake Pedal Apply Sensor Circuit Malfunction\nDiagnostic Codes: C0291\nVehicle System: Brakes And Suspension\nProblem Description: Electrical fault in the brake pedal apply sensor circuit. The module cannot reliably detect whether the brake pedal is pressed, which affects ABS, ESP and brake assist functions.\nSymptoms: ABS warning light on; ESC/stability control deactivated; Possible reduced brake assist; Speedometer may behave erratically\nPossible Causes: Pedal apply sensor failed (likelihood: high); Wiring or connector fault (likelihood: medium)\nDiagnostic Steps: Connect OBD-II diagnostic scanner and verify active code C0291 (Brake Pedal Apply Sensor Circuit Malfunction). Perform visual and physical inspection of affected components: brake apply sensor, brake control module, sensor wiring. Check electrical wiring harnesses and connectors for looseness, corrosion, or pin displacement. Measure reference voltage, ground continuity, and component resistance against manufacturer specifications. Repair guidance: DIY feasible. Estimated labor time: 0.5-2 hours\nRecommended Actions: Prioritize inspection of primary cause: Pedal apply sensor failed (likelihood: high). If issue persists, inspect secondary potential fault: Wiring or connector fault (likelihood: medium). Clear diagnostic trouble codes with scanner after component repair and perform a verification test drive.",
+          "metadata": {
+            "vehicle_type": "passenger_car_and_light_truck",
+            "data_origin": "authentic_open_standard",
+            "source_url": "https://github.com/foerbsnavi/OBDex",
+            "severity": "high",
+            "vehicle_system": "brakes_and_suspension",
+            "symptoms": "ABS warning light on; ESC/stability control deactivated; Possible reduced brake assist; Speedometer may behave erratically",
+            "id": "VTR-C0291",
+            "source_record_id": "C0291",
+            "title": "DTC C0291 - Brake Pedal Apply Sensor Circuit Malfunction",
+            "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+            "diagnostic_codes": "C0291",
+            "possible_causes": "Pedal apply sensor failed (likelihood: high); Wiring or connector fault (likelihood: medium)"
+          },
+          "diagnostic_codes": "C0291",
+          "vehicle_system": "brakes_and_suspension",
+          "severity": "high",
+          "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+          "source_url": "https://github.com/foerbsnavi/OBDex"
+        },
+        {
+          "query_id": "F01",
+          "rank": 2,
+          "id": "VTR-C0081",
+          "record_id": "VTR-C0081",
+          "distance": 0.4847,
+          "raw_distance": 0.484694,
+          "similarity_score": 0.5153,
+          "title": "DTC C0081 - ABS Malfunction Indicator",
+          "excerpt": "Covers the ABS malfunction indicator (warning lamp) itself as driven or monitored by the ABS/ESC module. The module commands the ABS lamp on for a fault and off when healthy, and monitors the output circuit; this code is set when the lamp circuit is ...",
+          "document": "Title: DTC C0081 - ABS Malfunction Indicator\nDiagnostic Codes: C0081\nVehicle System: Brakes And Suspension\nProblem Description: Covers the ABS malfunction indicator (warning lamp) itself as driven or monitored by the ABS/ESC module. The module commands the ABS lamp on for a fault and off when healthy, and monitors the output circuit; this code is set when the lamp circuit is open or shorted, the lamp does not respond, or the commanded and observed states disagree, for example a bulb-check failure or a bus message not reaching the cluster. It is about the indicator path rather than the ABS hydraulics, so braking and ABS themselves may still work while the driver loses the warning. The related rear-axle mismatch and wheel-speed codes describe the faults the lamp would normally announce. No code-specific public bulletin was confirmed; the entry follows the SAE J2012 generic definition and warning-lamp output monitoring.\nSymptoms: ABS warning lamp stuck on or off; Failed lamp self-check; Driver loses ABS warning\nPossible Causes: Open or shorted indicator circuit (likelihood: high); Lamp request not reaching the cluster (likelihood: medium); Failed indicator bulb or driver (likelihood: low)\nDiagnostic Steps: Connect OBD-II diagnostic scanner and verify active code C0081 (ABS Malfunction Indicator). Perform visual and physical inspection of affected components: wheel speed sensor rl, wheel speed sensor rr, tyres. Check electrical wiring harnesses and connectors for looseness, corrosion, or pin displacement. Measure reference voltage, ground continuity, and component resistance against manufacturer specifications. Repair guidance: DIY feasible. Estimated labor time: 0.3-2 hours\nRecommended Actions: Prioritize inspection of primary cause: Open or shorted indicator circuit (likelihood: high). If issue persists, inspect secondary potential fault: Lamp request not reaching the cluster (likelihood: medium). Clear diagnostic trouble codes with scanner after component repair and perform a verification test drive.",
+          "metadata": {
+            "source_record_id": "C0081",
+            "id": "VTR-C0081",
+            "severity": "high",
+            "vehicle_type": "passenger_car_and_light_truck",
+            "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+            "vehicle_system": "brakes_and_suspension",
+            "source_url": "https://github.com/foerbsnavi/OBDex",
+            "possible_causes": "Open or shorted indicator circuit (likelihood: high); Lamp request not reaching the cluster (likelihood: medium); Failed indicator bulb or driver (likelihood: low)",
+            "data_origin": "authentic_open_standard",
+            "symptoms": "ABS warning lamp stuck on or off; Failed lamp self-check; Driver loses ABS warning",
+            "diagnostic_codes": "C0081",
+            "title": "DTC C0081 - ABS Malfunction Indicator"
+          },
+          "diagnostic_codes": "C0081",
+          "vehicle_system": "brakes_and_suspension",
+          "severity": "high",
+          "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+          "source_url": "https://github.com/foerbsnavi/OBDex"
+        },
+        {
+          "query_id": "F01",
+          "rank": 3,
+          "id": "VTR-C0082",
+          "record_id": "VTR-C0082",
+          "distance": 0.4898,
+          "raw_distance": 0.489759,
+          "similarity_score": 0.5102,
+          "title": "DTC C0082 - Brake System Malfunction Indicator",
+          "excerpt": "Covers the brake system malfunction indicator (red brake warning lamp) as driven or monitored by the brake/stability module. The module commands this lamp for serious brake faults such as low fluid, pressure problems or a control fault, and monitors ...",
+          "document": "Title: DTC C0082 - Brake System Malfunction Indicator\nDiagnostic Codes: C0082\nVehicle System: Brakes And Suspension\nProblem Description: Covers the brake system malfunction indicator (red brake warning lamp) as driven or monitored by the brake/stability module. The module commands this lamp for serious brake faults such as low fluid, pressure problems or a control fault, and monitors the output; this code is set when the lamp circuit is open or shorted, the lamp does not respond, or commanded and observed states disagree. It concerns the indicator path rather than the hydraulics, so the underlying brake function may still work while the driver loses an important warning, or the lamp stays on without a brake fault. Electronic brake-system designs route many warnings through this lamp, so it often appears with the brake fault it was meant to announce. No code-specific public bulletin was confirmed; the entry follows the SAE J2012 generic definition.\nSymptoms: Red brake lamp stuck on or off; Failed lamp self-check; Driver loses brake warning\nPossible Causes: Open or shorted indicator circuit (likelihood: high); Lamp request not reaching the cluster (likelihood: medium); Failed indicator bulb or driver (likelihood: low)\nDiagnostic Steps: Connect OBD-II diagnostic scanner and verify active code C0082 (Brake System Malfunction Indicator). Perform visual and physical inspection of affected components: brake warning lamp. Check electrical wiring harnesses and connectors for looseness, corrosion, or pin displacement. Measure reference voltage, ground continuity, and component resistance against manufacturer specifications. Repair guidance: DIY feasible. Estimated labor time: 0.3-2 hours\nRecommended Actions: Prioritize inspection of primary cause: Open or shorted indicator circuit (likelihood: high). If issue persists, inspect secondary potential fault: Lamp request not reaching the cluster (likelihood: medium). Clear diagnostic trouble codes with scanner after component repair and perform a verification test drive.",
+          "metadata": {
+            "severity": "high",
+            "diagnostic_codes": "C0082",
+            "id": "VTR-C0082",
+            "symptoms": "Red brake lamp stuck on or off; Failed lamp self-check; Driver loses brake warning",
+            "vehicle_system": "brakes_and_suspension",
+            "title": "DTC C0082 - Brake System Malfunction Indicator",
+            "source_record_id": "C0082",
+            "possible_causes": "Open or shorted indicator circuit (likelihood: high); Lamp request not reaching the cluster (likelihood: medium); Failed indicator bulb or driver (likelihood: low)",
+            "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+            "vehicle_type": "passenger_car_and_light_truck",
+            "data_origin": "authentic_open_standard",
+            "source_url": "https://github.com/foerbsnavi/OBDex"
+          },
+          "diagnostic_codes": "C0082",
+          "vehicle_system": "brakes_and_suspension",
+          "severity": "high",
+          "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+          "source_url": "https://github.com/foerbsnavi/OBDex"
+        },
+        {
+          "query_id": "F01",
+          "rank": 4,
+          "id": "VTR-C0241",
+          "record_id": "VTR-C0241",
+          "distance": 0.4903,
+          "raw_distance": 0.490341,
+          "similarity_score": 0.5097,
+          "title": "DTC C0241 - ABS Warning Lamp Control Circuit",
+          "excerpt": "The ABS warning lamp control circuit is shorted or open. The driver may see a permanently lit or non-functional ABS warning lamp.",
+          "document": "Title: DTC C0241 - ABS Warning Lamp Control Circuit\nDiagnostic Codes: C0241\nVehicle System: Brakes And Suspension\nProblem Description: The ABS warning lamp control circuit is shorted or open. The driver may see a permanently lit or non-functional ABS warning lamp.\nSymptoms: ABS warning light on; ESC/stability control deactivated; Possible reduced brake assist; Speedometer may behave erratically\nPossible Causes: Lamp bulb/LED failed (likelihood: medium); Control wiring shorted (likelihood: medium)\nDiagnostic Steps: Connect OBD-II diagnostic scanner and verify active code C0241 (ABS Warning Lamp Control Circuit). Perform visual and physical inspection of affected components: abs warning lamp, instrument cluster, abs control module. Check electrical wiring harnesses and connectors for looseness, corrosion, or pin displacement. Measure reference voltage, ground continuity, and component resistance against manufacturer specifications. Repair guidance: Professional technician service recommended. Estimated labor time: 0.3-1.5 hours\nRecommended Actions: Prioritize inspection of primary cause: Lamp bulb/LED failed (likelihood: medium). If issue persists, inspect secondary potential fault: Control wiring shorted (likelihood: medium). Due to system criticality, have vehicle inspected by an ASE-certified technician.",
+          "metadata": {
+            "source_record_id": "C0241",
+            "possible_causes": "Lamp bulb/LED failed (likelihood: medium); Control wiring shorted (likelihood: medium)",
+            "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+            "title": "DTC C0241 - ABS Warning Lamp Control Circuit",
+            "diagnostic_codes": "C0241",
+            "data_origin": "authentic_open_standard",
+            "id": "VTR-C0241",
+            "source_url": "https://github.com/foerbsnavi/OBDex",
+            "vehicle_system": "brakes_and_suspension",
+            "symptoms": "ABS warning light on; ESC/stability control deactivated; Possible reduced brake assist; Speedometer may behave erratically",
+            "severity": "high",
+            "vehicle_type": "passenger_car_and_light_truck"
+          },
+          "diagnostic_codes": "C0241",
+          "vehicle_system": "brakes_and_suspension",
+          "severity": "high",
+          "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+          "source_url": "https://github.com/foerbsnavi/OBDex"
+        },
+        {
+          "query_id": "F01",
+          "rank": 5,
+          "id": "VTR-C0075",
+          "record_id": "VTR-C0075",
+          "distance": 0.4981,
+          "raw_distance": 0.498052,
+          "similarity_score": 0.5019,
+          "title": "DTC C0075 - Brake Pedal Position Performance",
+          "excerpt": "A performance code for the brake pedal position input, set when the signal is present but behaves implausibly, for example it does not change as expected, lags, or disagrees with brake pressure and the switch. The stability and brake modules use peda...",
+          "document": "Title: DTC C0075 - Brake Pedal Position Performance\nDiagnostic Codes: C0075\nVehicle System: Brakes And Suspension\nProblem Description: A performance code for the brake pedal position input, set when the signal is present but behaves implausibly, for example it does not change as expected, lags, or disagrees with brake pressure and the switch. The stability and brake modules use pedal position to blend regenerative and friction braking and to arm or cancel driver-assist functions. Manufacturers map this code to the input their system uses: Subaru documents C0075 as a concern with the wheel-cylinder pressure-sensor signal in the EyeSight dynamics-control hydraulic module, while some European systems tie it to the brake-light switch feeding the ESP unit. A fault degrades regenerative blending and assist functions and sets the ABS/ESC warning lamp while base braking remains. The entry follows the SAE J2012 generic definition.\nSymptoms: Degraded regenerative braking blend; Driver-assist functions limited; ABS/ESC warning lamp on\nPossible Causes: Pedal/pressure sensor signal implausible (likelihood: high); Pedal or switch out of adjustment (likelihood: medium); Harness or connector fault (likelihood: low)\nDiagnostic Steps: Connect OBD-II diagnostic scanner and verify active code C0075 (Brake Pedal Position Performance). Perform visual and physical inspection of affected components: brake pedal sensor. Check electrical wiring harnesses and connectors for looseness, corrosion, or pin displacement. Measure reference voltage, ground continuity, and component resistance against manufacturer specifications. Repair guidance: Professional technician service recommended. Estimated labor time: 0.5-3 hours\nRecommended Actions: Prioritize inspection of primary cause: Pedal/pressure sensor signal implausible (likelihood: high). If issue persists, inspect secondary potential fault: Pedal or switch out of adjustment (likelihood: medium). Due to system criticality, have vehicle inspected by an ASE-certified technician.",
+          "metadata": {
+            "diagnostic_codes": "C0075",
+            "vehicle_system": "brakes_and_suspension",
+            "source_record_id": "C0075",
+            "vehicle_type": "passenger_car_and_light_truck",
+            "id": "VTR-C0075",
+            "source_url": "https://github.com/foerbsnavi/OBDex",
+            "severity": "high",
+            "data_origin": "authentic_open_standard",
+            "title": "DTC C0075 - Brake Pedal Position Performance",
+            "symptoms": "Degraded regenerative braking blend; Driver-assist functions limited; ABS/ESC warning lamp on",
+            "possible_causes": "Pedal/pressure sensor signal implausible (likelihood: high); Pedal or switch out of adjustment (likelihood: medium); Harness or connector fault (likelihood: low)",
+            "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard"
+          },
+          "diagnostic_codes": "C0075",
+          "vehicle_system": "brakes_and_suspension",
+          "severity": "high",
+          "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+          "source_url": "https://github.com/foerbsnavi/OBDex"
+        }
+      ]
+    },
+    {
+      "filter_id": "F02",
+      "name": "Engine & Transmission with High Severity",
+      "description": "Restricts search to catastrophic engine, limp-mode, or severe powertrain faults.",
+      "query_text": "Engine overheating rapidly at highway speeds with boiling coolant in reservoir and radiator fan not engaging",
+      "filter_conditions": {
+        "$and": [
+          {
+            "vehicle_system": {
+              "$eq": "engine_and_transmission"
+            }
+          },
+          {
+            "severity": {
+              "$eq": "high"
+            }
+          }
+        ]
+      },
+      "results_count": 5,
+      "results": [
+        {
+          "query_id": "F02",
+          "rank": 1,
+          "id": "VTR-P2B61",
+          "record_id": "VTR-P2B61",
+          "distance": 0.6509,
+          "raw_distance": 0.650917,
+          "similarity_score": 0.3491,
+          "title": "DTC P2B61 - Engine Coolant Flow Control Valve Stuck Closed",
+          "excerpt": "P2B61 indicates that the coolant flow control valve stays closed although the engine computer asks it to open, so coolant cannot reach the radiator path as intended. Jaguar Land Rover uses it on the 2.0-litre Ingenium petrol four (2019–2020): in bull...",
+          "document": "Title: DTC P2B61 - Engine Coolant Flow Control Valve Stuck Closed\nDiagnostic Codes: P2B61\nVehicle System: Engine And Transmission\nProblem Description: P2B61 indicates that the coolant flow control valve stays closed although the engine computer asks it to open, so coolant cannot reach the radiator path as intended. Jaguar Land Rover uses it on the 2.0-litre Ingenium petrol four (2019–2020): in bulletin JLRTB02030NAS1, P2B61-73 appears with P26CB-72 when the movable shroud that diverts coolant in the electrically controlled pump stays put, and the PCM runs the fans at full speed to prevent overheating; a new pump and PCM software are the fix. FCA lists P2B61-00 for the Alfa Romeo Giulia and Stelvio 2.0 turbo (21-045-19, 21-035-20). Mazda uses the code on SKYACTIV-G engines but labels it a range/performance fault of its coolant control valve circuit.\nSymptoms: Radiator fans running constantly at high speed, loud noise from the engine bay; Rising engine temperature under load; Check engine light on\nPossible Causes: Valve or diversion shroud mechanically stuck closed (JLR variable coolant pump) (likelihood: high); Engine control software that needs an update (likelihood: medium); Valve drive or its wiring no longer moves the valve (likelihood: low)\nDiagnostic Steps: Connect OBD-II diagnostic scanner and verify active code P2B61 (Engine Coolant Flow Control Valve Stuck Closed). Perform visual and physical inspection of affected components: engine coolant flow control valve, wiring harness, ecm. Check electrical wiring harnesses and connectors for looseness, corrosion, or pin displacement. Measure reference voltage, ground continuity, and component resistance against manufacturer specifications. Repair guidance: Professional technician service recommended. Estimated labor time: 0.5-3 hours\nRecommended Actions: Prioritize inspection of primary cause: Valve or diversion shroud mechanically stuck closed (JLR variable coolant pump) (likelihood: high). If issue persists, inspect secondary potential fault: Engine control software that needs an update (likelihood: medium). Due to system criticality, have vehicle inspected by an ASE-certified technician.",
+          "metadata": {
+            "source_record_id": "P2B61",
+            "possible_causes": "Valve or diversion shroud mechanically stuck closed (JLR variable coolant pump) (likelihood: high); Engine control software that needs an update (likelihood: medium); Valve drive or its wiring no longer moves the valve (likelihood: low)",
+            "data_origin": "authentic_open_standard",
+            "title": "DTC P2B61 - Engine Coolant Flow Control Valve Stuck Closed",
+            "diagnostic_codes": "P2B61",
+            "severity": "high",
+            "vehicle_type": "passenger_car_and_light_truck",
+            "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+            "source_url": "https://github.com/foerbsnavi/OBDex",
+            "symptoms": "Radiator fans running constantly at high speed, loud noise from the engine bay; Rising engine temperature under load; Check engine light on",
+            "vehicle_system": "engine_and_transmission",
+            "id": "VTR-P2B61"
+          },
+          "diagnostic_codes": "P2B61",
+          "vehicle_system": "engine_and_transmission",
+          "severity": "high",
+          "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+          "source_url": "https://github.com/foerbsnavi/OBDex"
+        },
+        {
+          "query_id": "F02",
+          "rank": 2,
+          "id": "VTR-P26CB",
+          "record_id": "VTR-P26CB",
+          "distance": 0.6723,
+          "raw_distance": 0.672276,
+          "similarity_score": 0.3277,
+          "title": "DTC P26CB - Engine Coolant Pump Performance/Stuck Off",
+          "excerpt": "P26CB means the engine coolant pump does not deliver the expected work, typically because the impeller is blocked or turns too slowly. Ford's OBD summaries for hybrids let the pump's own electronics judge this from current and speed: too much current...",
+          "document": "Title: DTC P26CB - Engine Coolant Pump Performance/Stuck Off\nDiagnostic Codes: P26CB\nVehicle System: Engine And Transmission\nProblem Description: P26CB means the engine coolant pump does not deliver the expected work, typically because the impeller is blocked or turns too slowly. Ford's OBD summaries for hybrids let the pump's own electronics judge this from current and speed: too much current at too low a speed through four restart attempts is reported over LIN, and the PCM records P26CB after five seconds. Genesis campaign 916G (GV70 3.5 T, 2024–2025) replaces the electric pump of the water-cooled charge air cooler because a stuck impeller set P26CB. Jaguar Land Rover bulletin JLRTB02030NAS1 links it on Ingenium 2.0 L petrol engines to a switchable mechanical pump whose diverter shroud no longer moves, making the fans run at full speed. Toyota's A25A engines log it as speed stuck. Overheating protection may cut power.\nSymptoms: Check engine lamp on; Cooling fans running constantly at high speed; Rising engine temperature or reduced power\nPossible Causes: Seized or obstructed impeller in the electric pump (likelihood: high); Diverter shroud of a switchable mechanical pump not moving (likelihood: medium); Worn pump motor or bearing drawing excessive current (likelihood: medium); Engine module logic needing a software update (likelihood: low)\nDiagnostic Steps: Connect OBD-II diagnostic scanner and verify active code P26CB (Engine Coolant Pump Performance/Stuck Off). Perform visual and physical inspection of affected components: engine coolant pump, pump motor. Check electrical wiring harnesses and connectors for looseness, corrosion, or pin displacement. Measure reference voltage, ground continuity, and component resistance against manufacturer specifications. Repair guidance: Professional technician service recommended. Estimated labor time: 0.3-4 hours\nRecommended Actions: Prioritize inspection of primary cause: Seized or obstructed impeller in the electric pump (likelihood: high). If issue persists, inspect secondary potential fault: Diverter shroud of a switchable mechanical pump not moving (likelihood: medium). Due to system criticality, have vehicle inspected by an ASE-certified technician.",
+          "metadata": {
+            "title": "DTC P26CB - Engine Coolant Pump Performance/Stuck Off",
+            "possible_causes": "Seized or obstructed impeller in the electric pump (likelihood: high); Diverter shroud of a switchable mechanical pump not moving (likelihood: medium); Worn pump motor or bearing drawing excessive current (likelihood: medium); Engine module logic needing a software update (likelihood: low)",
+            "diagnostic_codes": "P26CB",
+            "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+            "id": "VTR-P26CB",
+            "vehicle_type": "passenger_car_and_light_truck",
+            "data_origin": "authentic_open_standard",
+            "source_record_id": "P26CB",
+            "source_url": "https://github.com/foerbsnavi/OBDex",
+            "vehicle_system": "engine_and_transmission",
+            "symptoms": "Check engine lamp on; Cooling fans running constantly at high speed; Rising engine temperature or reduced power",
+            "severity": "high"
+          },
+          "diagnostic_codes": "P26CB",
+          "vehicle_system": "engine_and_transmission",
+          "severity": "high",
+          "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+          "source_url": "https://github.com/foerbsnavi/OBDex"
+        },
+        {
+          "query_id": "F02",
+          "rank": 3,
+          "id": "VTR-P0117",
+          "record_id": "VTR-P0117",
+          "distance": 0.6754,
+          "raw_distance": 0.67543,
+          "similarity_score": 0.3246,
+          "title": "DTC P0117 - Engine Coolant Temperature Sensor 1 Circuit Low",
+          "excerpt": "The engine coolant temperature sensor 1 is an NTC thermistor: the control module feeds 5 V through a resistor, and as the coolant warms the resistance and signal voltage fall. Its value drives cold-start enrichment, idle speed, ignition timing, the r...",
+          "document": "Title: DTC P0117 - Engine Coolant Temperature Sensor 1 Circuit Low\nDiagnostic Codes: P0117\nVehicle System: Engine And Transmission\nProblem Description: The engine coolant temperature sensor 1 is an NTC thermistor: the control module feeds 5 V through a resistor, and as the coolant warms the resistance and signal voltage fall. Its value drives cold-start enrichment, idle speed, ignition timing, the radiator fan and the release of closed-loop mixture control. Some Ford engines measure cylinder head temperature instead and calculate a coolant value from it. P0117 means the signal voltage is too low, so the sensor would report an implausibly hot engine (around 140–160 °C). Usual causes are a signal wire shorted to ground, coolant or moisture in the connector, or an internally shorted sensor. Limits: GM below 55 ohms, Ford petrol below 0.244 V for 5 s, Ford diesel below 0.10 V, Mitsubishi below 0.1 V for 2 s. Mitsubishi then calculates with 80 °C; GM/Saab switch the radiator fan on and the A/C compressor off. GM needs two trips. On Ford engines with a head temperature sensor the equivalent is P1290.\nSymptoms: Check engine light on; Radiator fan runs constantly; Hard cold start (no enrichment, engine reported hot); Temperature gauge at hot end; A/C may be switched off\nPossible Causes: Signal wire shorted to ground (chafing, pinched harness) (likelihood: high); Sensor shorted internally or coolant inside the sensor (likelihood: high); Moisture or coolant in the connector (likelihood: medium); Engine control module faulty (likelihood: low)\nDiagnostic Steps: Connect OBD-II diagnostic scanner and verify active code P0117 (Engine Coolant Temperature Sensor 1 Circuit Low). Perform visual and physical inspection of affected components: engine coolant temperature sensor, engine coolant temperature sensor wiring. Check electrical wiring harnesses and connectors for looseness, corrosion, or pin displacement. Measure reference voltage, ground continuity, and component resistance against manufacturer specifications. Repair guidance: DIY feasible. Estimated labor time: 0.3-1.5 hours\nRecommended Actions: Prioritize inspection of primary cause: Signal wire shorted to ground (chafing, pinched harness) (likelihood: high). If issue persists, inspect secondary potential fault: Sensor shorted internally or coolant inside the sensor (likelihood: high). Clear diagnostic trouble codes with scanner after component repair and perform a verification test drive.",
+          "metadata": {
+            "possible_causes": "Signal wire shorted to ground (chafing, pinched harness) (likelihood: high); Sensor shorted internally or coolant inside the sensor (likelihood: high); Moisture or coolant in the connector (likelihood: medium); Engine control module faulty (likelihood: low)",
+            "source_record_id": "P0117",
+            "data_origin": "authentic_open_standard",
+            "title": "DTC P0117 - Engine Coolant Temperature Sensor 1 Circuit Low",
+            "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+            "source_url": "https://github.com/foerbsnavi/OBDex",
+            "id": "VTR-P0117",
+            "vehicle_system": "engine_and_transmission",
+            "diagnostic_codes": "P0117",
+            "severity": "high",
+            "symptoms": "Check engine light on; Radiator fan runs constantly; Hard cold start (no enrichment, engine reported hot); Temperature gauge at hot end; A/C may be switched off",
+            "vehicle_type": "passenger_car_and_light_truck"
+          },
+          "diagnostic_codes": "P0117",
+          "vehicle_system": "engine_and_transmission",
+          "severity": "high",
+          "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+          "source_url": "https://github.com/foerbsnavi/OBDex"
+        },
+        {
+          "query_id": "F02",
+          "rank": 4,
+          "id": "VTR-P2B58",
+          "record_id": "VTR-P2B58",
+          "distance": 0.688,
+          "raw_distance": 0.68804,
+          "similarity_score": 0.312,
+          "title": "DTC P2B58 - Engine Coolant Flow Control Valve Motor Current High",
+          "excerpt": "P2B58 reports that the electric motor driving the engine coolant flow control valve draws too much current. GM documents the check for its 3.0-litre inline-six Duramax diesel: in the 2025 table 25OBDG04B the driver stage flags a current above 5.5 A, ...",
+          "document": "Title: DTC P2B58 - Engine Coolant Flow Control Valve Motor Current High\nDiagnostic Codes: P2B58\nVehicle System: Engine And Transmission\nProblem Description: P2B58 reports that the electric motor driving the engine coolant flow control valve draws too much current. GM documents the check for its 3.0-litre inline-six Duramax diesel: in the 2025 table 25OBDG04B the driver stage flags a current above 5.5 A, and 80 failures in 100 samples taken every 12.5 ms set a Type B fault, so the MIL follows on the second trip. Enabling needs more than 11 V on the powertrain relay and an engine that is not cranking. A seized rotary valve, debris in the housing or a motor with shorted windings are typical reasons. GM bulletin 21-NA-149 lists P2B58 for LM2 trucks with a chafed engine harness. Heating and warm-up may suffer while the valve is stuck.\nSymptoms: MIL on after the second drive with the fault; Slow warm-up or weak cabin heat; Fans may run more often as a precaution\nPossible Causes: Rotary valve stiff or seized from deposits or debris in the housing (likelihood: high); Valve motor with shorted turns (likelihood: medium); Chafed engine harness on GM LM2 (bulletin 21-NA-149) (likelihood: medium)\nDiagnostic Steps: Connect OBD-II diagnostic scanner and verify active code P2B58 (Engine Coolant Flow Control Valve Motor Current High). Perform visual and physical inspection of affected components: engine coolant flow control valve, wiring harness, ecm. Check electrical wiring harnesses and connectors for looseness, corrosion, or pin displacement. Measure reference voltage, ground continuity, and component resistance against manufacturer specifications. Repair guidance: Professional technician service recommended. Estimated labor time: 1-10 hours\nRecommended Actions: Prioritize inspection of primary cause: Rotary valve stiff or seized from deposits or debris in the housing (likelihood: high). If issue persists, inspect secondary potential fault: Valve motor with shorted turns (likelihood: medium). Due to system criticality, have vehicle inspected by an ASE-certified technician.",
+          "metadata": {
+            "vehicle_system": "engine_and_transmission",
+            "id": "VTR-P2B58",
+            "data_origin": "authentic_open_standard",
+            "diagnostic_codes": "P2B58",
+            "vehicle_type": "passenger_car_and_light_truck",
+            "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+            "severity": "high",
+            "title": "DTC P2B58 - Engine Coolant Flow Control Valve Motor Current High",
+            "symptoms": "MIL on after the second drive with the fault; Slow warm-up or weak cabin heat; Fans may run more often as a precaution",
+            "source_url": "https://github.com/foerbsnavi/OBDex",
+            "source_record_id": "P2B58",
+            "possible_causes": "Rotary valve stiff or seized from deposits or debris in the housing (likelihood: high); Valve motor with shorted turns (likelihood: medium); Chafed engine harness on GM LM2 (bulletin 21-NA-149) (likelihood: medium)"
+          },
+          "diagnostic_codes": "P2B58",
+          "vehicle_system": "engine_and_transmission",
+          "severity": "high",
+          "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+          "source_url": "https://github.com/foerbsnavi/OBDex"
+        },
+        {
+          "query_id": "F02",
+          "rank": 5,
+          "id": "VTR-P26D2",
+          "record_id": "VTR-P26D2",
+          "distance": 0.6936,
+          "raw_distance": 0.693636,
+          "similarity_score": 0.3064,
+          "title": "DTC P26D2 - Engine Coolant Pump Control Module Over Temperature",
+          "excerpt": "The electronics of a smart coolant pump also measure their own temperature. P26D2 is set when this value climbs too high: in Ford's hybrid OBD summaries the pump module reports the temperature over LIN and the PCM stores P26D2 once it passes 130 °C f...",
+          "document": "Title: DTC P26D2 - Engine Coolant Pump Control Module Over Temperature\nDiagnostic Codes: P26D2\nVehicle System: Engine And Transmission\nProblem Description: The electronics of a smart coolant pump also measure their own temperature. P26D2 is set when this value climbs too high: in Ford's hybrid OBD summaries the pump module reports the temperature over LIN and the PCM stores P26D2 once it passes 130 °C for five seconds. The electronics are cooled by the coolant flowing through the pump, so overheating usually means poor flow – a low coolant level, trapped air, a partly blocked impeller drawing excessive current, or very hot under-bonnet conditions. Ford also uses the over-temperature state as a reason to suspend its pump communication check. The code differs from P0217, which concerns the engine coolant itself. The pump may reduce power or shut down to protect itself, so engine temperature can rise quickly.\nSymptoms: Check engine lamp on; Engine temperature rising or temperature warning; Reduced heater output\nPossible Causes: Low coolant level or air around the pump reducing cooling of its electronics (likelihood: high); Stiff impeller or bearing making the motor draw high current (likelihood: medium); Internal fault in the pump electronics or temperature sensor (likelihood: low)\nDiagnostic Steps: Connect OBD-II diagnostic scanner and verify active code P26D2 (Engine Coolant Pump Control Module Over Temperature). Perform visual and physical inspection of affected components: smart coolant pump module. Check electrical wiring harnesses and connectors for looseness, corrosion, or pin displacement. Measure reference voltage, ground continuity, and component resistance against manufacturer specifications. Repair guidance: Professional technician service recommended. Estimated labor time: 0.5-3 hours\nRecommended Actions: Prioritize inspection of primary cause: Low coolant level or air around the pump reducing cooling of its electronics (likelihood: high). If issue persists, inspect secondary potential fault: Stiff impeller or bearing making the motor draw high current (likelihood: medium). Due to system criticality, have vehicle inspected by an ASE-certified technician.",
+          "metadata": {
+            "vehicle_system": "engine_and_transmission",
+            "severity": "high",
+            "possible_causes": "Low coolant level or air around the pump reducing cooling of its electronics (likelihood: high); Stiff impeller or bearing making the motor draw high current (likelihood: medium); Internal fault in the pump electronics or temperature sensor (likelihood: low)",
+            "source_record_id": "P26D2",
+            "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+            "title": "DTC P26D2 - Engine Coolant Pump Control Module Over Temperature",
+            "vehicle_type": "passenger_car_and_light_truck",
+            "source_url": "https://github.com/foerbsnavi/OBDex",
+            "data_origin": "authentic_open_standard",
+            "id": "VTR-P26D2",
+            "symptoms": "Check engine lamp on; Engine temperature rising or temperature warning; Reduced heater output",
+            "diagnostic_codes": "P26D2"
+          },
+          "diagnostic_codes": "P26D2",
+          "vehicle_system": "engine_and_transmission",
+          "severity": "high",
+          "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+          "source_url": "https://github.com/foerbsnavi/OBDex"
+        }
+      ]
+    },
+    {
+      "filter_id": "F03",
+      "name": "Network & Communication with High Severity",
+      "description": "Restricts search to total loss of CAN bus communications and critical controller timeouts.",
+      "query_text": "Instrument cluster displays multiple failure lamps with total loss of CAN communication between engine and transmission control modules",
+      "filter_conditions": {
+        "$and": [
+          {
+            "vehicle_system": {
+              "$eq": "network_and_communication"
+            }
+          },
+          {
+            "severity": {
+              "$eq": "high"
+            }
+          }
+        ]
+      },
+      "results_count": 5,
+      "results": [
+        {
+          "query_id": "F03",
+          "rank": 1,
+          "id": "VTR-U0039",
+          "record_id": "VTR-U0039",
+          "distance": 0.5003,
+          "raw_distance": 0.500303,
+          "similarity_score": 0.4997,
+          "title": "DTC U0039 - Vehicle Communication Bus B (+) Open",
+          "excerpt": "U0039 reports a break in the (+) conductor of Vehicle Communication Bus B, which on a CAN-type network is CAN-High. Deutz assigns this code to the third CAN channel of its EMR L1 engine controller and lists it for main and secondary ECU simply as an ...",
+          "document": "Title: DTC U0039 - Vehicle Communication Bus B (+) Open\nDiagnostic Codes: U0039\nVehicle System: Network And Communication\nProblem Description: U0039 reports a break in the (+) conductor of Vehicle Communication Bus B, which on a CAN-type network is CAN-High. Deutz assigns this code to the third CAN channel of its EMR L1 engine controller and lists it for main and secondary ECU simply as an open circuit on CAN 3, without naming the wire. On a classic high-speed CAN the interruption stays invisible to the transceiver; NXP notes that even diagnosing transceivers cannot flag a wire break, so the module infers it from partners falling silent. A fault-tolerant low-speed CAN behaves differently: NXP's TJA1055 keeps sending and receiving after a CAN-High break without spoiling frames already on the line. In practice, functions beyond the break drop out while others carry on. Look for unplugged connectors, backed-out pins and breaks near moving parts.\nSymptoms: Functions of modules beyond the break unavailable; Lost-communication codes for individual modules\nPossible Causes: (+) wire of Bus B broken, often at a flex point (likelihood: high); Terminal backed out or spread in a connector (likelihood: medium); Connector left open after repair work (likelihood: medium)\nDiagnostic Steps: Connect OBD-II diagnostic scanner and verify active code U0039 (Vehicle Communication Bus B (+) Open). Perform visual and physical inspection of affected components: bus b wiring, module connector. Check electrical wiring harnesses and connectors for looseness, corrosion, or pin displacement. Measure reference voltage, ground continuity, and component resistance against manufacturer specifications. Repair guidance: Professional technician service recommended. Estimated labor time: 0.5-5 hours\nRecommended Actions: Prioritize inspection of primary cause: (+) wire of Bus B broken, often at a flex point (likelihood: high). If issue persists, inspect secondary potential fault: Terminal backed out or spread in a connector (likelihood: medium). Due to system criticality, have vehicle inspected by an ASE-certified technician.",
+          "metadata": {
+            "symptoms": "Functions of modules beyond the break unavailable; Lost-communication codes for individual modules",
+            "vehicle_system": "network_and_communication",
+            "title": "DTC U0039 - Vehicle Communication Bus B (+) Open",
+            "severity": "high",
+            "source_url": "https://github.com/foerbsnavi/OBDex",
+            "id": "VTR-U0039",
+            "diagnostic_codes": "U0039",
+            "data_origin": "authentic_open_standard",
+            "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+            "source_record_id": "U0039",
+            "vehicle_type": "passenger_car_and_light_truck",
+            "possible_causes": "(+) wire of Bus B broken, often at a flex point (likelihood: high); Terminal backed out or spread in a connector (likelihood: medium); Connector left open after repair work (likelihood: medium)"
+          },
+          "diagnostic_codes": "U0039",
+          "vehicle_system": "network_and_communication",
+          "severity": "high",
+          "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+          "source_url": "https://github.com/foerbsnavi/OBDex"
+        },
+        {
+          "query_id": "F03",
+          "rank": 2,
+          "id": "VTR-U007E",
+          "record_id": "VTR-U007E",
+          "distance": 0.5102,
+          "raw_distance": 0.510227,
+          "similarity_score": 0.4898,
+          "title": "DTC U007E - Control Module Communication Bus L Off",
+          "excerpt": "There is no public manufacturer documentation for U007E; the letter L is reserved for vehicles with a dozen or more networks. The code marks the last step of the CAN error ladder. A node stays error active while its counters are below 128 and signals...",
+          "document": "Title: DTC U007E - Control Module Communication Bus L Off\nDiagnostic Codes: U007E\nVehicle System: Network And Communication\nProblem Description: There is no public manufacturer documentation for U007E; the letter L is reserved for vehicles with a dozen or more networks. The code marks the last step of the CAN error ladder. A node stays error active while its counters are below 128 and signals faults with dominant flags; between 128 and 255 it becomes error passive and may flag errors only recessively; once transmit errors exceed 255 it goes bus off and stops sending, as Wikipedia's CAN bus article describes. U007E therefore means that a module has failed repeatedly, not once. What the driver notices depends on what the silent module controls, from a missing comfort function to warning lamps, and partner modules then store their own lost-communication codes.\nSymptoms: Single comfort or assistance function missing; Partner modules report lost communication\nPossible Causes: Persistent short or bad contact on Bus L (likelihood: medium); Fault inside the reporting module's CAN interface (likelihood: medium)\nDiagnostic Steps: Connect OBD-II diagnostic scanner and verify active code U007E (Control Module Communication Bus L Off). Perform visual and physical inspection of affected components: bus l wiring, can transceiver. Check electrical wiring harnesses and connectors for looseness, corrosion, or pin displacement. Measure reference voltage, ground continuity, and component resistance against manufacturer specifications. Repair guidance: Professional technician service recommended. Estimated labor time: 0.5-5 hours\nRecommended Actions: Prioritize inspection of primary cause: Persistent short or bad contact on Bus L (likelihood: medium). If issue persists, inspect secondary potential fault: Fault inside the reporting module's CAN interface (likelihood: medium). Due to system criticality, have vehicle inspected by an ASE-certified technician.",
+          "metadata": {
+            "severity": "high",
+            "source_record_id": "U007E",
+            "title": "DTC U007E - Control Module Communication Bus L Off",
+            "symptoms": "Single comfort or assistance function missing; Partner modules report lost communication",
+            "vehicle_system": "network_and_communication",
+            "diagnostic_codes": "U007E",
+            "id": "VTR-U007E",
+            "source_url": "https://github.com/foerbsnavi/OBDex",
+            "possible_causes": "Persistent short or bad contact on Bus L (likelihood: medium); Fault inside the reporting module's CAN interface (likelihood: medium)",
+            "vehicle_type": "passenger_car_and_light_truck",
+            "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+            "data_origin": "authentic_open_standard"
+          },
+          "diagnostic_codes": "U007E",
+          "vehicle_system": "network_and_communication",
+          "severity": "high",
+          "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+          "source_url": "https://github.com/foerbsnavi/OBDex"
+        },
+        {
+          "query_id": "F03",
+          "rank": 3,
+          "id": "VTR-U0094",
+          "record_id": "VTR-U0094",
+          "distance": 0.5139,
+          "raw_distance": 0.51393,
+          "similarity_score": 0.4861,
+          "title": "DTC U0094 - Vehicle Communication Bus H (+) Open",
+          "excerpt": "U0094 reports that the (+) wire of Bus H is interrupted, CAN-High where Bus H is a CAN. No manufacturer documents U0094 publicly. How much the break matters depends on the kind of CAN. A fault-tolerant low-speed CAN up to 125 kBd, built with transcei...",
+          "document": "Title: DTC U0094 - Vehicle Communication Bus H (+) Open\nDiagnostic Codes: U0094\nVehicle System: Network And Communication\nProblem Description: U0094 reports that the (+) wire of Bus H is interrupted, CAN-High where Bus H is a CAN. No manufacturer documents U0094 publicly. How much the break matters depends on the kind of CAN. A fault-tolerant low-speed CAN up to 125 kBd, built with transceivers such as NXP's TJA1055, keeps receiving differentially with a broken CANH wire, and the chip's error output toggles only if the gap separates the sending node from the listening one, so the module may see the fault only now and then. A high-speed CAN loses the far nodes. For locating it, Nissan's chart separates a break in the main line from one in a branch to a single module, judged by the resistance and voltages measured at the diagnostic socket.\nSymptoms: Single modules on Bus H not reachable; Fault appears intermittently or with movement\nPossible Causes: Broken (+) wire, e.g. at a hinge or flexing harness section (likelihood: high); Terminal pushed out of a connector (likelihood: medium); Corroded splice with high resistance (likelihood: low)\nDiagnostic Steps: Connect OBD-II diagnostic scanner and verify active code U0094 (Vehicle Communication Bus H (+) Open). Perform visual and physical inspection of affected components: bus h wiring, can high wire. Check electrical wiring harnesses and connectors for looseness, corrosion, or pin displacement. Measure reference voltage, ground continuity, and component resistance against manufacturer specifications. Repair guidance: Professional technician service recommended. Estimated labor time: 0.5-5 hours\nRecommended Actions: Prioritize inspection of primary cause: Broken (+) wire, e.g. at a hinge or flexing harness section (likelihood: high). If issue persists, inspect secondary potential fault: Terminal pushed out of a connector (likelihood: medium). Due to system criticality, have vehicle inspected by an ASE-certified technician.",
+          "metadata": {
+            "symptoms": "Single modules on Bus H not reachable; Fault appears intermittently or with movement",
+            "severity": "high",
+            "title": "DTC U0094 - Vehicle Communication Bus H (+) Open",
+            "vehicle_system": "network_and_communication",
+            "source_record_id": "U0094",
+            "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+            "possible_causes": "Broken (+) wire, e.g. at a hinge or flexing harness section (likelihood: high); Terminal pushed out of a connector (likelihood: medium); Corroded splice with high resistance (likelihood: low)",
+            "source_url": "https://github.com/foerbsnavi/OBDex",
+            "vehicle_type": "passenger_car_and_light_truck",
+            "diagnostic_codes": "U0094",
+            "data_origin": "authentic_open_standard",
+            "id": "VTR-U0094"
+          },
+          "diagnostic_codes": "U0094",
+          "vehicle_system": "network_and_communication",
+          "severity": "high",
+          "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+          "source_url": "https://github.com/foerbsnavi/OBDex"
+        },
+        {
+          "query_id": "F03",
+          "rank": 4,
+          "id": "VTR-U0066",
+          "record_id": "VTR-U0066",
+          "distance": 0.527,
+          "raw_distance": 0.52703,
+          "similarity_score": 0.473,
+          "title": "DTC U0066 - Vehicle Communication Bus E (+) Open",
+          "excerpt": "U0066 indicates a break in the (+) wire of Vehicle Communication Bus E. Where Bus E is a two-wire CAN, like the infotainment CAN Audi and Volkswagen monitor under that slot, the (+) wire is CAN-High. The physical layer decides how visible the fault i...",
+          "document": "Title: DTC U0066 - Vehicle Communication Bus E (+) Open\nDiagnostic Codes: U0066\nVehicle System: Network And Communication\nProblem Description: U0066 indicates a break in the (+) wire of Vehicle Communication Bus E. Where Bus E is a two-wire CAN, like the infotainment CAN Audi and Volkswagen monitor under that slot, the (+) wire is CAN-High. The physical layer decides how visible the fault is. With fault-tolerant low-speed hardware, NXP's TJA1055 rides through a CAN-High interruption with drivers, termination and differential receiver left as they were, and only counts edges: once CAN-High and CAN-Low differ by four pulses, its error output goes low. A high-speed transceiver offers no such check, so modules notice only that partners beyond the break fall silent. No manufacturer documents U0066 publicly; Audi's A3 case of a badly seated contact carrier in a multi-pin connector shows how such interruptions arise.\nSymptoms: Modules beyond the break, often infotainment units, unreachable; Lost-communication codes for individual modules\nPossible Causes: (+) wire of Bus E broken in the harness (likelihood: high); Contact carrier or terminal not seated in a multi-pin connector (likelihood: medium); Connector left unplugged after a repair (likelihood: low)\nDiagnostic Steps: Connect OBD-II diagnostic scanner and verify active code U0066 (Vehicle Communication Bus E (+) Open). Perform visual and physical inspection of affected components: bus e wiring, module connector. Check electrical wiring harnesses and connectors for looseness, corrosion, or pin displacement. Measure reference voltage, ground continuity, and component resistance against manufacturer specifications. Repair guidance: Professional technician service recommended. Estimated labor time: 0.5-5 hours\nRecommended Actions: Prioritize inspection of primary cause: (+) wire of Bus E broken in the harness (likelihood: high). If issue persists, inspect secondary potential fault: Contact carrier or terminal not seated in a multi-pin connector (likelihood: medium). Due to system criticality, have vehicle inspected by an ASE-certified technician.",
+          "metadata": {
+            "source_url": "https://github.com/foerbsnavi/OBDex",
+            "diagnostic_codes": "U0066",
+            "id": "VTR-U0066",
+            "data_origin": "authentic_open_standard",
+            "symptoms": "Modules beyond the break, often infotainment units, unreachable; Lost-communication codes for individual modules",
+            "vehicle_type": "passenger_car_and_light_truck",
+            "title": "DTC U0066 - Vehicle Communication Bus E (+) Open",
+            "vehicle_system": "network_and_communication",
+            "source_record_id": "U0066",
+            "possible_causes": "(+) wire of Bus E broken in the harness (likelihood: high); Contact carrier or terminal not seated in a multi-pin connector (likelihood: medium); Connector left unplugged after a repair (likelihood: low)",
+            "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+            "severity": "high"
+          },
+          "diagnostic_codes": "U0066",
+          "vehicle_system": "network_and_communication",
+          "severity": "high",
+          "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+          "source_url": "https://github.com/foerbsnavi/OBDex"
+        },
+        {
+          "query_id": "F03",
+          "rank": 5,
+          "id": "VTR-U007A",
+          "record_id": "VTR-U007A",
+          "distance": 0.5424,
+          "raw_distance": 0.542394,
+          "similarity_score": 0.4576,
+          "title": "DTC U007A - Control Module Communication Bus H Off",
+          "excerpt": "Bus H appears in no public manufacturer document for U007A; the code merely says that one module's CAN controller has switched to bus off on the network its maker labels H. A sensible check order follows from the physics. A high-speed CAN carries a 1...",
+          "document": "Title: DTC U007A - Control Module Communication Bus H Off\nDiagnostic Codes: U007A\nVehicle System: Network And Communication\nProblem Description: Bus H appears in no public manufacturer document for U007A; the code merely says that one module's CAN controller has switched to bus off on the network its maker labels H. A sensible check order follows from the physics. A high-speed CAN carries a 120 ohm resistor at each end, so with the battery disconnected the two wires should show roughly 60 ohms between them; about 120 ohms points to a missing terminator, near zero to the wires touching. With ignition on, a dominant bit pulls CAN-High toward 3.5 V and CAN-Low toward 1.5 V. As onsemi shows, a bus that is held recessive pushes a sender into bus off within a few dozen bit times, so shorts and transceiver damage come before software in the search.\nSymptoms: Functions on Bus H fail or work only intermittently; Warning messages from several systems\nPossible Causes: Bus H wires shorted together (likelihood: medium); Terminating resistor open or a terminating module disconnected (likelihood: medium); Transceiver damaged, e.g. by overvoltage (likelihood: low)\nDiagnostic Steps: Connect OBD-II diagnostic scanner and verify active code U007A (Control Module Communication Bus H Off). Perform visual and physical inspection of affected components: bus h wiring, can transceiver. Check electrical wiring harnesses and connectors for looseness, corrosion, or pin displacement. Measure reference voltage, ground continuity, and component resistance against manufacturer specifications. Repair guidance: Professional technician service recommended. Estimated labor time: 0.5-5 hours\nRecommended Actions: Prioritize inspection of primary cause: Bus H wires shorted together (likelihood: medium). If issue persists, inspect secondary potential fault: Terminating resistor open or a terminating module disconnected (likelihood: medium). Due to system criticality, have vehicle inspected by an ASE-certified technician.",
+          "metadata": {
+            "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+            "title": "DTC U007A - Control Module Communication Bus H Off",
+            "symptoms": "Functions on Bus H fail or work only intermittently; Warning messages from several systems",
+            "vehicle_type": "passenger_car_and_light_truck",
+            "severity": "high",
+            "id": "VTR-U007A",
+            "source_url": "https://github.com/foerbsnavi/OBDex",
+            "data_origin": "authentic_open_standard",
+            "diagnostic_codes": "U007A",
+            "source_record_id": "U007A",
+            "vehicle_system": "network_and_communication",
+            "possible_causes": "Bus H wires shorted together (likelihood: medium); Terminating resistor open or a terminating module disconnected (likelihood: medium); Transceiver damaged, e.g. by overvoltage (likelihood: low)"
+          },
+          "diagnostic_codes": "U007A",
+          "vehicle_system": "network_and_communication",
+          "severity": "high",
+          "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+          "source_url": "https://github.com/foerbsnavi/OBDex"
+        }
+      ]
+    },
+    {
+      "filter_id": "F04",
+      "name": "Electrical & Body with High Severity",
+      "description": "Restricts search to restraint system (SRS airbag) and safety-critical body electronics.",
+      "query_text": "Supplemental restraint system airbag warning light stays on continuously after replacing steering column clock spring",
+      "filter_conditions": {
+        "$and": [
+          {
+            "vehicle_system": {
+              "$eq": "electrical_and_body"
+            }
+          },
+          {
+            "severity": {
+              "$eq": "high"
+            }
+          }
+        ]
+      },
+      "results_count": 5,
+      "results": [
+        {
+          "query_id": "F04",
+          "rank": 1,
+          "id": "VTR-B0005",
+          "record_id": "VTR-B0005",
+          "distance": 0.4656,
+          "raw_distance": 0.465576,
+          "similarity_score": 0.5344,
+          "title": "DTC B0005 - Collapsible Steering Column Deployment Control",
+          "excerpt": "The SRS module detects an open circuit in the driver frontal airbag deployment loop. The airbag will not deploy in a crash and the SRS warning lamp is illuminated.",
+          "document": "Title: DTC B0005 - Collapsible Steering Column Deployment Control\nDiagnostic Codes: B0005\nVehicle System: Electrical And Body\nProblem Description: The SRS module detects an open circuit in the driver frontal airbag deployment loop. The airbag will not deploy in a crash and the SRS warning lamp is illuminated.\nSymptoms: Warning light or symbol related to the affected system; Comfort or safety function impaired\nPossible Causes: Clock spring conductor broken (likelihood: high); Airbag connector unplugged or broken (likelihood: high); Wiring harness break in steering column (likelihood: medium)\nDiagnostic Steps: Connect OBD-II diagnostic scanner and verify active code B0005 (Collapsible Steering Column Deployment Control). Perform visual and physical inspection of affected components: driver airbag module, clock spring, srs wiring. Check electrical wiring harnesses and connectors for looseness, corrosion, or pin displacement. Measure reference voltage, ground continuity, and component resistance against manufacturer specifications. Repair guidance: Professional technician service recommended. Estimated labor time: 0.8-3 hours\nRecommended Actions: Prioritize inspection of primary cause: Clock spring conductor broken (likelihood: high). If issue persists, inspect secondary potential fault: Airbag connector unplugged or broken (likelihood: high). Due to system criticality, have vehicle inspected by an ASE-certified technician.",
+          "metadata": {
+            "vehicle_system": "electrical_and_body",
+            "symptoms": "Warning light or symbol related to the affected system; Comfort or safety function impaired",
+            "source_url": "https://github.com/foerbsnavi/OBDex",
+            "title": "DTC B0005 - Collapsible Steering Column Deployment Control",
+            "severity": "high",
+            "possible_causes": "Clock spring conductor broken (likelihood: high); Airbag connector unplugged or broken (likelihood: high); Wiring harness break in steering column (likelihood: medium)",
+            "data_origin": "authentic_open_standard",
+            "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+            "vehicle_type": "passenger_car_and_light_truck",
+            "diagnostic_codes": "B0005",
+            "id": "VTR-B0005",
+            "source_record_id": "B0005"
+          },
+          "diagnostic_codes": "B0005",
+          "vehicle_system": "electrical_and_body",
+          "severity": "high",
+          "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+          "source_url": "https://github.com/foerbsnavi/OBDex"
+        },
+        {
+          "query_id": "F04",
+          "rank": 2,
+          "id": "VTR-B0061",
+          "record_id": "VTR-B0061",
+          "distance": 0.527,
+          "raw_distance": 0.527019,
+          "similarity_score": 0.473,
+          "title": "DTC B0061 - Passenger Seat Belt Tension Sensor",
+          "excerpt": "An open is detected in the knee airbag deployment loop.",
+          "document": "Title: DTC B0061 - Passenger Seat Belt Tension Sensor\nDiagnostic Codes: B0061\nVehicle System: Electrical And Body\nProblem Description: An open is detected in the knee airbag deployment loop.\nSymptoms: Warning light or symbol related to the affected system; Comfort or safety function impaired\nPossible Causes: Disconnected knee airbag connector (likelihood: high); Wire break in lower harness (likelihood: medium)\nDiagnostic Steps: Connect OBD-II diagnostic scanner and verify active code B0061 (Passenger Seat Belt Tension Sensor). Perform visual and physical inspection of affected components: knee airbag, srs wiring. Check electrical wiring harnesses and connectors for looseness, corrosion, or pin displacement. Measure reference voltage, ground continuity, and component resistance against manufacturer specifications. Repair guidance: Professional technician service recommended. Estimated labor time: 0.8-2.5 hours\nRecommended Actions: Prioritize inspection of primary cause: Disconnected knee airbag connector (likelihood: high). If issue persists, inspect secondary potential fault: Wire break in lower harness (likelihood: medium). Due to system criticality, have vehicle inspected by an ASE-certified technician.",
+          "metadata": {
+            "diagnostic_codes": "B0061",
+            "id": "VTR-B0061",
+            "severity": "high",
+            "data_origin": "authentic_open_standard",
+            "title": "DTC B0061 - Passenger Seat Belt Tension Sensor",
+            "possible_causes": "Disconnected knee airbag connector (likelihood: high); Wire break in lower harness (likelihood: medium)",
+            "symptoms": "Warning light or symbol related to the affected system; Comfort or safety function impaired",
+            "vehicle_type": "passenger_car_and_light_truck",
+            "source_record_id": "B0061",
+            "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+            "source_url": "https://github.com/foerbsnavi/OBDex",
+            "vehicle_system": "electrical_and_body"
+          },
+          "diagnostic_codes": "B0061",
+          "vehicle_system": "electrical_and_body",
+          "severity": "high",
+          "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+          "source_url": "https://github.com/foerbsnavi/OBDex"
+        },
+        {
+          "query_id": "F04",
+          "rank": 3,
+          "id": "VTR-B0001",
+          "record_id": "VTR-B0001",
+          "distance": 0.5272,
+          "raw_distance": 0.527191,
+          "similarity_score": 0.4728,
+          "title": "DTC B0001 - Driver Frontal Stage 1 Deployment Control",
+          "excerpt": "The supplemental restraint system (SRS) module has detected a fault in the deployment control circuit for the first stage of the driver frontal airbag. The SRS warning lamp illuminates and airbag deployment may be impaired in a crash event.",
+          "document": "Title: DTC B0001 - Driver Frontal Stage 1 Deployment Control\nDiagnostic Codes: B0001\nVehicle System: Electrical And Body\nProblem Description: The supplemental restraint system (SRS) module has detected a fault in the deployment control circuit for the first stage of the driver frontal airbag. The SRS warning lamp illuminates and airbag deployment may be impaired in a crash event.\nSymptoms: Warning light or symbol related to the affected system; Comfort or safety function impaired\nPossible Causes: Clock spring (spiral cable) damaged in steering column (likelihood: high); Loose or corroded airbag connector under steering wheel (likelihood: medium); SRS control module internal fault (likelihood: low)\nDiagnostic Steps: Connect OBD-II diagnostic scanner and verify active code B0001 (Driver Frontal Stage 1 Deployment Control). Perform visual and physical inspection of affected components: driver airbag module, srs control module, srs wiring, clock spring. Check electrical wiring harnesses and connectors for looseness, corrosion, or pin displacement. Measure reference voltage, ground continuity, and component resistance against manufacturer specifications. Repair guidance: Professional technician service recommended. Estimated labor time: 1.0-4.0 hours\nRecommended Actions: Prioritize inspection of primary cause: Clock spring (spiral cable) damaged in steering column (likelihood: high). If issue persists, inspect secondary potential fault: Loose or corroded airbag connector under steering wheel (likelihood: medium). Due to system criticality, have vehicle inspected by an ASE-certified technician.",
+          "metadata": {
+            "severity": "high",
+            "source_record_id": "B0001",
+            "id": "VTR-B0001",
+            "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+            "data_origin": "authentic_open_standard",
+            "title": "DTC B0001 - Driver Frontal Stage 1 Deployment Control",
+            "possible_causes": "Clock spring (spiral cable) damaged in steering column (likelihood: high); Loose or corroded airbag connector under steering wheel (likelihood: medium); SRS control module internal fault (likelihood: low)",
+            "symptoms": "Warning light or symbol related to the affected system; Comfort or safety function impaired",
+            "vehicle_type": "passenger_car_and_light_truck",
+            "vehicle_system": "electrical_and_body",
+            "diagnostic_codes": "B0001",
+            "source_url": "https://github.com/foerbsnavi/OBDex"
+          },
+          "diagnostic_codes": "B0001",
+          "vehicle_system": "electrical_and_body",
+          "severity": "high",
+          "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+          "source_url": "https://github.com/foerbsnavi/OBDex"
+        },
+        {
+          "query_id": "F04",
+          "rank": 4,
+          "id": "VTR-B0051",
+          "record_id": "VTR-B0051",
+          "distance": 0.5391,
+          "raw_distance": 0.539147,
+          "similarity_score": 0.4609,
+          "title": "DTC B0051 - First Row Center Seat Belt Sensor",
+          "excerpt": "The SRS module has detected an open circuit in the driver frontal airbag deployment loop. Resistance is above the upper threshold, indicating broken wiring or a disconnected igniter.",
+          "document": "Title: DTC B0051 - First Row Center Seat Belt Sensor\nDiagnostic Codes: B0051\nVehicle System: Electrical And Body\nProblem Description: The SRS module has detected an open circuit in the driver frontal airbag deployment loop. Resistance is above the upper threshold, indicating broken wiring or a disconnected igniter.\nSymptoms: Warning light or symbol related to the affected system; Comfort or safety function impaired\nPossible Causes: Clock spring conductor broken (likelihood: high); Airbag connector not fully seated (likelihood: medium); Wiring open between module and squib (likelihood: low)\nDiagnostic Steps: Connect OBD-II diagnostic scanner and verify active code B0051 (First Row Center Seat Belt Sensor). Perform visual and physical inspection of affected components: driver airbag module, clock spring, srs wiring, srs control module. Check electrical wiring harnesses and connectors for looseness, corrosion, or pin displacement. Measure reference voltage, ground continuity, and component resistance against manufacturer specifications. Repair guidance: Professional technician service recommended. Estimated labor time: 1-3 hours\nRecommended Actions: Prioritize inspection of primary cause: Clock spring conductor broken (likelihood: high). If issue persists, inspect secondary potential fault: Airbag connector not fully seated (likelihood: medium). Due to system criticality, have vehicle inspected by an ASE-certified technician.",
+          "metadata": {
+            "id": "VTR-B0051",
+            "diagnostic_codes": "B0051",
+            "symptoms": "Warning light or symbol related to the affected system; Comfort or safety function impaired",
+            "vehicle_type": "passenger_car_and_light_truck",
+            "possible_causes": "Clock spring conductor broken (likelihood: high); Airbag connector not fully seated (likelihood: medium); Wiring open between module and squib (likelihood: low)",
+            "vehicle_system": "electrical_and_body",
+            "title": "DTC B0051 - First Row Center Seat Belt Sensor",
+            "source_url": "https://github.com/foerbsnavi/OBDex",
+            "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+            "severity": "high",
+            "data_origin": "authentic_open_standard",
+            "source_record_id": "B0051"
+          },
+          "diagnostic_codes": "B0051",
+          "vehicle_system": "electrical_and_body",
+          "severity": "high",
+          "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+          "source_url": "https://github.com/foerbsnavi/OBDex"
+        },
+        {
+          "query_id": "F04",
+          "rank": 5,
+          "id": "VTR-B00D5",
+          "record_id": "VTR-B00D5",
+          "distance": 0.5441,
+          "raw_distance": 0.544051,
+          "similarity_score": 0.4559,
+          "title": "DTC B00D5 - Restraint System Passenger Disable Indicator",
+          "excerpt": "Fault on the indicator that shows the passenger airbag is disabled (typically a \"PASSENGER AIRBAG OFF\" lamp).",
+          "document": "Title: DTC B00D5 - Restraint System Passenger Disable Indicator\nDiagnostic Codes: B00D5\nVehicle System: Electrical And Body\nProblem Description: Fault on the indicator that shows the passenger airbag is disabled (typically a \"PASSENGER AIRBAG OFF\" lamp).\nSymptoms: Warning light or symbol related to the affected system; Comfort or safety function impaired\nPossible Causes: Indicator lamp or driver failed (likelihood: high)\nDiagnostic Steps: Connect OBD-II diagnostic scanner and verify active code B00D5 (Restraint System Passenger Disable Indicator). Perform visual and physical inspection of affected components: passenger disable indicator. Check electrical wiring harnesses and connectors for looseness, corrosion, or pin displacement. Measure reference voltage, ground continuity, and component resistance against manufacturer specifications. Repair guidance: DIY feasible. Estimated labor time: 0.3-2 hours\nRecommended Actions: Prioritize inspection of primary cause: Indicator lamp or driver failed (likelihood: high). Clear diagnostic trouble codes with scanner after component repair and perform a verification test drive.",
+          "metadata": {
+            "source_url": "https://github.com/foerbsnavi/OBDex",
+            "source_record_id": "B00D5",
+            "vehicle_type": "passenger_car_and_light_truck",
+            "severity": "high",
+            "vehicle_system": "electrical_and_body",
+            "data_origin": "authentic_open_standard",
+            "title": "DTC B00D5 - Restraint System Passenger Disable Indicator",
+            "possible_causes": "Indicator lamp or driver failed (likelihood: high)",
+            "diagnostic_codes": "B00D5",
+            "symptoms": "Warning light or symbol related to the affected system; Comfort or safety function impaired",
+            "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+            "id": "VTR-B00D5"
+          },
+          "diagnostic_codes": "B00D5",
+          "vehicle_system": "electrical_and_body",
+          "severity": "high",
+          "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+          "source_url": "https://github.com/foerbsnavi/OBDex"
+        }
+      ]
+    },
+    {
+      "filter_id": "F05",
+      "name": "Engine & Transmission with Medium Severity",
+      "description": "Restricts search to drivability, sensor calibration, and emissions faults with MIL illumination.",
+      "query_text": "Drastic drop in fuel economy with black smoke from exhaust and rich fuel mixture odor during acceleration",
+      "filter_conditions": {
+        "$and": [
+          {
+            "vehicle_system": {
+              "$eq": "engine_and_transmission"
+            }
+          },
+          {
+            "severity": {
+              "$eq": "medium"
+            }
+          }
+        ]
+      },
+      "results_count": 5,
+      "results": [
+        {
+          "query_id": "F05",
+          "rank": 1,
+          "id": "VTR-P2BD2",
+          "record_id": "VTR-P2BD2",
+          "distance": 0.6449,
+          "raw_distance": 0.644926,
+          "similarity_score": 0.3551,
+          "title": "DTC P2BD2 - Exhaust Aftertreatment System A Leak",
+          "excerpt": "P2BD2 reports that the first aftertreatment line, or the only one, is not gas-tight, so exhaust escapes between engine and tailpipe or false air enters. A leak upstream of the catalysts lets untreated NOx and soot out and also confuses sensors: Foton...",
+          "document": "Title: DTC P2BD2 - Exhaust Aftertreatment System A Leak\nDiagnostic Codes: P2BD2\nVehicle System: Engine And Transmission\nProblem Description: P2BD2 reports that the first aftertreatment line, or the only one, is not gas-tight, so exhaust escapes between engine and tailpipe or false air enters. A leak upstream of the catalysts lets untreated NOx and soot out and also confuses sensors: Foton Cummins patented a check that compares the measured aftertreatment pressure with a model value from exhaust back pressure and flags a leak beyond a limit, noting that leaks also cause urea crystals and false NOx efficiency faults. Ford describes telling a leak near the particulate filter apart from a slow catalyst sensor. CARB is studying how much such unfiltered leaks add to truck emissions. No maker documents P2BD2 publicly; P2BD3 covers system B. The driver may notice exhaust smell, ticking noises and the MIL.\nSymptoms: MIL on; Exhaust smell, soot marks or ticking at a joint; Follow-up SCR or particulate filter codes\nPossible Causes: Loose V-band clamp or failed gasket between aftertreatment modules (likelihood: high); Cracked exhaust pipe, flex joint or catalyst housing (likelihood: medium); Leak at a sensor, DEF injector or pressure tap mounting (likelihood: medium); Pressure sensor hose cracked, making the system look leaky (likelihood: low)\nDiagnostic Steps: Connect OBD-II diagnostic scanner and verify active code P2BD2 (Exhaust Aftertreatment System A Leak). Perform visual and physical inspection of affected components: exhaust aftertreatment system a, exhaust seals. Check electrical wiring harnesses and connectors for looseness, corrosion, or pin displacement. Measure reference voltage, ground continuity, and component resistance against manufacturer specifications. Repair guidance: Professional technician service recommended. Estimated labor time: 0.5-4 hours\nRecommended Actions: Prioritize inspection of primary cause: Loose V-band clamp or failed gasket between aftertreatment modules (likelihood: high). If issue persists, inspect secondary potential fault: Cracked exhaust pipe, flex joint or catalyst housing (likelihood: medium). Due to system criticality, have vehicle inspected by an ASE-certified technician.",
+          "metadata": {
+            "source_url": "https://github.com/foerbsnavi/OBDex",
+            "vehicle_type": "passenger_car_and_light_truck",
+            "id": "VTR-P2BD2",
+            "symptoms": "MIL on; Exhaust smell, soot marks or ticking at a joint; Follow-up SCR or particulate filter codes",
+            "severity": "medium",
+            "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+            "data_origin": "authentic_open_standard",
+            "source_record_id": "P2BD2",
+            "possible_causes": "Loose V-band clamp or failed gasket between aftertreatment modules (likelihood: high); Cracked exhaust pipe, flex joint or catalyst housing (likelihood: medium); Leak at a sensor, DEF injector or pressure tap mounting (likelihood: medium); Pressure sensor hose cracked, making the system look leaky (likelihood: low)",
+            "title": "DTC P2BD2 - Exhaust Aftertreatment System A Leak",
+            "vehicle_system": "engine_and_transmission",
+            "diagnostic_codes": "P2BD2"
+          },
+          "diagnostic_codes": "P2BD2",
+          "vehicle_system": "engine_and_transmission",
+          "severity": "medium",
+          "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+          "source_url": "https://github.com/foerbsnavi/OBDex"
+        },
+        {
+          "query_id": "F05",
+          "rank": 2,
+          "id": "VTR-P0313",
+          "record_id": "VTR-P0313",
+          "distance": 0.6739,
+          "raw_distance": 0.673863,
+          "similarity_score": 0.3261,
+          "title": "DTC P0313 - Misfire Detected with Low Fuel",
+          "excerpt": "When the tank is nearly empty the fuel pump can draw air in corners or on gradients, which causes misfires. CARB allows misfire detection to be switched off at 15 % fuel or less; some manufacturers instead report misfires detected in this state under...",
+          "document": "Title: DTC P0313 - Misfire Detected with Low Fuel\nDiagnostic Codes: P0313\nVehicle System: Engine And Transmission\nProblem Description: When the tank is nearly empty the fuel pump can draw air in corners or on gradients, which causes misfires. CARB allows misfire detection to be switched off at 15 % fuel or less; some manufacturers instead report misfires detected in this state under P0313 rather than P030x. Ford's normal misfire monitor runs from 15 % fuel, Saab's ME9 from 12 %; Saab's T8 sets P0313 below 5 litres with the same tests as P0300 (3 % per 1,000 revolutions, flashing light at a catalyst-damaging rate). GM petrol engines simply suspend the monitor without their own code. After refuelling the symptoms usually disappear – if not, look for a real misfire cause.\nSymptoms: Check engine light on (flashing at a catalyst-damaging rate); Jerking or power loss with an almost empty tank, especially in corners or uphill; Usually no symptoms after refuelling\nPossible Causes: Tank nearly empty – the fuel pump draws air (corners, gradients, braking) (likelihood: high); Actual misfire cause (ignition, injector, false air) that happened at low fuel (likelihood: medium); Weak fuel pump, clogged strainer or filter, faulty swirl pot (likelihood: medium); Fuel level sender reading too low (likelihood: low)\nDiagnostic Steps: Connect OBD-II diagnostic scanner and verify active code P0313 (Misfire Detected with Low Fuel). Perform visual and physical inspection of affected components: fuel pump, fuel level sensor, ignition system. Check electrical wiring harnesses and connectors for looseness, corrosion, or pin displacement. Measure reference voltage, ground continuity, and component resistance against manufacturer specifications. Repair guidance: DIY feasible. Estimated labor time: 0.1-3 hours\nRecommended Actions: Prioritize inspection of primary cause: Tank nearly empty – the fuel pump draws air (corners, gradients, braking) (likelihood: high). If issue persists, inspect secondary potential fault: Actual misfire cause (ignition, injector, false air) that happened at low fuel (likelihood: medium). Clear diagnostic trouble codes with scanner after component repair and perform a verification test drive.",
+          "metadata": {
+            "severity": "medium",
+            "diagnostic_codes": "P0313",
+            "id": "VTR-P0313",
+            "title": "DTC P0313 - Misfire Detected with Low Fuel",
+            "source_record_id": "P0313",
+            "vehicle_type": "passenger_car_and_light_truck",
+            "vehicle_system": "engine_and_transmission",
+            "symptoms": "Check engine light on (flashing at a catalyst-damaging rate); Jerking or power loss with an almost empty tank, especially in corners or uphill; Usually no symptoms after refuelling",
+            "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+            "data_origin": "authentic_open_standard",
+            "source_url": "https://github.com/foerbsnavi/OBDex",
+            "possible_causes": "Tank nearly empty – the fuel pump draws air (corners, gradients, braking) (likelihood: high); Actual misfire cause (ignition, injector, false air) that happened at low fuel (likelihood: medium); Weak fuel pump, clogged strainer or filter, faulty swirl pot (likelihood: medium); Fuel level sender reading too low (likelihood: low)"
+          },
+          "diagnostic_codes": "P0313",
+          "vehicle_system": "engine_and_transmission",
+          "severity": "medium",
+          "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+          "source_url": "https://github.com/foerbsnavi/OBDex"
+        },
+        {
+          "query_id": "F05",
+          "rank": 3,
+          "id": "VTR-P0446",
+          "record_id": "VTR-P0446",
+          "distance": 0.6817,
+          "raw_distance": 0.681677,
+          "similarity_score": 0.3183,
+          "title": "DTC P0446 - EVAP System Vent Control Circuit",
+          "excerpt": "The evaporative emission (EVAP) system stores fuel vapour from the tank in a charcoal canister; a purge valve lets the engine draw it off, and a vent valve opens the canister to fresh air. The vent valve is normally open and closes for the leak test....",
+          "document": "Title: DTC P0446 - EVAP System Vent Control Circuit\nDiagnostic Codes: P0446\nVehicle System: Engine And Transmission\nProblem Description: The evaporative emission (EVAP) system stores fuel vapour from the tank in a charcoal canister; a purge valve lets the engine draw it off, and a vent valve opens the canister to fresh air. The vent valve is normally open and closes for the leak test. By its wording P0446 is its control circuit, and Ford uses it that way for open and shorted circuits. GM, however, uses P0446 for vent system performance – a blocked vent path: while purging with the vent valve open, the tank must not build up vacuum; more than 2989 Pa for 5 s before 4 litres have been purged sets the code, MIL after two trips. GM reports vent circuit faults as P0449, P0498 and P0499. A blocked vent makes refuelling difficult.\nSymptoms: Check engine light on; Refuelling problems, nozzle clicks off early (blocked vent); Hissing when opening the fuel cap (vacuum); EVAP leak test does not run\nPossible Causes: Vent valve or filter blocked by dirt, dust or water (GM reading) (likelihood: high); Vent valve electrically faulty, coil open or shorted (Ford reading) (likelihood: medium); Connector or wire to the vent valve corroded or open (likelihood: medium); Canister clogged with charcoal or liquid (overfilling) (likelihood: medium); Vent hose kinked or blocked by an insect nest (likelihood: low)\nDiagnostic Steps: Connect OBD-II diagnostic scanner and verify active code P0446 (EVAP System Vent Control Circuit). Perform visual and physical inspection of affected components: evap vent valve, vent filter, charcoal canister, engine control module. Check electrical wiring harnesses and connectors for looseness, corrosion, or pin displacement. Measure reference voltage, ground continuity, and component resistance against manufacturer specifications. Repair guidance: DIY feasible. Estimated labor time: 0.5-2 hours\nRecommended Actions: Prioritize inspection of primary cause: Vent valve or filter blocked by dirt, dust or water (GM reading) (likelihood: high). If issue persists, inspect secondary potential fault: Vent valve electrically faulty, coil open or shorted (Ford reading) (likelihood: medium). Clear diagnostic trouble codes with scanner after component repair and perform a verification test drive.",
+          "metadata": {
+            "source_url": "https://github.com/foerbsnavi/OBDex",
+            "symptoms": "Check engine light on; Refuelling problems, nozzle clicks off early (blocked vent); Hissing when opening the fuel cap (vacuum); EVAP leak test does not run",
+            "data_origin": "authentic_open_standard",
+            "severity": "medium",
+            "source_record_id": "P0446",
+            "vehicle_type": "passenger_car_and_light_truck",
+            "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+            "id": "VTR-P0446",
+            "possible_causes": "Vent valve or filter blocked by dirt, dust or water (GM reading) (likelihood: high); Vent valve electrically faulty, coil open or shorted (Ford reading) (likelihood: medium); Connector or wire to the vent valve corroded or open (likelihood: medium); Canister clogged with charcoal or liquid (overfilling) (likelihood: medium); Vent hose kinked or blocked by an insect nest (likelihood: low)",
+            "vehicle_system": "engine_and_transmission",
+            "title": "DTC P0446 - EVAP System Vent Control Circuit",
+            "diagnostic_codes": "P0446"
+          },
+          "diagnostic_codes": "P0446",
+          "vehicle_system": "engine_and_transmission",
+          "severity": "medium",
+          "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+          "source_url": "https://github.com/foerbsnavi/OBDex"
+        },
+        {
+          "query_id": "F05",
+          "rank": 4,
+          "id": "VTR-P2C79",
+          "record_id": "VTR-P2C79",
+          "distance": 0.6848,
+          "raw_distance": 0.684839,
+          "similarity_score": 0.3152,
+          "title": "DTC P2C79 - NOx Adsorber - Sulfur Limit Exceeded",
+          "excerpt": "P2C79 says the sulfur load held in the NOx adsorber (lean NOx trap) has reached the limit the engine computer allows. Sulfur from fuel and oil occupies the storage sites more firmly than NOx, so capacity shrinks until a desulfation is run: rich phase...",
+          "document": "Title: DTC P2C79 - NOx Adsorber - Sulfur Limit Exceeded\nDiagnostic Codes: P2C79\nVehicle System: Engine And Transmission\nProblem Description: P2C79 says the sulfur load held in the NOx adsorber (lean NOx trap) has reached the limit the engine computer allows. Sulfur from fuel and oil occupies the storage sites more firmly than NOx, so capacity shrinks until a desulfation is run: rich phases with the trap above roughly 550 °C, as a Volkswagen patent explains. A Ford patent models the stored sulfur and starts this cleaning once a calibrated amount is reached, naming typical values between 0.1 and 0.5 g per litre of trap. CARB requires the trap and its desulfation hardware to be monitored. No manufacturer documents P2C79 publicly; it suggests the load stayed high, for instance because the trap never got hot enough on short trips. P2000/P2001 judge NOx efficiency, P21B4 overheating. NOx output rises and fuel use may grow.\nSymptoms: Check engine light; Higher fuel consumption from repeated rich regeneration attempts; Occasional rotten-egg smell from the exhaust; Raised NOx emissions, possible failure at an emissions test\nPossible Causes: Desulfation never completes because the trap stays too cool (short trips, idling) (likelihood: high); Fuel with high sulfur content (outside EU/US ultra-low-sulfur grades) (likelihood: medium); Increased oil consumption carrying sulfur-bearing additives into the exhaust (likelihood: medium); Faulty exhaust temperature or lambda signal that blocks or aborts the rich desulfation phases (likelihood: low); Thermally aged trap whose sulfur can no longer be removed (likelihood: low)\nDiagnostic Steps: Connect OBD-II diagnostic scanner and verify active code P2C79 (NOx Adsorber - Sulfur Limit Exceeded). Perform visual and physical inspection of affected components: nox adsorber catalyst. Check electrical wiring harnesses and connectors for looseness, corrosion, or pin displacement. Measure reference voltage, ground continuity, and component resistance against manufacturer specifications. Repair guidance: Professional technician service recommended. Estimated labor time: 0.5-4 hours\nRecommended Actions: Prioritize inspection of primary cause: Desulfation never completes because the trap stays too cool (short trips, idling) (likelihood: high). If issue persists, inspect secondary potential fault: Fuel with high sulfur content (outside EU/US ultra-low-sulfur grades) (likelihood: medium). Due to system criticality, have vehicle inspected by an ASE-certified technician.",
+          "metadata": {
+            "possible_causes": "Desulfation never completes because the trap stays too cool (short trips, idling) (likelihood: high); Fuel with high sulfur content (outside EU/US ultra-low-sulfur grades) (likelihood: medium); Increased oil consumption carrying sulfur-bearing additives into the exhaust (likelihood: medium); Faulty exhaust temperature or lambda signal that blocks or aborts the rich desulfation phases (likelihood: low); Thermally aged trap whose sulfur can no longer be removed (likelihood: low)",
+            "title": "DTC P2C79 - NOx Adsorber - Sulfur Limit Exceeded",
+            "vehicle_system": "engine_and_transmission",
+            "symptoms": "Check engine light; Higher fuel consumption from repeated rich regeneration attempts; Occasional rotten-egg smell from the exhaust; Raised NOx emissions, possible failure at an emissions test",
+            "severity": "medium",
+            "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+            "id": "VTR-P2C79",
+            "diagnostic_codes": "P2C79",
+            "vehicle_type": "passenger_car_and_light_truck",
+            "data_origin": "authentic_open_standard",
+            "source_url": "https://github.com/foerbsnavi/OBDex",
+            "source_record_id": "P2C79"
+          },
+          "diagnostic_codes": "P2C79",
+          "vehicle_system": "engine_and_transmission",
+          "severity": "medium",
+          "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+          "source_url": "https://github.com/foerbsnavi/OBDex"
+        },
+        {
+          "query_id": "F05",
+          "rank": 5,
+          "id": "VTR-P04DF",
+          "record_id": "VTR-P04DF",
+          "distance": 0.6911,
+          "raw_distance": 0.691051,
+          "similarity_score": 0.3089,
+          "title": "DTC P04DF - EVAP System Purge Control Valve A Performance/Stuck Open",
+          "excerpt": "Purge valve A is the main EVAP purge valve between charcoal canister and intake manifold (on turbo engines the low-load path); its electrical circuit faults are P0443, P0458 and P0459. No manufacturer document available to us uses this code; the desc...",
+          "document": "Title: DTC P04DF - EVAP System Purge Control Valve A Performance/Stuck Open\nDiagnostic Codes: P04DF\nVehicle System: Engine And Transmission\nProblem Description: Purge valve A is the main EVAP purge valve between charcoal canister and intake manifold (on turbo engines the low-load path); its electrical circuit faults are P0443, P0458 and P0459. No manufacturer document available to us uses this code; the description follows GM's comparable check P0496, Subaru's valve B counterpart P04AE and CARB's purge flow requirement. P04DF means valve A does not react as commanded or lets vapour through when closed: with the system sealed and the valve not driven, vacuum must not reach the tank. Intake vacuum then draws vapour all the time – rich mixture and hard starting after refuelling are typical.\nSymptoms: Check engine light on; Hard starting or stumbling idle right after refuelling; Rough idle, rich fuel trim\nPossible Causes: Purge valve A leaking or stuck open (charcoal dust or dirt on the seat) (likelihood: high); Canister broken down, charcoal dust in the valve (likelihood: medium); Tank pressure sensor giving a wrong signal (likelihood: low); Hoses swapped or wrongly routed (likelihood: low)\nDiagnostic Steps: Connect OBD-II diagnostic scanner and verify active code P04DF (EVAP System Purge Control Valve A Performance/Stuck Open). Perform visual and physical inspection of affected components: evap purge valve, charcoal canister, fuel tank pressure sensor, engine control module. Check electrical wiring harnesses and connectors for looseness, corrosion, or pin displacement. Measure reference voltage, ground continuity, and component resistance against manufacturer specifications. Repair guidance: DIY feasible. Estimated labor time: 0.3-1.5 hours\nRecommended Actions: Prioritize inspection of primary cause: Purge valve A leaking or stuck open (charcoal dust or dirt on the seat) (likelihood: high). If issue persists, inspect secondary potential fault: Canister broken down, charcoal dust in the valve (likelihood: medium). Clear diagnostic trouble codes with scanner after component repair and perform a verification test drive.",
+          "metadata": {
+            "source_record_id": "P04DF",
+            "title": "DTC P04DF - EVAP System Purge Control Valve A Performance/Stuck Open",
+            "id": "VTR-P04DF",
+            "possible_causes": "Purge valve A leaking or stuck open (charcoal dust or dirt on the seat) (likelihood: high); Canister broken down, charcoal dust in the valve (likelihood: medium); Tank pressure sensor giving a wrong signal (likelihood: low); Hoses swapped or wrongly routed (likelihood: low)",
+            "diagnostic_codes": "P04DF",
+            "data_origin": "authentic_open_standard",
+            "severity": "medium",
+            "vehicle_system": "engine_and_transmission",
+            "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+            "vehicle_type": "passenger_car_and_light_truck",
+            "symptoms": "Check engine light on; Hard starting or stumbling idle right after refuelling; Rough idle, rich fuel trim",
+            "source_url": "https://github.com/foerbsnavi/OBDex"
+          },
+          "diagnostic_codes": "P04DF",
+          "vehicle_system": "engine_and_transmission",
+          "severity": "medium",
+          "source": "OBDex / SAE J2012 & ISO 15031-6 Open Diagnostic Standard",
+          "source_url": "https://github.com/foerbsnavi/OBDex"
+        }
+      ]
+    }
+  ]
+}

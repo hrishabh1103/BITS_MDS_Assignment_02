@@ -27,6 +27,7 @@ class SemanticSearchEngine:
         self,
         query: str,
         top_k: int = 5,
+        query_id: Optional[str] = None,
         where: Optional[Dict[str, Any]] = None,
         where_document: Optional[Dict[str, Any]] = None,
     ) -> List[Dict[str, Any]]:
@@ -35,6 +36,7 @@ class SemanticSearchEngine:
         Args:
             query: Natural language troubleshooting question or symptom description.
             top_k: Number of most similar records to retrieve.
+            query_id: Optional identifier for the query (e.g. 'Q01').
             where: Optional metadata filter dict (e.g. {"vehicle_system": "engine_and_transmission"}).
             where_document: Optional document text filter dict.
 
@@ -49,7 +51,7 @@ class SemanticSearchEngine:
             raise ValueError(f"top_k must be a positive integer, got {top_k}")
 
         query_text = query.strip()
-        logger.info(f"Executing semantic search for query: '{query_text[:80]}...' (top_k={top_k})")
+        logger.info(f"Executing semantic search for query [{query_id or 'adhoc'}]: '{query_text[:80]}...' (top_k={top_k})")
 
         # ChromaDB query using embedding adapter
         raw_results = self.chroma_manager.query(
@@ -80,14 +82,25 @@ class SemanticSearchEngine:
             # Thus cosine_similarity = 1 - distance
             similarity = max(0.0, 1.0 - dist)
 
+            # Generate concise excerpt from problem description or document
+            excerpt = doc.split("\n")[0] if "\n" in doc else doc
+            for line in doc.split("\n"):
+                if line.startswith("Problem Description:"):
+                    excerpt = line.replace("Problem Description:", "").strip()
+                    break
+
             item = {
+                "query_id": query_id,
                 "rank": rank_idx + 1,
                 "id": rec_id,
+                "record_id": rec_id,
                 "distance": round(dist, 4),
+                "raw_distance": round(dist, 6),
                 "similarity_score": round(similarity, 4),
+                "title": meta.get("title", ""),
+                "excerpt": excerpt[:250] + ("..." if len(excerpt) > 250 else ""),
                 "document": doc,
                 "metadata": meta,
-                "title": meta.get("title", ""),
                 "diagnostic_codes": meta.get("diagnostic_codes", ""),
                 "vehicle_system": meta.get("vehicle_system", ""),
                 "severity": meta.get("severity", ""),
@@ -96,7 +109,7 @@ class SemanticSearchEngine:
             }
             formatted_results.append(item)
 
-        logger.info(f"Retrieved {len(formatted_results)} results.")
+        logger.info(f"Retrieved {len(formatted_results)} results for [{query_id or 'adhoc'}].")
         return formatted_results
 
 
@@ -106,3 +119,4 @@ if __name__ == "__main__":
     print(f"Results retrieved: {len(results)}")
     for r in results:
         print(f"Rank {r['rank']}: {r['id']} (Distance: {r['distance']}) - {r['title']}")
+

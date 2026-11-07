@@ -18,9 +18,9 @@
 | **Phase 3** | Document & query embeddings generation | `src/embeddings.py` | Completed | `all-MiniLM-L6-v2` 384-dim; batch encoding; unit norm verified |
 | **Phase 3** | ChromaDB persistence & collection init | `src/chroma_manager.py`, `scripts/build_database.py` | Completed | 9,532 records persisted in `database/chroma_db` (180MB SQLite + HNSW) |
 | **Phase 3** | Full CRUD implementation & verification | `src/crud_operations.py`, `tests/test_chroma.py` | Completed | Create, Read, Update, Delete verified on isolated test fixture; 18/18 pytest passed |
-| **Phase 4** | Semantic search & Top-K retrieval | `src/semantic_search.py` | Pending | Distance & metadata extraction |
-| **Phase 4** | Metadata filtering (single & compound) | `src/metadata_filters.py` | Pending | System, severity, vehicle type filtering |
-| **Phase 4** | 10 Documented troubleshooting queries | `data/queries/assignment_queries.json` | Pending | Diverse automotive subsystems covered |
+| **Phase 4** | Semantic search & Top-K retrieval | `src/semantic_search.py`, `scripts/run_queries.py` | Completed | All 10 queries executed for K=5 and K=10; ranked by distance ascending; zero duplicates |
+| **Phase 4** | Metadata filtering (single & compound) | `src/metadata_filters.py` | Completed | 5 multi-condition compound `$and` filters executed & verified across subsystems |
+| **Phase 4** | 10 Documented troubleshooting queries | `data/queries/assignment_queries.json` | Completed | 10 realistic diagnostic symptom queries covering all 4 automotive subsystems; 29/29 pytest passed |
 | **Phase 5** | NumPy exhaustive similarity engine | `src/numpy_similarity.py` | Pending | L2 Euclidean, Cosine, Dot product |
 | **Phase 5** | Metric comparison experiments | `src/experiment_runner.py`, `scripts/run_experiments.py` | Pending | K=5 and K=10 for all 10 queries exported |
 | **Phase 6** | LLM provider integration | `src/llm_provider.py` | Pending | Local Ollama & API support |

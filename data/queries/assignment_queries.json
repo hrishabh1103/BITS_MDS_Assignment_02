@@ -1,0 +1,72 @@
+[
+  {
+    "query_id": "Q01",
+    "query_text": "Engine overheating rapidly at highway speeds with boiling coolant in reservoir and radiator fan not engaging",
+    "topic": "Engine Cooling & Thermal Management",
+    "subsystem": "engine_and_transmission",
+    "brief_rationale": "Tests retrieval for cooling system failures, radiator fan relay/circuit faults, and thermostat malfunctions causing severe engine overheating."
+  },
+  {
+    "query_id": "Q02",
+    "query_text": "Engine cranks strongly but fails to start with smell of unburnt fuel and no spark on ignition coils",
+    "topic": "Ignition & Starting System Malfunction",
+    "subsystem": "engine_and_transmission",
+    "brief_rationale": "Addresses primary starting failure where starter motor operates but lack of ignition signal or crankshaft position sensor input prevents combustion."
+  },
+  {
+    "query_id": "Q03",
+    "query_text": "Vehicle battery goes completely dead overnight with alternator charging voltage testing normal during idle",
+    "topic": "Parasitic Battery Drain & Body Electrical",
+    "subsystem": "electrical_and_body",
+    "brief_rationale": "Diagnoses quiescent parasitic battery discharge caused by body control modules, relays, or lighting circuits staying awake when ignition is off."
+  },
+  {
+    "query_id": "Q04",
+    "query_text": "Brake pedal sinks slowly to the floorboard at red lights with ABS warning light illuminated on dashboard",
+    "topic": "Braking Hydraulics & Anti-Lock Braking System",
+    "subsystem": "brakes_and_suspension",
+    "brief_rationale": "Evaluates critical hydraulic brake failure symptoms including master cylinder internal bypass, ABS modulator valve leakage, and brake fluid pressure drop."
+  },
+  {
+    "query_id": "Q05",
+    "query_text": "Automatic transmission delayed engagement into drive and harsh shuddering when shifting between second and third gears",
+    "topic": "Automatic Transmission & Shift Solenoids",
+    "subsystem": "engine_and_transmission",
+    "brief_rationale": "Investigates transmission hydraulic pressure loss, shift solenoid electrical malfunctions, and torque converter clutch slippage."
+  },
+  {
+    "query_id": "Q06",
+    "query_text": "Check engine light flashing with rough idling, severe loss of engine power, and heavy vehicle vibration under load",
+    "topic": "Engine Misfire & Cylinder Combustion Faults",
+    "subsystem": "engine_and_transmission",
+    "brief_rationale": "Focuses on catastrophic catalyst-damaging misfires caused by bad fuel injectors, worn spark plugs, or ignition coil circuit failures."
+  },
+  {
+    "query_id": "Q07",
+    "query_text": "Drastic drop in fuel economy with black smoke from exhaust and rich fuel mixture odor during acceleration",
+    "topic": "Fuel & Air Metering / Rich Mixture",
+    "subsystem": "engine_and_transmission",
+    "brief_rationale": "Retrieves faults related to MAF sensor contamination, leaking fuel pressure regulators, or upstream oxygen sensor bias causing rich fuel trim."
+  },
+  {
+    "query_id": "Q08",
+    "query_text": "Instrument cluster displays multiple failure lamps with total loss of CAN communication between engine and transmission control modules",
+    "topic": "CAN Bus & Inter-Module Network Communication",
+    "subsystem": "network_and_communication",
+    "brief_rationale": "Investigates vehicle serial data network failures (U0100/U0101 family), bus termination resistor faults, and lost communication between primary powertrain controllers."
+  },
+  {
+    "query_id": "Q09",
+    "query_text": "Supplemental restraint system airbag warning light stays on continuously after replacing steering column clock spring",
+    "topic": "Supplemental Restraint System (SRS) & Airbag Circuit",
+    "subsystem": "electrical_and_body",
+    "brief_rationale": "Tests safety restraint diagnostic retrieval, driver airbag squib deployment circuits, and steering wheel clock spring resistance faults (B0001/B0002)."
+  },
+  {
+    "query_id": "Q10",
+    "query_text": "Turbocharged vehicle exhibits sluggish acceleration, severe turbo lag, and underboost condition when climbing hills",
+    "topic": "Turbocharger Forced Induction & Boost Control",
+    "subsystem": "engine_and_transmission",
+    "brief_rationale": "Evaluates forced induction troubleshooting including turbocharger wastegate control solenoid faults, charge air boost leaks, and manifold absolute pressure sensor discrepancies."
+  }
+]
