@@ -148,7 +148,8 @@ python scripts/build_database.py
 python scripts/run_queries.py
 
 # Step 4: Run exhaustive NumPy similarity comparison (Euclidean, Cosine, Dot)
-python scripts/run_experiments.py
+python scripts/run_similarity_comparison.py
+# (or: python scripts/run_experiments.py)
 
 # Step 5: Execute RAG evaluation & Context vs No-Context benchmarks
 python scripts/run_rag.py

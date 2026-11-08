@@ -21,8 +21,8 @@
 | **Phase 4** | Semantic search & Top-K retrieval | `src/semantic_search.py`, `scripts/run_queries.py` | Completed | All 10 queries executed for K=5 and K=10; ranked by distance ascending; zero duplicates |
 | **Phase 4** | Metadata filtering (single & compound) | `src/metadata_filters.py` | Completed | 5 multi-condition compound `$and` filters executed & verified across subsystems |
 | **Phase 4** | 10 Documented troubleshooting queries | `data/queries/assignment_queries.json` | Completed | 10 realistic diagnostic symptom queries covering all 4 automotive subsystems; 29/29 pytest passed |
-| **Phase 5** | NumPy exhaustive similarity engine | `src/numpy_similarity.py` | Pending | L2 Euclidean, Cosine, Dot product |
-| **Phase 5** | Metric comparison experiments | `src/experiment_runner.py`, `scripts/run_experiments.py` | Pending | K=5 and K=10 for all 10 queries exported |
+| **Phase 5** | NumPy exhaustive similarity engine | `src/similarity_metrics.py` | Completed | Euclidean (L2), Cosine, Dot product; zero-division safety; tie-breaking |
+| **Phase 5** | Metric comparison experiments | `scripts/run_similarity_comparison.py` | Completed | All 10 queries x 3 metrics x 2 K-values (60 evaluations); synthetic unnormalized test; 39/39 pytest passed |
 | **Phase 6** | LLM provider integration | `src/llm_provider.py` | Pending | Local Ollama & API support |
 | **Phase 6** | RAG pipeline with grounded citations | `src/rag_pipeline.py`, `scripts/run_rag.py` | Pending | Retrieved context + cited document IDs |
 | **Phase 6** | Context vs No-Context comparison | `experiments/rag_evaluation/` | Pending | Evaluated across at least 5 queries |
@@ -45,9 +45,10 @@
    - [x] Collection inspection accurately reports document counts (9,532 records).
 
 3. **NumPy vs ChromaDB Mathematics:**
-   - [ ] Normalized vs unnormalized vector behavior explicitly documented.
-   - [ ] Distance (smaller is better) vs Similarity (larger is better) strictly handled.
-   - [ ] Exhaustive computation across all $N$ records.
+   - [x] Normalized vs unnormalized vector behavior explicitly documented.
+   - [x] Distance (smaller is better) vs Similarity (larger is better) strictly handled.
+   - [x] Exhaustive computation across all $N$ records (9,532 records evaluated per query).
+   - [x] Exact kNN vs Approximate kNN (HNSW graph recall vs linear scan) analyzed.
 
 4. **RAG Reliability & Safety:**
    - [ ] Explicit hallucination mitigation prompt instructions.
