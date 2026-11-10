@@ -60,25 +60,41 @@ The 10 assignment queries were engineered to reflect real-world vehicle symptoms
 
 ## 4. Top-K Retrieval Results & Analysis
 
-All 10 queries were executed for both **K=5** and **K=10**. Key representative findings:
+All 10 queries were executed for both **K=5** and **K=10** against the persistent ChromaDB collection. All rankings are strictly ordered by ascending cosine distance ($1 - \cos$).
 
-### 4.1 Query Q01: Engine Overheating at Highway Speeds
+### 4.1 Unfiltered Semantic Search Summary Table (Top-1 Matches)
+
+| Query ID | Subsystem | Verbatim Query Focus | Top-1 Record ID | Top-1 Title | Cosine Distance | Derived Similarity |
+|:---:|:---|:---|:---:|:---|:---:|:---:|
+| **Q01** | `engine_and_transmission` | Rapid overheating, boiling coolant, fan off | `VTR-P00B7` | DTC P00B7 - Engine Coolant Flow Low/Performance | 0.6039 | 0.3961 |
+| **Q02** | `engine_and_transmission` | Cranks strongly, no start, fuel smell, no spark | `VTR-P0316` | DTC P0316 - Engine Misfire Detected on Startup | 0.6113 | 0.3887 |
+| **Q03** | `electrical_and_body` | Dead battery overnight, normal alternator | `VTR-P0D17` | DTC P0D17 - Battery Charging HVIL Circuit Low | 0.5376 | 0.4624 |
+| **Q04** | `brakes_and_suspension` | Pedal sinks slowly at lights, ABS warning | `VTR-C0291` | DTC C0291 - Brake Pedal Apply Sensor Circuit | 0.4759 | 0.5241 |
+| **Q05** | `engine_and_transmission` | Delayed drive engagement, harsh 2-3 shudder | `VTR-P2711` | DTC P2711 - Unexpected Mechanical Gear Disengagement | 0.5015 | 0.4985 |
+| **Q06** | `engine_and_transmission` | Flashing CEL, rough idle, vibration | `VTR-B0860` | DTC B0860 - License Plate Lamp Circuit | 0.5494 | 0.4506 |
+| **Q07** | `engine_and_transmission` | Low MPG, black smoke, rich odor | `VTR-P2BD2` | DTC P2BD2 - Exhaust Aftertreatment System A Leak | 0.6449 | 0.3551 |
+| **Q08** | `network_and_communication` | Cluster failure lamps, total CAN loss | `VTR-B0223` | DTC B0223 - SRS Indicator Lamp Circuit Malfunction | 0.4971 | 0.5029 |
+| **Q09** | `electrical_and_body` | SRS airbag light on after clock spring replace | `VTR-B0005` | DTC B0005 - Collapsible Steering Column Deployment | 0.4656 | 0.5344 |
+| **Q10** | `engine_and_transmission` | Sluggish acceleration, severe lag, underboost | `VTR-P0299` | DTC P0299 - Turbocharger A Underboost Condition | 0.4707 | 0.5293 |
+
+### 4.2 Representative Detailed Query Walkthroughs
+
+#### Query Q01: Engine Overheating at Highway Speeds
 - **Top Match:** `VTR-P00B7` (*DTC P00B7 - Engine Coolant Flow Low/Performance*)  
   - **Distance:** 0.6039 | **Similarity:** 0.3961  
   - **Technical Grounding:** The document specifically identifies that coolant temperature exceeds 117°C while the radiator remains cold due to thermostat failure or electric coolant pump malfunction—matching the exact physical scenario of the query.
-- **Subsequent Matches:** `VTR-P2B61` (Coolant Flow Control Valve), `VTR-U0698` (Lost Communication with Coolant Pump), `VTR-P2D8A` (Fan 2 Control Module Over Temperature).
+- **Subsequent Matches:** `VTR-P2B61` (Coolant Flow Control Valve), `VTR-U0698` (Lost Communication with Coolant Pump), `VTR-P2D8A` (Fan 2 Control Module Over Temperature), `VTR-P26CB` (Engine Coolant Pump Stuck Off).
 
-### 4.2 Query Q04: Brake Pedal Sinks with ABS Light
-- **Top Match:** `VTR-C0619` (*DTC C0619 - Brake Pedal Position Sensor A Offset Exceeded Learning Limit*)
-  - **Distance:** 0.5381 | **Similarity:** 0.4619
-- **Subsequent Matches:** `VTR-C0291` (Brake Pedal Apply Sensor Circuit), `VTR-C0081` (ABS Malfunction Indicator).
+#### Query Q04: Brake Pedal Sinks with ABS Light
+- **Top Match:** `VTR-C0291` (*DTC C0291 - Brake Pedal Apply Sensor Circuit Malfunction*)
+  - **Distance:** 0.4759 | **Similarity:** 0.5241
+- **Subsequent Matches:** `VTR-C0081` (ABS Malfunction Indicator, dist: 0.4847), `VTR-C0082` (Brake System Malfunction Indicator, dist: 0.4898), `VTR-C0241` (ABS Warning Lamp, dist: 0.4903), `VTR-C0075` (Brake Pedal Position, dist: 0.4981).
 - **Observation:** Vector retrieval successfully traversed from driver-level symptom description ("pedal sinks") to chassis hydraulic and position sensor trouble codes within the chassis domain.
 
-### 4.3 Query Q08: Instrument Cluster Multiple Lamps & Lost CAN Communication
-- **Top Match:** `VTR-U0039` (*DTC U0039 - Vehicle Communication Bus B (+) Open*)
-  - **Distance:** 0.5003 | **Similarity:** 0.4997
-- **Subsequent Matches:** `VTR-U007E` (Control Module Communication Bus A (-) Open), `VTR-U0073` (Control Module Communication Bus Off).
-- **Observation:** Query Q08 achieved strong semantic alignment with the `Uxxxx` network family, retrieving serial bus failure modes without manual keyword filtering.
+#### Query Q08: Instrument Cluster Multiple Lamps & Lost CAN Communication
+- **Unfiltered Top Match:** `VTR-B0223` (*DTC B0223 - SRS Indicator Lamp Circuit Malfunction*, dist: 0.4971)
+- **Subsequent Network Matches:** `VTR-U0039` (Vehicle Communication Bus B (+) Open, dist: 0.5003, Rank 3), `VTR-U007E` (Control Module Communication Bus A (-) Open, dist: 0.5102, Rank 4).
+- **Observation on Unfiltered vs Filtered Search:** In unfiltered search, cluster warning lamp circuits share vocabulary with the symptom description. When applying **Metadata Filter F03** (`network_and_communication`), the search space is restricted exclusively to network serial bus codes, elevating `VTR-U0039` to **Rank 1**.
 
 ---
 

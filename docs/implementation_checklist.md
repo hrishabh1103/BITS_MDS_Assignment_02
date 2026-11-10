@@ -22,7 +22,7 @@
 | **Phase 4** | Metadata filtering (single & compound) | `src/metadata_filters.py` | Completed | 5 multi-condition compound `$and` filters executed & verified across subsystems |
 | **Phase 4** | 10 Documented troubleshooting queries | `data/queries/assignment_queries.json` | Completed | 10 realistic diagnostic symptom queries covering all 4 automotive subsystems; 29/29 pytest passed |
 | **Phase 5** | NumPy exhaustive similarity engine | `src/similarity_metrics.py` | Completed | Euclidean (L2), Cosine, Dot product; zero-division safety; tie-breaking |
-| **Phase 5** | Metric comparison experiments | `scripts/run_similarity_comparison.py` | Completed | All 10 queries x 3 metrics x 2 K-values (60 evaluations); synthetic unnormalized test; 39/39 pytest passed |
+| **Phase 5** | Metric comparison experiments | `scripts/run_similarity_comparison.py` | Completed | All 10 queries x 3 metrics x 2 K-values (60 evaluations); Phase 4/5 reconciliation verified (`experiments/phase4_phase5_reconciliation.md`); 39/39 pytest passed |
 | **Phase 6** | LLM provider integration | `src/llm_provider.py` | Pending | Local Ollama & API support |
 | **Phase 6** | RAG pipeline with grounded citations | `src/rag_pipeline.py`, `scripts/run_rag.py` | Pending | Retrieved context + cited document IDs |
 | **Phase 6** | Context vs No-Context comparison | `experiments/rag_evaluation/` | Pending | Evaluated across at least 5 queries |

@@ -313,3 +313,4 @@ def run_synthetic_metric_divergence_experiment() -> Dict[str, Any]:
             "dot_product_ranking": norm_dot_ranked,
         },
     }
+

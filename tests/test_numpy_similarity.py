@@ -236,8 +236,38 @@ def test_end_to_end_all_ten_queries_evaluated():
         assert pk10["cosine_vs_euclidean"]["exact_order_match"] is True
 
 
+def test_phase4_phase5_top1_identity():
+    """Verifies that Phase 4 ChromaDB search and Phase 5 NumPy search retrieve identical Top-1 IDs across all 10 queries."""
+    p4_file = EXPERIMENTS_DIR / "semantic_search_results.json"
+    p5_file = EXPERIMENTS_DIR / "similarity_comparison_results.json"
+    assert p4_file.exists() and p5_file.exists()
+
+    with open(p4_file, "r", encoding="utf-8") as f:
+        p4_data = json.load(f)
+    with open(p5_file, "r", encoding="utf-8") as f:
+        p5_data = json.load(f)
+
+    p4_queries = p4_data["queries"]
+    p5_queries = p5_data["query_evaluations"]
+    assert len(p4_queries) == len(p5_queries) == 10
+
+    for i in range(10):
+        qid = p4_queries[i]["query_id"]
+        assert qid == p5_queries[i]["query_id"]
+
+        p4_top1 = p4_queries[i]["top_5"][0]["id"]
+        p5_top1_cos = p5_queries[i]["rankings_k5"]["cosine"][0]["record_id"]
+        p5_top1_euc = p5_queries[i]["rankings_k5"]["euclidean"][0]["record_id"]
+        p5_top1_dot = p5_queries[i]["rankings_k5"]["dot_product"][0]["record_id"]
+
+        assert p4_top1 == p5_top1_cos, f"Top-1 mismatch on {qid}: P4={p4_top1} vs P5_Cos={p5_top1_cos}"
+        assert p4_top1 == p5_top1_euc, f"Top-1 mismatch on {qid}: P4={p4_top1} vs P5_Euc={p5_top1_euc}"
+        assert p4_top1 == p5_top1_dot, f"Top-1 mismatch on {qid}: P4={p4_top1} vs P5_Dot={p5_top1_dot}"
+
+
 def test_chromadb_collection_count_strictly_preserved():
     """Verifies that Phase 5 operations were read-only and preserved all 9,532 records in ChromaDB."""
     chroma_mgr = ChromaDBManager()
     count = chroma_mgr.get_count()
     assert count == 9532, f"ChromaDB collection count modified! Expected 9532, got {count}"
+

@@ -22,3 +22,4 @@ __all__ = [
     "rank_documents",
     "run_synthetic_metric_divergence_experiment",
 ]
+

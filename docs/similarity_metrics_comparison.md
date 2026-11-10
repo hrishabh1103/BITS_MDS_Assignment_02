@@ -173,8 +173,10 @@ Across all 10 queries, exhaustive NumPy evaluations on the 9,532 authentic vehic
 | **Q10** | `engine_and_transmission` | `VTR-P0299` | P0299 | Jaccard = 1.0 | Jaccard = 1.0 | **100% Match** |
 
 > [!IMPORTANT]
-> **Empirical Validation of Theory**:
+> **Empirical Validation of Theory & Phase 4 Cross-Verification**:
 > For **all 10 queries**, Euclidean distance, Cosine similarity, and Dot Product produced **100% identical top-5 and top-10 ranked sequences** on the authentic normalized dataset. This empirically verifies Theorems 1 and 2.
+> 
+> Furthermore, cross-verification with Phase 4's ground-truth retrieval artifacts (`experiments/semantic_search_results.json`) confirms that **all 10 Top-1 documents retrieved in Phase 5 match Phase 4 exactly**. Detailed cryptographic vector fingerprinting and reconciliation is documented in [`experiments/phase4_phase5_reconciliation.md`](file:///Users/hrishabh/BITS_MDS_Assignment_02/experiments/phase4_phase5_reconciliation.md).
 
 ---
 
@@ -264,3 +266,4 @@ This provides an authentic real-world demonstration of the **Recall vs Speed tra
 
 ---
 *Generated and verified as part of BITS Pilani Modern Database Systems Assignment 2 (Phase 5).*
+

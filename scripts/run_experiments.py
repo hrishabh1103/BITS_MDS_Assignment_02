@@ -7,3 +7,4 @@ from scripts.run_similarity_comparison import main
 
 if __name__ == "__main__":
     main()
+
