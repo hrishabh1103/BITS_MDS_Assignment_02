@@ -1,0 +1,11 @@
+query_id,rag_retrieved_k,rag_cited_count,rag_valid_citations,rag_dtcs,rag_word_count,rag_has_safety,baseline_cited_count,baseline_dtcs,baseline_word_count,baseline_has_safety,generation_mode
+Q01,5,3,"VTR-P00B7, VTR-P2B61, VTR-U0698","P00B7, P2B61, U0698",196,True,0,,133,True,mock
+Q02,5,3,"VTR-P0316, VTR-P2314, VTR-P2E5C","P0316, P2314, P2E5C",211,True,0,,133,True,mock
+Q03,5,3,"VTR-P0D17, VTR-P0B57, VTR-P0D46","P0B57, P0D17, P0D46",206,True,0,,133,True,mock
+Q04,5,3,"VTR-C0291, VTR-C0081, VTR-C0082","C0081, C0082, C0291",192,True,0,,133,True,mock
+Q05,5,3,"VTR-P2711, VTR-P0733, VTR-P2E14","P0733, P2711, P2E14",204,True,0,,133,True,mock
+Q06,5,3,"VTR-B0860, VTR-B00D3, VTR-C05F2","B00D3, B0860, C05F2",194,True,0,,133,True,mock
+Q07,5,3,"VTR-P2BD2, VTR-P20D5, VTR-P20CF","P20CF, P20D5, P2BD2",206,True,0,,133,True,mock
+Q08,5,3,"VTR-B0223, VTR-P0804, VTR-U0039","B0223, P0804, U0039",194,True,0,,133,True,mock
+Q09,5,3,"VTR-B0005, VTR-B0061, VTR-B0001","B0001, B0005, B0061",194,True,0,,133,True,mock
+Q10,5,3,"VTR-P0299, VTR-P0048, VTR-P0046","P0046, P0048, P0299",209,True,0,,133,True,mock

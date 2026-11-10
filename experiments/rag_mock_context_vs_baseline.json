@@ -1,0 +1,452 @@
+[
+  {
+    "query_id": "Q01",
+    "query": "Engine overheating rapidly at highway speeds with boiling coolant in reservoir and radiator fan not engaging",
+    "rag": {
+      "retrieval_k": 5,
+      "retrieved_record_ids": [
+        "VTR-P00B7",
+        "VTR-P2B61",
+        "VTR-U0698",
+        "VTR-P2D8A",
+        "VTR-P26CB"
+      ],
+      "cited_record_ids": [
+        "VTR-P00B7",
+        "VTR-P2B61",
+        "VTR-U0698"
+      ],
+      "cited_dtc_codes": [
+        "P00B7",
+        "P2B61",
+        "U0698"
+      ],
+      "word_count": 196,
+      "has_safety_disclaimer": true,
+      "has_limitations_disclosure": true,
+      "generation_mode": "mock"
+    },
+    "baseline": {
+      "retrieval_k": 0,
+      "retrieved_record_ids": [],
+      "cited_record_ids": [],
+      "cited_dtc_codes": [],
+      "word_count": 133,
+      "has_safety_disclaimer": true,
+      "has_limitations_disclosure": true,
+      "generation_mode": "mock"
+    },
+    "comparative_observations": {
+      "rag_cites_sources": true,
+      "baseline_has_sources": false,
+      "rag_provides_specific_dtcs": true,
+      "baseline_provides_specific_dtcs": false,
+      "word_count_delta": 63
+    }
+  },
+  {
+    "query_id": "Q02",
+    "query": "Engine cranks strongly but fails to start with smell of unburnt fuel and no spark on ignition coils",
+    "rag": {
+      "retrieval_k": 5,
+      "retrieved_record_ids": [
+        "VTR-P0316",
+        "VTR-P2314",
+        "VTR-P2E5C",
+        "VTR-P2E5E",
+        "VTR-P2A2F"
+      ],
+      "cited_record_ids": [
+        "VTR-P0316",
+        "VTR-P2314",
+        "VTR-P2E5C"
+      ],
+      "cited_dtc_codes": [
+        "P0316",
+        "P2314",
+        "P2E5C"
+      ],
+      "word_count": 211,
+      "has_safety_disclaimer": true,
+      "has_limitations_disclosure": true,
+      "generation_mode": "mock"
+    },
+    "baseline": {
+      "retrieval_k": 0,
+      "retrieved_record_ids": [],
+      "cited_record_ids": [],
+      "cited_dtc_codes": [],
+      "word_count": 133,
+      "has_safety_disclaimer": true,
+      "has_limitations_disclosure": true,
+      "generation_mode": "mock"
+    },
+    "comparative_observations": {
+      "rag_cites_sources": true,
+      "baseline_has_sources": false,
+      "rag_provides_specific_dtcs": true,
+      "baseline_provides_specific_dtcs": false,
+      "word_count_delta": 78
+    }
+  },
+  {
+    "query_id": "Q03",
+    "query": "Vehicle battery goes completely dead overnight with alternator charging voltage testing normal during idle",
+    "rag": {
+      "retrieval_k": 5,
+      "retrieved_record_ids": [
+        "VTR-P0D17",
+        "VTR-P0B57",
+        "VTR-P0D46",
+        "VTR-P0D47",
+        "VTR-P0D23"
+      ],
+      "cited_record_ids": [
+        "VTR-P0D17",
+        "VTR-P0B57",
+        "VTR-P0D46"
+      ],
+      "cited_dtc_codes": [
+        "P0B57",
+        "P0D17",
+        "P0D46"
+      ],
+      "word_count": 206,
+      "has_safety_disclaimer": true,
+      "has_limitations_disclosure": true,
+      "generation_mode": "mock"
+    },
+    "baseline": {
+      "retrieval_k": 0,
+      "retrieved_record_ids": [],
+      "cited_record_ids": [],
+      "cited_dtc_codes": [],
+      "word_count": 133,
+      "has_safety_disclaimer": true,
+      "has_limitations_disclosure": true,
+      "generation_mode": "mock"
+    },
+    "comparative_observations": {
+      "rag_cites_sources": true,
+      "baseline_has_sources": false,
+      "rag_provides_specific_dtcs": true,
+      "baseline_provides_specific_dtcs": false,
+      "word_count_delta": 73
+    }
+  },
+  {
+    "query_id": "Q04",
+    "query": "Brake pedal sinks slowly to the floorboard at red lights with ABS warning light illuminated on dashboard",
+    "rag": {
+      "retrieval_k": 5,
+      "retrieved_record_ids": [
+        "VTR-C0291",
+        "VTR-C0081",
+        "VTR-C0082",
+        "VTR-C0241",
+        "VTR-C0075"
+      ],
+      "cited_record_ids": [
+        "VTR-C0291",
+        "VTR-C0081",
+        "VTR-C0082"
+      ],
+      "cited_dtc_codes": [
+        "C0081",
+        "C0082",
+        "C0291"
+      ],
+      "word_count": 192,
+      "has_safety_disclaimer": true,
+      "has_limitations_disclosure": true,
+      "generation_mode": "mock"
+    },
+    "baseline": {
+      "retrieval_k": 0,
+      "retrieved_record_ids": [],
+      "cited_record_ids": [],
+      "cited_dtc_codes": [],
+      "word_count": 133,
+      "has_safety_disclaimer": true,
+      "has_limitations_disclosure": true,
+      "generation_mode": "mock"
+    },
+    "comparative_observations": {
+      "rag_cites_sources": true,
+      "baseline_has_sources": false,
+      "rag_provides_specific_dtcs": true,
+      "baseline_provides_specific_dtcs": false,
+      "word_count_delta": 59
+    }
+  },
+  {
+    "query_id": "Q05",
+    "query": "Automatic transmission delayed engagement into drive and harsh shuddering when shifting between second and third gears",
+    "rag": {
+      "retrieval_k": 5,
+      "retrieved_record_ids": [
+        "VTR-P2711",
+        "VTR-P0733",
+        "VTR-P2E14",
+        "VTR-P0918",
+        "VTR-P2701"
+      ],
+      "cited_record_ids": [
+        "VTR-P2711",
+        "VTR-P0733",
+        "VTR-P2E14"
+      ],
+      "cited_dtc_codes": [
+        "P0733",
+        "P2711",
+        "P2E14"
+      ],
+      "word_count": 204,
+      "has_safety_disclaimer": true,
+      "has_limitations_disclosure": true,
+      "generation_mode": "mock"
+    },
+    "baseline": {
+      "retrieval_k": 0,
+      "retrieved_record_ids": [],
+      "cited_record_ids": [],
+      "cited_dtc_codes": [],
+      "word_count": 133,
+      "has_safety_disclaimer": true,
+      "has_limitations_disclosure": true,
+      "generation_mode": "mock"
+    },
+    "comparative_observations": {
+      "rag_cites_sources": true,
+      "baseline_has_sources": false,
+      "rag_provides_specific_dtcs": true,
+      "baseline_provides_specific_dtcs": false,
+      "word_count_delta": 71
+    }
+  },
+  {
+    "query_id": "Q06",
+    "query": "Check engine light flashing with rough idling, severe loss of engine power, and heavy vehicle vibration under load",
+    "rag": {
+      "retrieval_k": 5,
+      "retrieved_record_ids": [
+        "VTR-B0860",
+        "VTR-B00D3",
+        "VTR-C05F2",
+        "VTR-B00D4",
+        "VTR-P2582"
+      ],
+      "cited_record_ids": [
+        "VTR-B0860",
+        "VTR-B00D3",
+        "VTR-C05F2"
+      ],
+      "cited_dtc_codes": [
+        "B00D3",
+        "B0860",
+        "C05F2"
+      ],
+      "word_count": 194,
+      "has_safety_disclaimer": true,
+      "has_limitations_disclosure": true,
+      "generation_mode": "mock"
+    },
+    "baseline": {
+      "retrieval_k": 0,
+      "retrieved_record_ids": [],
+      "cited_record_ids": [],
+      "cited_dtc_codes": [],
+      "word_count": 133,
+      "has_safety_disclaimer": true,
+      "has_limitations_disclosure": true,
+      "generation_mode": "mock"
+    },
+    "comparative_observations": {
+      "rag_cites_sources": true,
+      "baseline_has_sources": false,
+      "rag_provides_specific_dtcs": true,
+      "baseline_provides_specific_dtcs": false,
+      "word_count_delta": 61
+    }
+  },
+  {
+    "query_id": "Q07",
+    "query": "Drastic drop in fuel economy with black smoke from exhaust and rich fuel mixture odor during acceleration",
+    "rag": {
+      "retrieval_k": 5,
+      "retrieved_record_ids": [
+        "VTR-P2BD2",
+        "VTR-P20D5",
+        "VTR-P20CF",
+        "VTR-P02ED",
+        "VTR-P24A3"
+      ],
+      "cited_record_ids": [
+        "VTR-P2BD2",
+        "VTR-P20D5",
+        "VTR-P20CF"
+      ],
+      "cited_dtc_codes": [
+        "P20CF",
+        "P20D5",
+        "P2BD2"
+      ],
+      "word_count": 206,
+      "has_safety_disclaimer": true,
+      "has_limitations_disclosure": true,
+      "generation_mode": "mock"
+    },
+    "baseline": {
+      "retrieval_k": 0,
+      "retrieved_record_ids": [],
+      "cited_record_ids": [],
+      "cited_dtc_codes": [],
+      "word_count": 133,
+      "has_safety_disclaimer": true,
+      "has_limitations_disclosure": true,
+      "generation_mode": "mock"
+    },
+    "comparative_observations": {
+      "rag_cites_sources": true,
+      "baseline_has_sources": false,
+      "rag_provides_specific_dtcs": true,
+      "baseline_provides_specific_dtcs": false,
+      "word_count_delta": 73
+    }
+  },
+  {
+    "query_id": "Q08",
+    "query": "Instrument cluster displays multiple failure lamps with total loss of CAN communication between engine and transmission control modules",
+    "rag": {
+      "retrieval_k": 5,
+      "retrieved_record_ids": [
+        "VTR-B0223",
+        "VTR-P0804",
+        "VTR-U0039",
+        "VTR-U007E",
+        "VTR-U0094"
+      ],
+      "cited_record_ids": [
+        "VTR-B0223",
+        "VTR-P0804",
+        "VTR-U0039"
+      ],
+      "cited_dtc_codes": [
+        "B0223",
+        "P0804",
+        "U0039"
+      ],
+      "word_count": 194,
+      "has_safety_disclaimer": true,
+      "has_limitations_disclosure": true,
+      "generation_mode": "mock"
+    },
+    "baseline": {
+      "retrieval_k": 0,
+      "retrieved_record_ids": [],
+      "cited_record_ids": [],
+      "cited_dtc_codes": [],
+      "word_count": 133,
+      "has_safety_disclaimer": true,
+      "has_limitations_disclosure": true,
+      "generation_mode": "mock"
+    },
+    "comparative_observations": {
+      "rag_cites_sources": true,
+      "baseline_has_sources": false,
+      "rag_provides_specific_dtcs": true,
+      "baseline_provides_specific_dtcs": false,
+      "word_count_delta": 61
+    }
+  },
+  {
+    "query_id": "Q09",
+    "query": "Supplemental restraint system airbag warning light stays on continuously after replacing steering column clock spring",
+    "rag": {
+      "retrieval_k": 5,
+      "retrieved_record_ids": [
+        "VTR-B0005",
+        "VTR-B0061",
+        "VTR-B0001",
+        "VTR-U047B",
+        "VTR-B0051"
+      ],
+      "cited_record_ids": [
+        "VTR-B0005",
+        "VTR-B0061",
+        "VTR-B0001"
+      ],
+      "cited_dtc_codes": [
+        "B0001",
+        "B0005",
+        "B0061"
+      ],
+      "word_count": 194,
+      "has_safety_disclaimer": true,
+      "has_limitations_disclosure": true,
+      "generation_mode": "mock"
+    },
+    "baseline": {
+      "retrieval_k": 0,
+      "retrieved_record_ids": [],
+      "cited_record_ids": [],
+      "cited_dtc_codes": [],
+      "word_count": 133,
+      "has_safety_disclaimer": true,
+      "has_limitations_disclosure": true,
+      "generation_mode": "mock"
+    },
+    "comparative_observations": {
+      "rag_cites_sources": true,
+      "baseline_has_sources": false,
+      "rag_provides_specific_dtcs": true,
+      "baseline_provides_specific_dtcs": false,
+      "word_count_delta": 61
+    }
+  },
+  {
+    "query_id": "Q10",
+    "query": "Turbocharged vehicle exhibits sluggish acceleration, severe turbo lag, and underboost condition when climbing hills",
+    "rag": {
+      "retrieval_k": 5,
+      "retrieved_record_ids": [
+        "VTR-P0299",
+        "VTR-P0048",
+        "VTR-P0046",
+        "VTR-P0047",
+        "VTR-P02CA"
+      ],
+      "cited_record_ids": [
+        "VTR-P0299",
+        "VTR-P0048",
+        "VTR-P0046"
+      ],
+      "cited_dtc_codes": [
+        "P0046",
+        "P0048",
+        "P0299"
+      ],
+      "word_count": 209,
+      "has_safety_disclaimer": true,
+      "has_limitations_disclosure": true,
+      "generation_mode": "mock"
+    },
+    "baseline": {
+      "retrieval_k": 0,
+      "retrieved_record_ids": [],
+      "cited_record_ids": [],
+      "cited_dtc_codes": [],
+      "word_count": 133,
+      "has_safety_disclaimer": true,
+      "has_limitations_disclosure": true,
+      "generation_mode": "mock"
+    },
+    "comparative_observations": {
+      "rag_cites_sources": true,
+      "baseline_has_sources": false,
+      "rag_provides_specific_dtcs": true,
+      "baseline_provides_specific_dtcs": false,
+      "word_count_delta": 76
+    }
+  }
+]

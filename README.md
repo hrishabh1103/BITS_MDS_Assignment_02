@@ -78,7 +78,7 @@ flowchart TD
 │   ├── experiment_runner.py    # Automated query benchmark runner
 │   ├── rag_pipeline.py         # Prompt builder & context-grounded RAG
 │   ├── llm_provider.py         # Ollama / API abstraction layer
-│   ├── evaluation.py           # Evaluation metrics (overlap, rank correlation)
+│   ├── rag_evaluation.py       # RAG evaluation & baseline comparative metrics
 │   └── utils.py                # Logging & file helper utilities
 │
 ├── experiments/
