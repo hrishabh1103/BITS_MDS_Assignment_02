@@ -84,7 +84,7 @@ class OllamaProvider(BaseLLMProvider):
         self,
         model_name: str = OLLAMA_MODEL,
         base_url: str = OLLAMA_BASE_URL,
-        timeout_seconds: int = 60,
+        timeout_seconds: int = 180,
     ):
         super().__init__(model_name=model_name)
         self.base_url = base_url.rstrip("/")
@@ -199,7 +199,7 @@ class OpenAICompatibleProvider(BaseLLMProvider):
         api_key: Optional[str] = None,
         base_url: Optional[str] = None,
         model_name: Optional[str] = None,
-        timeout_seconds: int = 60,
+        timeout_seconds: int = 180,
     ):
         model = model_name or EXTERNAL_MODEL_NAME or os.getenv("OPENAI_MODEL", "gpt-4o-mini")
         super().__init__(model_name=model)

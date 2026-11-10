@@ -217,6 +217,7 @@ class RAGPipeline:
             "generation_mode": self.llm_provider.generation_mode,
             "prompt_version": self.prompt_version,
             "system_prompt": SYSTEM_PROMPT,
+            "context_used": context_str,
             "user_prompt": user_prompt,
             "generated_answer": llm_response.content,
             "source_record_ids": cited_ids,
@@ -225,3 +226,4 @@ class RAGPipeline:
             "execution_status": execution_status,
             "error_message": llm_response.error,
         }
+

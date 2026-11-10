@@ -25,7 +25,8 @@
 | **Phase 5** | Metric comparison experiments | `scripts/run_similarity_comparison.py` | Completed | All 10 queries x 3 metrics x 2 K-values (60 evaluations); Phase 4/5 reconciliation verified (`experiments/phase4_phase5_reconciliation.md`); 39/39 pytest passed |
 | **Phase 6** | LLM provider integration | `src/llm_provider.py` | Completed | Local Ollama, OpenAI-compatible API, and Mock provider for offline CI |
 | **Phase 6** | RAG pipeline with grounded citations | `src/rag_pipeline.py`, `scripts/run_rag.py` | Completed | Top-K context formatting, grounded prompt with anti-hallucination rules & [VTR-XXXXX] citations |
-| **Phase 6** | Context vs No-Context comparison | `src/rag_evaluation.py`, `experiments/` | Completed | All 10 queries evaluated side-by-side; citation fidelity, safety & specificity metrics; 51/51 pytest passed |
+| **Phase 6** | Context vs No-Context comparison | `src/rag_evaluation.py`, `experiments/rag_mock_*` | Completed | All 10 queries evaluated side-by-side; citation fidelity, safety & specificity metrics; 51/51 pytest passed |
+| **Phase 6.1** | Real LLM execution & safety validation | `scripts/run_rag.py --mode real`, `experiments/rag_real_*` | Completed | Live execution with Ollama (Llama 3.2 3B); 10/10 RAG + 10/10 Baseline queries; 100% citation precision, 96% citation recall; 0 baseline citations; automotive safety review verified |
 | **Phase 7** | Streamlit multi-page application | `app.py`, UI views | Pending | 7 distinct interactive tabs/pages |
 | **Phase 8** | Academic report & viva documentation | `docs/report_draft.md`, `docs/viva_questions.md` | Pending | Academic standard report & Q&A |
 | **Phase 8** | Final end-to-end automated validation | `scripts/validate_project.py` | Pending | Zero-tolerance validation script |

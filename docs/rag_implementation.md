@@ -2,22 +2,26 @@
 
 ## BITS Pilani WILP — Modern Database Systems (Assignment 2)
 **Project Title**: Vehicle Troubleshooting Assistant using ChromaDB and Retrieval-Augmented Generation (RAG)  
-**Document**: Phase 6 RAG Architecture, Provider Abstraction, and Baseline Comparative Evaluation  
+**Document**: Phase 6 & 6.1 RAG Architecture, Provider Abstraction, Real LLM Validation, and Baseline Comparative Evaluation  
 **Dataset**: 9,532 authentic vehicle diagnostic records (`data/processed/vehicle_troubleshooting.json`)  
 **Vector Store**: ChromaDB persistent collection `vehicle_troubleshooting_kb` (Cosine space)  
 **Embedding Model**: `sentence-transformers/all-MiniLM-L6-v2` (384 dimensions, $L_2$-normalized)  
+**Active Real LLM**: Ollama (`llama3.2:latest`, 3.2B parameters, Metal accelerated)  
 
 ---
 
 ## 1. Executive Summary
 
-Phase 6 implements the complete Retrieval-Augmented Generation (RAG) subsystem for the Vehicle Troubleshooting Assistant. The system bridges natural language driver complaints with dense vector retrieval over the 9,532-record ChromaDB database and a structured, grounded LLM prompt architecture.
+Phase 6 and Phase 6.1 implement and validate the complete Retrieval-Augmented Generation (RAG) subsystem for the Vehicle Troubleshooting Assistant. The system bridges natural language driver complaints with dense vector retrieval over the 9,532-record ChromaDB database and a structured, grounded LLM prompt architecture.
 
-### Key Capabilities Implemented
+### Key Capabilities Implemented & Validated
 1. **Modular RAG Pipeline (`src/rag_pipeline.py`)**: Orchestrates semantic retrieval, annotated context formatting, grounded prompt synthesis, citation parsing, and structured output formatting.
 2. **Provider Abstraction Layer (`src/llm_provider.py`)**: Decouples generation from specific model vendors, natively supporting local Ollama daemons, OpenAI-compatible APIs (OpenAI, Gemini API, Groq, vLLM), and a deterministic Mock provider for offline automated grading.
-3. **Rigorous Anti-Hallucination Guardrails**: Prompts enforce correlation vs. causation boundaries (e.g., a DTC does not prove component failure), mandate square-bracket record citations (`[VTR-XXXXX]`), and require automotive safety disclosures.
-4. **Context vs. No-Context Baseline Comparison (`src/rag_evaluation.py`)**: Evaluates all 10 assignment queries (Q01–Q10) side-by-side with and without retrieved context, proving that RAG transforms generic automotive advice into specific, actionable, and grounded diagnostic procedures.
+3. **Dual Execution Modes**:
+   - **Mock Execution Mode (`rag_mock_*`)**: 100% offline, deterministic heuristic generator for CI/CD test suites and headless verification without model weights.
+   - **Real LLM Execution Mode (`rag_real_*`)**: Fully validated live inference using Meta Llama 3.2 (3.2B parameters) running locally on Ollama.
+4. **Rigorous Anti-Hallucination Guardrails**: Prompts enforce correlation vs. causation boundaries (e.g., a DTC does not prove component failure), mandate square-bracket record citations (`[VTR-XXXXX]`), and require automotive safety disclosures.
+5. **Context vs. No-Context Baseline Comparison (`src/rag_evaluation.py`)**: Evaluates all 10 assignment queries (Q01–Q10) side-by-side with and without retrieved context across both Mock and Real LLM paradigms, proving that RAG transforms generic automotive advice into specific, actionable, and grounded diagnostic procedures.
 
 ---
 
@@ -131,25 +135,36 @@ To evaluate the empirical impact of RAG, all 10 assignment queries were executed
 - **Mode A (Grounded RAG)**: Query + Top-5 ChromaDB retrieved records.
 - **Mode B (Unassisted Baseline)**: Query alone, zero retrieved context.
 
-### Side-by-Side Comparison Summary Table (Q01 – Q10)
+### 5.1 Real LLM Experimental Evaluation (Meta Llama 3.2 on Ollama)
 
-| Query ID | Automotive Focus | Grounded RAG Behavior | Unassisted Baseline Behavior | Core Difference |
-|:---:|:---|:---|:---|:---|
-| **Q01** | Cooling & Overheating | Cites `[VTR-P00B7]`, identifies coolant temperature threshold (>117°C), checks flow control valve and pump communication. | Suggests generic radiator flush and water pump replacement without specific diagnostic codes. | RAG anchors diagnosis to specific thermostat failure modes and DTC P00B7. |
-| **Q02** | Crank No-Start / Spark | Cites `[VTR-P0316]`, isolates startup revolution misfires and crankshaft position signal. | Recommends checking spark plugs, battery voltage, and fuel pump relay generically. | RAG distinguishes startup-specific misfire codes from general running misfires. |
-| **Q03** | Parasitic Battery Drain | Cites `[VTR-P0D17]`, identifies charging HVIL loop circuit low voltage. | Advises measuring fuse parasitic draw with a multimeter without identifying hybrid/EV charging circuits. | RAG connects symptom to high-voltage interlock circuits present in the database. |
-| **Q04** | Soft Brake Pedal / ABS | Cites `[VTR-C0291]`, identifies brake pedal apply sensor circuit and master cylinder bypass. | Suggests bleeding brake lines and checking brake fluid level. | RAG references chassis sensor circuits and safety disclaimers for hydraulic systems. |
-| **Q05** | Transmission Shudder | Cites `[VTR-P2711]`, diagnoses mechanical gear disengagement and friction element B slippage. | Advises checking transmission fluid level and general torque converter shudder. | RAG identifies exact dual-clutch / automatic shift solenoid failure codes. |
-| **Q06** | Flashing CEL / Misfire | Cites `[VTR-B0860]`, isolates ignition circuit low range and cylinder misfire protocols. | Recommends replacing spark plugs and ignition coils indiscriminately. | RAG emphasizes testing circuit continuity before replacing ignition coils. |
-| **Q07** | Fuel Economy / Rich Smoke | Cites `[VTR-P2BD2]`, identifies exhaust aftertreatment leaks confusing upstream sensors. | Blames faulty MAF sensor or stuck fuel injectors generically. | RAG reveals aftertreatment exhaust leaks that cause false rich fuel trim readings. |
-| **Q08** | Cluster Failure / CAN Bus | Cites `[VTR-B0223]`, references warning lamp circuit faults and serial data timeout. | Suggests checking battery ground terminals and alternator charging voltage. | RAG identifies module communication timeout codes and bus topology checks. |
-| **Q09** | Airbag Light / Clock Spring | Cites `[VTR-B0005]`, pinpoints steering column deployment loop open circuit. | Suggests resetting airbag light with a scanner or checking seat belt buckle switch. | RAG identifies squib deployment resistance specifications and clock spring pin fitment. |
-| **Q10** | Turbocharger Underboost | Cites `[VTR-P0299]`, establishes boost pressure differential thresholds (30–55 kPa). | Suggests inspecting intercooler hoses for cracks and wastegate actuator rod. | RAG provides exact manufacturer underboost criteria (GM/Ford EcoBoost thresholds). |
+All 10 queries were executed against live local inference using `llama3.2:latest` (3.2B parameters, Q4_K_M quantization). Real outputs are persisted in [`experiments/rag_real_results.json`](file:///Users/hrishabh/BITS_MDS_Assignment_02/experiments/rag_real_results.json) and [`experiments/rag_real_context_vs_baseline.json`](file:///Users/hrishabh/BITS_MDS_Assignment_02/experiments/rag_real_context_vs_baseline.json).
 
-### Summary of Comparative Observations
-1. **Source Grounding**: RAG achieved 100% citation coverage across all queries, while the baseline cited zero records.
-2. **Elimination of Indiscriminate Parts Replacement**: The baseline consistently encouraged replacing parts (plugs, sensors, pumps). Grounded RAG instructed verifying wiring harness continuity, reference voltages, and ground integrity first.
-3. **Safety Compliance**: RAG systematically injected safety precautions for high-voltage, braking, and airbag systems.
+| Query ID | Retrieved ($K=5$) | Real RAG Cited Records | Real RAG DTC Codes | RAG Word Count | Baseline Citations | Baseline DTCs | Baseline Word Count | Citation Precision | Citation Recall |
+|:---:|:---:|:---|:---|:---:|:---:|:---|:---:|:---:|:---:|
+| **Q01** | 5 | `VTR-P00B7`, `VTR-P2B61`, `VTR-U0698`, `VTR-P26CB` | P00B7, P26CB, P2B61, U0698 | 557 | 0 | None | 374 | **100.0%** (4/4) | 80.0% (4/5) |
+| **Q02** | 5 | `VTR-P0316`, `VTR-P2314`, `VTR-P2E5C`, `VTR-P2E5E`, `VTR-P2A2F` | P0316, P2314, P2A2F, P2E5C, P2E5E | 376 | 0 | None | 385 | **100.0%** (5/5) | 100.0% (5/5) |
+| **Q03** | 5 | `VTR-P0D17`, `VTR-P0B57`, `VTR-P0D46`, `VTR-P0D47`, `VTR-P0D23` | P0B57, P0D17, P0D23, P0D46, P0D47 | 645 | 0 | None | 359 | **100.0%** (5/5) | 100.0% (5/5) |
+| **Q04** | 5 | `VTR-C0291`, `VTR-C0081`, `VTR-C0082`, `VTR-C0241`, `VTR-C0075` | C0075, C0081, C0082, C0241, C0291 | 381 | 0 | None | 383 | **100.0%** (5/5) | 100.0% (5/5) |
+| **Q05** | 5 | `VTR-P2711`, `VTR-P0733`, `VTR-P2E14`, `VTR-P0918`, `VTR-P2701` | P0733, P0918, P2701, P2711, P2E14 | 478 | 0 | None | 319 | **100.0%** (5/5) | 100.0% (5/5) |
+| **Q06** | 5 | `VTR-B0860`, `VTR-B00D3`, `VTR-B00D4`, `VTR-C05F2`, `VTR-P2582` | B00D3, B00D4, B0860, C05F2, P2582 | 485 | 0 | None | 327 | **100.0%** (5/5) | 100.0% (5/5) |
+| **Q07** | 5 | `VTR-P2BD2`, `VTR-P20D5`, `VTR-P20CF`, `VTR-P02ED` | P02ED, P20CF, P20D5, P2BD2 | 576 | 0 | None | 462 | **100.0%** (4/4) | 80.0% (4/5) |
+| **Q08** | 5 | `VTR-U0039`, `VTR-U007E`, `VTR-U0094`, `VTR-B0223`, `VTR-P0804` | B0223, P0804, U0039, U007E, U0094 | 396 | 0 | None | 329 | **100.0%** (5/5) | 100.0% (5/5) |
+| **Q09** | 5 | `VTR-B0005`, `VTR-B0061`, `VTR-B0001`, `VTR-U047B`, `VTR-B0051` | B0001, B0005, B0051, B0061, U047B | 581 | 0 | None | 332 | **100.0%** (5/5) | 100.0% (5/5) |
+| **Q10** | 5 | `VTR-P0299`, `VTR-P0046`, `VTR-P02CA`, `VTR-P0048`, `VTR-P0047` | P0046, P0047, P0048, P0299, P02CA | 399 | 0 | None | 402 | **100.0%** (5/5) | 100.0% (5/5) |
+| **Aggregate** | **50** | **48 Total Cited** | **48 Unique Codes** | **487 avg** | **0** | **0** | **367 avg** | **100.0%** | **96.0%** |
+
+### 5.2 Automotive Safety & Qualitative Verification
+
+Manual inspection of live outputs revealed strict adherence to automotive diagnostic safety standards:
+1. **Hydraulic Braking Systems (Q04)**: The model cited `[VTR-C0291]` (Pedal Apply Sensor Circuit) and `[VTR-C0081]`/`[VTR-C0082]` (ABS/Brake warning indicator). It refrained from fabricating hydraulic line pressures or specifying non-existent caliper bleed torque. Instead, it instructed checking reference voltages against OEM service manuals and testing for internal master cylinder bypass.
+2. **Supplemental Restraint Systems (Q09)**: The model correctly identified squib deployment control circuits (`[VTR-B0005]`, `[VTR-B0001]`) and spiral cable clock spring damage without fabricating wire color codes or connector pin assignments. It explicitly acknowledged: *"The retrieved context is insufficient to diagnose the issue with certainty. Additional information, such as the vehicle's make, model, and engine code, would be necessary."*
+3. **High-Voltage / Hybrid Interlock (Q03)**: When presented with an overnight dead battery, the unassisted baseline suggested measuring parasitics at the fuse box. Grounded RAG identified that the ChromaDB records matched High-Voltage Interlock Loop (HVIL) circuit low voltage (`[VTR-P0D17]`), alerting the user to hybrid battery contactor safety issues.
+
+### 5.3 Comparative Observations (RAG vs. Baseline)
+
+1. **Complete Citation Isolation**: In unassisted baseline mode, the model never fabricated a `VTR-` identifier (0/10 citations). In RAG mode, it cited 48 records with 100% precision (zero hallucinated IDs).
+2. **Actionable Precision**: Grounded RAG provided specific Diagnostic Trouble Codes, sensor circuit pins, and multi-stage diagnostic trees. Baseline answers provided generic tips (e.g. "check battery connections", "flush radiator").
+3. **Honest Boundary Recognition**: Whenever the retrieved top-5 did not directly address an ancillary symptom (e.g. the non-engaging radiator fan in Q01), the real LLM explicitly listed this under `### 4. Limitations & Missing Information` rather than fabricating an explanation.
 
 ---
 
@@ -175,7 +190,7 @@ RAG responses are evaluated using four objective metrics implemented in `src/rag
 ### A. Offline / Automated Testing Mode (No External API Required)
 ```bash
 # Runs the full RAG pipeline and evaluation across all 10 queries using MockLLMProvider
-PYTHONPATH=. .venv/bin/python scripts/run_rag.py
+PYTHONPATH=. .venv/bin/python scripts/run_rag.py --mode mock
 ```
 Outputs generated:
 - Structured JSON Results: [`experiments/rag_mock_results.json`](file:///Users/hrishabh/BITS_MDS_Assignment_02/experiments/rag_mock_results.json)
@@ -183,16 +198,21 @@ Outputs generated:
 - Evaluation CSV Table: [`experiments/rag_mock_evaluation.csv`](file:///Users/hrishabh/BITS_MDS_Assignment_02/experiments/rag_mock_evaluation.csv)
 - Human-Readable Markdown Report: [`experiments/rag_mock_results.md`](file:///Users/hrishabh/BITS_MDS_Assignment_02/experiments/rag_mock_results.md)
 
-### B. Live Inference with Local Ollama
+### B. Live Real Inference with Local Ollama
 ```bash
 # 1. Pull the model locally
 ollama pull llama3.2
 
-# 2. Run the script (automatically detects active Ollama daemon)
-PYTHONPATH=. .venv/bin/python scripts/run_rag.py
+# 2. Run the script enforcing live LLM execution
+PYTHONPATH=. .venv/bin/python scripts/run_rag.py --mode real
 ```
+Outputs generated:
+- Real Structured JSON Results: [`experiments/rag_real_results.json`](file:///Users/hrishabh/BITS_MDS_Assignment_02/experiments/rag_real_results.json)
+- Real Context vs. Baseline Comparison: [`experiments/rag_real_context_vs_baseline.json`](file:///Users/hrishabh/BITS_MDS_Assignment_02/experiments/rag_real_context_vs_baseline.json)
+- Real Evaluation CSV Table: [`experiments/rag_real_evaluation.csv`](file:///Users/hrishabh/BITS_MDS_Assignment_02/experiments/rag_real_evaluation.csv)
+- Real Markdown Report: [`experiments/rag_real_results.md`](file:///Users/hrishabh/BITS_MDS_Assignment_02/experiments/rag_real_results.md)
 
-### C. Live Inference with OpenAI-compatible API
+### C. Live Real Inference with OpenAI-compatible API
 ```bash
 # 1. Set environment variables in .env
 LLM_PROVIDER=external
@@ -200,8 +220,8 @@ EXTERNAL_API_KEY=your_key_here
 EXTERNAL_API_BASE_URL=https://api.openai.com/v1
 EXTERNAL_MODEL_NAME=gpt-4o-mini
 
-# 2. Run the script
-PYTHONPATH=. .venv/bin/python scripts/run_rag.py
+# 2. Run the script enforcing live real execution
+PYTHONPATH=. .venv/bin/python scripts/run_rag.py --mode real --provider openai
 ```
 
 ---
@@ -219,3 +239,4 @@ PYTHONPATH=. .venv/bin/python scripts/run_rag.py
 
 ---
 *Generated and verified as part of BITS Pilani Modern Database Systems Assignment 2 (Phase 6).*
+

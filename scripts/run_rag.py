@@ -8,11 +8,12 @@ Computes citation coverage, grounding fidelity, safety disclaimer adherence,
 and exports comprehensive JSON, CSV, and Markdown evaluation artifacts.
 """
 
+import argparse
 from datetime import datetime, timezone
 import json
 from pathlib import Path
 import time
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 from src.config import BASE_DIR, EXPERIMENTS_DIR, QUERIES_FILE
 from src.llm_provider import get_llm_provider
@@ -33,13 +34,45 @@ def load_assignment_queries() -> List[Dict[str, Any]]:
     return queries
 
 
+def parse_arguments() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Execute RAG & Baseline queries.")
+    parser.add_argument(
+        "--mode",
+        choices=["auto", "real", "mock"],
+        default="auto",
+        help="Execution mode: 'real' enforces live LLM (fails if unavailable), 'mock' uses MockLLMProvider, 'auto' attempts real with fallback."
+    )
+    parser.add_argument(
+        "--provider",
+        choices=["ollama", "openai", "mock"],
+        default=None,
+        help="Explicit LLM provider override."
+    )
+    return parser.parse_args()
+
+
 def main():
+    args = parse_arguments()
     logger.info("=" * 70)
-    logger.info("STARTING PHASE 6: RETRIEVAL-AUGMENTED GENERATION (RAG)")
+    logger.info(f"STARTING PHASE 6/6.1: RETRIEVAL-AUGMENTED GENERATION (Mode: {args.mode.upper()})")
     logger.info("=" * 70)
 
-    # 1. Resolve LLM provider
-    provider = get_llm_provider(allow_mock_fallback=True)
+    # 1. Resolve LLM provider based on mode
+    allow_fallback = (args.mode != "real")
+    target_provider = args.provider
+    if args.mode == "mock":
+        target_provider = "mock"
+
+    try:
+        provider = get_llm_provider(
+            provider_name=target_provider,
+            allow_mock_fallback=allow_fallback,
+        )
+    except RuntimeError as e:
+        logger.error(f"FATAL: Real LLM provider requested but unavailable: {e}")
+        logger.error("Configuration pending. Ensure Ollama model is downloaded or EXTERNAL_API_KEY is set in .env.")
+        raise SystemExit(1)
+
     is_real = (provider.generation_mode == "real")
     logger.info(
         f"Active LLM Provider: '{provider.name}' | Model: '{provider.model_name}' | "
@@ -48,8 +81,7 @@ def main():
 
     if not is_real:
         logger.warning(
-            "NOTICE: Real LLM daemon/API not available in current environment. "
-            "Running deterministic MockLLMProvider for offline grading and CI test verification. "
+            "NOTICE: Running deterministic MockLLMProvider for offline grading and CI test verification. "
             "To execute live inference: 1) run 'ollama pull llama3.2' locally, or 2) set EXTERNAL_API_KEY in .env."
         )
 
@@ -93,7 +125,7 @@ def main():
     logger.info(f"\nExecuted all 10 queries across RAG and Baseline in {total_time}s.")
 
     # 3. Determine output file paths
-    prefix = "" if is_real else "mock_"
+    prefix = "real_" if is_real else "mock_"
     json_rag_path = EXPERIMENTS_DIR / f"rag_{prefix}results.json"
     json_comp_path = EXPERIMENTS_DIR / f"rag_{prefix}context_vs_baseline.json"
     csv_eval_path = EXPERIMENTS_DIR / f"rag_{prefix}evaluation.csv"
@@ -232,3 +264,4 @@ def generate_rag_markdown_report(payload: Dict[str, Any], output_path: Path) -> 
 
 if __name__ == "__main__":
     main()
+
