@@ -24,3 +24,7 @@ tqdm>=4.66.0
 # Testing & Code Quality
 pytest>=8.0.0
 pytest-cov>=5.0.0
+
+# Academic Reporting & Export
+python-docx>=1.2.0
+reportlab>=5.1.0
