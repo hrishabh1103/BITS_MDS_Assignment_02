@@ -11,7 +11,7 @@
 5. Rupesh Kumar Singh (2026NS12128)  
 **Date of Audit:** November 2026  
 **Repository Branch:** `main`  
-**Verified Commit Hash:** `0c889c1`  
+**Verified Commit Hash:** `274cf92`  
 **Remote Git URL:** `https://github.com/hrishabh1103/BITS_MDS_Assignment_02.git`  
 
 ---
@@ -66,7 +66,7 @@
 ### 2.4 Code & Configuration Gate
 - [x] Zero secrets or API keys staged or committed. `.env` is protected by `.gitignore`.
 - [x] Clean Git working tree on `main` branch.
-- [x] Remote GitHub repository synchronized at commit [`0c889c1`](https://github.com/hrishabh1103/BITS_MDS_Assignment_02/commit/0c889c1).
+- [x] Remote GitHub repository synchronized at commit [`274cf92`](https://github.com/hrishabh1103/BITS_MDS_Assignment_02/commit/274cf92).
 
 ---
 
