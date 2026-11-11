@@ -3,7 +3,7 @@
 **Course:** BITS Pilani WILP — Modern Database Systems  
 **Assignment:** Assignment 2 (Persistent Vector Databases & Grounded RAG)  
 **Project:** Vehicle Troubleshooting Assistant using ChromaDB and Retrieval-Augmented Generation  
-**Verified Commit:** `274cf92`  
+**Verified Commit:** `a073712`  
 **Date of Audit:** November 2026  
 **Group Number:** Group 20  
 **Group Members (5 Confirmed):**

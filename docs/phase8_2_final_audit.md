@@ -21,8 +21,8 @@ All overclaims identified in earlier draft iterations have been systematically c
 
 In accordance with Phase 8.2 audit protocols, the actual Git repository state was inspected directly via Git plumbing commands:
 
-- **Local HEAD Commit:** `274cf9210e346b18af2311f5eb591ac29b99a197` (short: `274cf92`)
-- **Remote `origin/main` Commit:** `274cf9210e346b18af2311f5eb591ac29b99a197` (short: `274cf92`)
+- **Local HEAD Commit:** `a07371217e6e5fe91f56a59966d9c6ca160b73c4` (short: `a073712`)
+- **Remote `origin/main` Commit:** `a07371217e6e5fe91f56a59966d9c6ca160b73c4` (short: `a073712`)
 - **Remote Repository URL:** `https://github.com/hrishabh1103/BITS_MDS_Assignment_02.git`
 - **Synchronization Status:** Identical and synchronized (zero unpushed commits, zero uncommitted changes).
 - **Commit Reference Update:** Hardcoded references to outdated commits (`1a78cbb` and `0c889c1`) have been replaced across the PDF report, DOCX report, requirement matrix, and submission checklist with dynamic resolution of `274cf92`.
