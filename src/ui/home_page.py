@@ -3,7 +3,7 @@
 import streamlit as st
 
 from src.config import CHROMA_COLLECTION_NAME, DEFAULT_EMBEDDING_MODEL
-from src.ui.components import get_cached_chroma_manager
+from src.ui.components import get_cached_chroma_manager, get_cached_rag_pipeline
 
 
 def render_home_page() -> None:
@@ -18,6 +18,8 @@ def render_home_page() -> None:
 
     chroma_mgr = get_cached_chroma_manager()
     record_count = chroma_mgr.get_count()
+    rag = get_cached_rag_pipeline()
+    gen_mode = getattr(rag.llm_provider, "generation_mode", "unknown")
 
     # Top KPI Metrics row
     col1, col2, col3, col4 = st.columns(4)
@@ -38,10 +40,10 @@ def render_home_page() -> None:
     with col3:
         st.metric(
             label="Language Model Provider",
-            value="Llama 3.2 (3B)",
-            delta="Ollama (Local)",
-            delta_color="off",
-            help="Meta Llama 3.2 3B model executed via local Ollama daemon",
+            value="Llama 3.2 (3B)" if gen_mode == "real" else "Mock Fallback",
+            delta="Ollama (Live)" if gen_mode == "real" else "Ollama Offline (Simulated)",
+            delta_color="normal" if gen_mode == "real" else "off",
+            help="Real Ollama Llama 3.2 local daemon or fallback MockLLMProvider",
         )
     with col4:
         st.metric(

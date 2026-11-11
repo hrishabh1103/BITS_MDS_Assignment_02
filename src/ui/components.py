@@ -234,6 +234,15 @@ def render_sidebar_status() -> None:
     with col2:
         st.metric("Embed Dims", "384")
 
+    # Inspect active LLM provider dynamically
+    rag = get_cached_rag_pipeline()
+    provider = rag.llm_provider
+    gen_mode = getattr(provider, "generation_mode", "unknown")
+    if gen_mode == "real":
+        provider_badge = f"<span style='color:#16A34A; font-weight:600;'>● Live ({provider.name})</span><br/><code>{provider.model_name}</code>"
+    else:
+        provider_badge = f"<span style='color:#DC2626; font-weight:600;'>⚠️ Simulated Fallback</span><br/><code>Ollama Daemon Offline</code>"
+
     st.sidebar.markdown(
         f"""
         <div class="sidebar-section">
@@ -241,8 +250,8 @@ def render_sidebar_status() -> None:
             <code>{CHROMA_COLLECTION_NAME}</code><br/>
             <strong>Embedding Model:</strong><br/>
             <code>all-MiniLM-L6-v2</code><br/>
-            <strong>Active LLM Provider:</strong><br/>
-            <code>Ollama (llama3.2:latest)</code>
+            <strong>LLM Provider Status:</strong><br/>
+            {provider_badge}
         </div>
         """,
         unsafe_allow_html=True,

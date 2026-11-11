@@ -180,3 +180,74 @@ def test_provider_error_handling():
     res = pipeline.query("test query")
     assert res["execution_status"] == "failed"
     assert "Simulated network failure" in res["error_message"]
+
+
+def test_airbag_battery_disconnection_not_sufficient_alone():
+    """Verifies requirement: battery disconnect is NOT presented as sufficient by itself to make SRS safe."""
+    triggers = {"srs_airbag": True}
+    alerts = generate_safety_alerts(triggers)
+    srs_alerts = [a for a in alerts if a.category == "SRS_AIRBAG"]
+    assert len(srs_alerts) == 1
+    action = srs_alerts[0].recommended_action
+    assert "not sufficient by itself" in action.lower() or "not sufficient" in action.lower()
+    assert "ase-certified" in action.lower()
+    assert "dummy load" in action.lower() or "certified" in action.lower()
+
+
+def test_high_voltage_class0_gloves_alone_not_sufficient():
+    """Verifies requirement: Class-0 gloves alone do NOT make high-voltage work safe, and unqualified users are not encouraged."""
+    triggers = {"high_voltage_ev": True, "ice_12v_battery_mismatch": False}
+    alerts = generate_safety_alerts(triggers)
+    hv_alerts = [a for a in alerts if a.category == "HIGH_VOLTAGE_EV"]
+    assert len(hv_alerts) == 1
+    msg = hv_alerts[0].message
+    assert "does not make high-voltage work safe" in msg.lower() or "not make high-voltage work safe" in msg.lower()
+    action = hv_alerts[0].recommended_action
+    assert "do not attempt diy" in action.lower() or "exclusively to certified" in action.lower()
+
+
+def test_cooling_warning_no_arbitrary_45min_period():
+    """Verifies requirement: cooling warnings do NOT prescribe an arbitrary universal 45-minute waiting period."""
+    triggers = {"cooling_thermal": True}
+    alerts = generate_safety_alerts(triggers)
+    thermal_alerts = [a for a in alerts if a.category == "THERMAL_SCALD"]
+    assert len(thermal_alerts) == 1
+    action = thermal_alerts[0].recommended_action
+    assert "do not rely on an arbitrary" in action.lower()
+    assert "cold to the touch" in action.lower()
+    assert "zero" in action.lower() and "pressure" in action.lower()
+
+
+def test_false_positive_catalytic_and_torque_converter():
+    """Verifies that words like 'catalytic converter' or 'torque converter' do NOT trigger high-voltage EV alerts."""
+    cat_query = "Check engine light on with DTC P0420 catalytic converter system efficiency below threshold"
+    triggers_cat = detect_safety_triggers(query=cat_query, retrieved_docs=[])
+    assert triggers_cat["high_voltage_ev"] is False, "High voltage EV triggered falsely on catalytic converter!"
+
+    tc_query = "Automatic transmission exhibits torque converter clutch slip at highway cruising speeds"
+    triggers_tc = detect_safety_triggers(query=tc_query, retrieved_docs=[])
+    assert triggers_tc["high_voltage_ev"] is False, "High voltage EV triggered falsely on torque converter!"
+
+
+def test_false_positive_washer_fluid_and_ac_floorboard():
+    """Verifies that non-brake fluids and floorboard water leaks do NOT trigger brake failure alerts."""
+    washer_query = "Windshield washer fluid leak under front bumper after topping off fluid reservoir"
+    triggers_washer = detect_safety_triggers(query=washer_query, retrieved_docs=[])
+    assert triggers_washer["braking_hydraulic"] is False, "Brake failure triggered falsely on washer fluid leak!"
+
+    floorboard_query = "Water pooling on passenger floorboard carpet due to clogged air conditioning evaporator drain"
+    triggers_floor = detect_safety_triggers(query=floorboard_query, retrieved_docs=[])
+    assert triggers_floor["braking_hydraulic"] is False, "Brake failure triggered falsely on AC drain floorboard leak!"
+
+
+def test_ordinary_unrelated_queries_produce_zero_safety_alerts():
+    """Verifies that clean everyday vehicle queries produce zero active safety alerts."""
+    unrelated_queries = [
+        "Tire pressure monitoring system TPMS light flashing after seasonal wheel change",
+        "Engine misfire at idle with DTC P0300 random multiple cylinder misfire",
+        "Vehicle pull to the right during straight line cruising due to wheel alignment",
+    ]
+    for q in unrelated_queries:
+        triggers = detect_safety_triggers(query=q, retrieved_docs=[])
+        alerts = generate_safety_alerts(triggers)
+        assert len(alerts) == 0, f"False safety alert generated for ordinary query: '{q}'"

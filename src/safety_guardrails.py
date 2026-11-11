@@ -31,11 +31,12 @@ SRS_AIRBAG_KEYWORDS = [
 ]
 SRS_AIRBAG_DTC_PREFIXES = ["B000", "B001", "B002", "B003", "B004", "B005", "B006", "B007", "B008", "B009", "U047"]
 
-# High-voltage EV / Hybrid indicators
+# High-voltage EV / Hybrid indicators (strictly HV-specific; generic 'converter' excluded to avoid catalytic/torque converter false positives)
 HV_EV_KEYWORDS = [
-    "high voltage", "high-voltage", "hvil", "traction battery", "inverter", "converter",
-    "hybrid battery", "ev battery", "electric vehicle", "battery charger 14 v", "onboard charger",
-    "hv interlock", "high potential", "dc-dc converter"
+    "high voltage", "high-voltage", "hvil", "traction battery", "traction inverter",
+    "power inverter", "hybrid inverter", "dc-dc converter", "ac-dc converter",
+    "high-voltage converter", "hybrid battery", "ev battery", "electric vehicle",
+    "battery charger 14 v", "onboard charger", "hv interlock", "high potential"
 ]
 HV_EV_DTC_PREFIXES = ["P0B", "P0C", "P0D", "P1A", "P1B"]
 
@@ -45,17 +46,18 @@ ICE_12V_DRAIN_KEYWORDS = [
     "alternator charging", "alternator", "12v battery", "discharging overnight"
 ]
 
-# Hydraulic braking failure indicators
+# Hydraulic braking failure indicators (strictly brake-hydraulic; generic 'floorboard' and 'fluid leak' qualified)
 BRAKE_HAZARD_KEYWORDS = [
-    "pedal sinks", "pedal sinking", "sinking to floor", "sinks slowly", "floorboard",
-    "soft pedal", "spongy pedal", "pedal goes to floor", "loss of braking", "brake failure",
-    "fluid leak", "master cylinder bypass"
+    "pedal sinks", "pedal sinking", "sinking to floor", "sinks slowly", "pedal to floorboard",
+    "sinks to floorboard", "pedal goes to floorboard", "soft pedal", "spongy pedal",
+    "pedal goes to floor", "loss of braking", "brake failure", "brake fluid leak",
+    "master cylinder bypass"
 ]
 
 # Thermal / cooling system indicators
 COOLING_SCALD_KEYWORDS = [
-    "overheating", "overheat", "boiling coolant", "steam", "hot coolant", "coolant reservoir",
-    "radiator cap", "coolant boiling", "coolant blowing"
+    "overheating", "overheat", "boiling coolant", "steam from radiator", "steam under hood",
+    "hot coolant", "coolant boiling", "coolant blowing", "radiator cap"
 ]
 
 
@@ -71,13 +73,20 @@ def detect_safety_triggers(
         for d in retrieved_docs
     ])
 
-    # 1. SRS / Airbag Detection (Targeted keywords or specific SRS DTCs, NOT any B-code)
-    has_srs_query = any(k in q_lower for k in SRS_AIRBAG_KEYWORDS)
+    # 1. SRS / Airbag Detection (Targeted keywords or specific SRS DTCs, NOT any generic B-code)
+    # Use word boundary checks for short acronyms like 'srs' to avoid substring accidents
+    has_srs_query = any(
+        bool(re.search(r"\b" + re.escape(k) + r"\b", q_lower)) if len(k) <= 4 else (k in q_lower)
+        for k in SRS_AIRBAG_KEYWORDS
+    )
     has_srs_dtc = any(
         any(doc.get("diagnostic_codes", "").startswith(prefix) for prefix in SRS_AIRBAG_DTC_PREFIXES)
         for doc in retrieved_docs
     )
-    has_srs_doc_text = any(k in docs_text for k in SRS_AIRBAG_KEYWORDS)
+    has_srs_doc_text = any(
+        bool(re.search(r"\b" + re.escape(k) + r"\b", docs_text)) if len(k) <= 4 else (k in docs_text)
+        for k in SRS_AIRBAG_KEYWORDS
+    )
     is_srs = has_srs_query or (has_srs_dtc and has_srs_doc_text)
 
     # 2. High-Voltage EV Detection
@@ -91,17 +100,25 @@ def detect_safety_triggers(
 
     # 3. ICE 12V Battery Drain vs. EV Charger Context Mismatch
     is_12v_drain_query = any(k in q_lower for k in ICE_12V_DRAIN_KEYWORDS)
-    is_ice_vehicle = (vehicle_type == "ICE") or ("alternator" in q_lower and vehicle_type != "EV")
+    is_explicit_ev = (vehicle_type in ("EV", "Hybrid")) or any(
+        k in q_lower for k in ["hybrid", "ev", "electric vehicle", "traction battery"]
+    )
+    is_ice_vehicle = (vehicle_type == "ICE") or (not is_explicit_ev)
     # If the user asks about an ordinary 12V drain/alternator but context contains high-voltage EV charger codes
-    is_mismatch = is_12v_drain_query and is_ice_vehicle and has_hv_dtc
+    is_mismatch = is_12v_drain_query and is_ice_vehicle and (has_hv_dtc or any(
+        "battery charger 14 v" in (doc.get("title", "") + " " + doc.get("document", "")).lower()
+        for doc in retrieved_docs
+    ))
 
     # 4. Braking Hydraulic Hazard Detection
     is_braking = any(k in q_lower for k in BRAKE_HAZARD_KEYWORDS) or (
-        "brake" in q_lower and ("sink" in q_lower or "floor" in q_lower or "soft" in q_lower or "leak" in q_lower)
+        "brake" in q_lower and any(w in q_lower for w in ["sink", "floor", "soft", "leak"])
     )
 
     # 5. Thermal Scald / Overheating Detection
-    is_cooling = any(k in q_lower for k in COOLING_SCALD_KEYWORDS)
+    is_cooling = any(k in q_lower for k in COOLING_SCALD_KEYWORDS) or (
+        "coolant reservoir" in q_lower and any(w in q_lower for w in ["hot", "boil", "steam", "overheat", "cap", "open"])
+    )
 
     return {
         "srs_airbag": is_srs,
@@ -131,8 +148,12 @@ def generate_safety_alerts(triggers: Dict[str, Any]) -> List[SafetyAlert]:
                 "official OEM service manuals."
             ),
             recommended_action=(
-                "Immediately disconnect the 12V battery negative terminal and wait at least 3 minutes to discharge the "
-                "SRS backup power capacitor before touching any restraint wiring. Refer diagnostics to an ASE-certified technician."
+                "Battery disconnection is a mandatory initial step but is NOT sufficient by itself to ensure safety. "
+                "Restraint systems maintain capacitive backup power reserves whose discharge times vary widely across OEMs, "
+                "feature sensitive internal shorting bars, and can be detonated by electrostatic discharge (ESD) or mechanical shock. "
+                "Unqualified personnel must NEVER probe, touch, or attempt service on pyrotechnic squibs or restraint circuitry. "
+                "All diagnostic checks must be performed exclusively by qualified, ASE-certified technicians using OEM-approved "
+                "dummy load simulators and factory service procedures."
             ),
         ))
 
@@ -143,13 +164,16 @@ def generate_safety_alerts(triggers: Dict[str, Any]) -> List[SafetyAlert]:
             severity="DANGER",
             title="DANGER: High-Voltage Hybrid/Electric Vehicle System (300V - 800V DC)",
             message=(
-                "High-voltage hybrid and electric vehicle systems carry lethal DC potentials (300V–800V). "
-                "NEVER touch, probe, or cut orange high-voltage cables. NEVER open traction inverters, DC-DC converters, "
-                "or high-voltage battery enclosures without Class 0 (1,000V rated) insulated gloves and an official manual disconnect."
+                "High-voltage hybrid and electric vehicle systems operate at lethal direct-current potentials (300V–800V+). "
+                "NEVER touch, probe, cut, or handle orange high-voltage cables, and NEVER open traction inverters, DC-DC converters, "
+                "or high-voltage battery enclosures. Personal Protective Equipment (PPE) such as Class 0 (1,000V rated) insulated gloves "
+                "alone DOES NOT make high-voltage work safe for unqualified personnel, nor does manual service disconnect removal guarantee "
+                "the absence of hazardous residual bus capacitance. High-voltage systems require factory-certified EV technicians trained in "
+                "NFPA 70E / ISO 6469 safety standards, CAT III/IV 1000V zero-energy verification procedures, and lockout/tagout (LOTO) protocols."
             ),
             recommended_action=(
-                "High-voltage diagnostics must be performed exclusively by qualified EV technicians following factory high-voltage "
-                "isolation and lockout/tagout (LOTO) protocols."
+                "Do NOT attempt DIY service or probing on high-voltage components. Refer all high-voltage diagnostics and repairs "
+                "exclusively to certified electric/hybrid vehicle technicians at an authorized repair facility."
             ),
         ))
 
@@ -179,12 +203,12 @@ def generate_safety_alerts(triggers: Dict[str, Any]) -> List[SafetyAlert]:
             title="CRITICAL SAFETY HAZARD: Hydraulic Brake Failure — DO NOT DRIVE",
             message=(
                 "A brake pedal sinking slowly to the floorboard at red lights indicates an internal master cylinder piston seal bypass, "
-                "air in the hydraulic lines, or an external fluid leak. The vehicle is UNSAFE TO DRIVE and represents an immediate catastrophic "
+                "air in the hydraulic lines, or an external brake fluid leak. The vehicle is UNSAFE TO DRIVE and represents an immediate catastrophic "
                 "stopping failure risk on public roads. Do not assume the brakes are functional because an ABS code is present."
             ),
             recommended_action=(
-                "Do NOT drive the vehicle under any circumstances. Have the vehicle towed to an ASE-certified repair facility "
-                "for master cylinder replacement, hydraulic pressure testing, and professional bleeding."
+                "DO NOT DRIVE THE VEHICLE UNDER ANY CIRCUMSTANCES. Have the vehicle immediately towed to an ASE-certified repair facility "
+                "for master cylinder replacement, hydraulic pressure testing, and professional pressure bleeding."
             ),
         ))
 
@@ -200,8 +224,10 @@ def generate_safety_alerts(triggers: Dict[str, Any]) -> List[SafetyAlert]:
                 "will cause boiling coolant to erupt instantly, causing severe third-degree burns."
             ),
             recommended_action=(
-                "Allow the vehicle to cool down for at least 45 to 60 minutes until hoses are cool to the touch before checking "
-                "coolant level or inspecting cooling system components."
+                "Do NOT rely on an arbitrary universal elapsed time (such as 45 minutes) to assume the system is safe. "
+                "Verify the cooling system has cooled completely by checking that the upper radiator hose is completely cold to the touch "
+                "and exhibits zero hydraulic pressure when squeezed, and the dashboard temperature gauge reads ambient. "
+                "Only when verified fully cold and depressurized should the pressure cap be slowly loosened using a thick shop towel."
             ),
         ))
 
@@ -217,15 +243,25 @@ def build_safety_augmented_instructions(triggers: Dict[str, Any]) -> str:
             "CRITICAL SRS/AIRBAG DIRECTIVE: This query involves Supplemental Restraint Systems. "
             "You MUST explicitly forbid the user or technician from measuring resistance with an ohmmeter across airbag squibs "
             "or applying external test voltage. Warn that standard meter currents trigger accidental pyrotechnic deployment. "
-            "Instruct that SRS disarming and service procedures must strictly follow OEM service manuals."
+            "Instruct that battery disconnection is NOT sufficient by itself to ensure safety, and that SRS disarming and service "
+            "procedures must strictly follow OEM service manuals by certified technicians."
+        )
+
+    if triggers.get("high_voltage_ev") and not triggers.get("ice_12v_battery_mismatch"):
+        rules.append(
+            "CRITICAL HIGH-VOLTAGE DIRECTIVE: This query involves high-voltage (300V-800V+) hybrid or EV systems. "
+            "You MUST state unequivocally that high-voltage systems pose lethal shock hazards. "
+            "Do NOT provide instructions encouraging unqualified users to open high-voltage enclosures or handle orange cables. "
+            "Explicitly note that Class-0 gloves alone do NOT make high-voltage work safe without certified lockout/tagout and zero-energy verification. "
+            "Mandate that all high-voltage service be performed exclusively by certified high-voltage technicians."
         )
 
     if triggers.get("ice_12v_battery_mismatch"):
         rules.append(
             "CRITICAL DOMAIN MISMATCH DIRECTIVE: The query is an ordinary 12V battery drain on an internal combustion engine (ICE) "
             "vehicle with an alternator. You MUST explicitly state that any retrieved EV/Hybrid high-voltage interlock codes "
-            "(such as P0D17, P0D46, P0D23) are NOT applicable to this vehicle. Instruct standard 12V parasitic draw testing "
-            "(fuse millivolt drop / inline ammeter check) instead."
+            "(such as P0D17, P0D46, P0D23) are NOT applicable to this vehicle and must NOT be used for diagnosis. "
+            "Instruct standard 12V parasitic draw testing (fuse millivolt drop / inline ammeter check) instead."
         )
 
     if triggers.get("braking_hydraulic"):
@@ -238,7 +274,8 @@ def build_safety_augmented_instructions(triggers: Dict[str, Any]) -> str:
     if triggers.get("cooling_thermal"):
         rules.append(
             "CRITICAL COOLING SAFETY DIRECTIVE: Warn never to open a hot, pressurized coolant reservoir cap due to explosive "
-            "steam and scald burn hazards. Advise allowing the vehicle to cool down for at least 45 minutes."
+            "steam and scald burn hazards. Advise waiting until the upper radiator hose is completely cold to the touch and depressurized, "
+            "rather than prescribing an arbitrary universal 45-minute elapsed time."
         )
 
     if not rules:

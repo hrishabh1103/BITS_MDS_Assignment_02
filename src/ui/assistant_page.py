@@ -133,7 +133,21 @@ def render_assistant_page() -> None:
                 "guarded against incorrectly attributing 12V issues to EV high-voltage loops."
             )
 
-        # 3. Truncation Disclaimer
+        # 3. Provider Availability and Simulation Notice
+        if res.get("generation_mode") == "mock":
+            st.warning(
+                "⚠️ **Ollama Local Service Unavailable — Simulated Response Active**: "
+                "The local Ollama server is not running on localhost:11434. "
+                "This response was generated using **MockLLMProvider** for offline demonstration. "
+                "Mock outputs are deterministic simulations and are NEVER silently presented as real LLM inference."
+            )
+        elif res.get("generation_mode") == "real":
+            st.success(
+                f"✅ **Live LLM Output**: Generated via real provider `{res.get('llm_provider')}` "
+                f"using model `{res.get('llm_model')}`."
+            )
+
+        # 4. Truncation Disclaimer
         if res.get("is_truncated"):
             st.error(
                 f"⚠️ **Response Truncated**: Model output reached the configured token limit ({max_tokens} tokens). "
