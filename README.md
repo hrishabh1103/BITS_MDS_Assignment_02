@@ -124,49 +124,106 @@ flowchart TD
 # Clone or enter workspace
 cd BITS_MDS_Assignment_02
 
-# Create virtual environment (Python 3.11 recommended)
+# Create and activate virtual environment (Python 3.11 recommended)
 python3.11 -m venv .venv
 source .venv/bin/activate
 
 # Install dependencies
 pip install -r requirements.txt
 
-# Copy environment configuration
+# Configure environment variables (optional; defaults to local Ollama)
 cp .env.example .env
 ```
 
-### 2. Execution Pipeline
+### 2. Ollama Local LLM Setup (Optional for Live Inference)
+
+The application supports both offline Mock mode (for CI/grading) and live real inference via Ollama:
 
 ```bash
-# Step 1: Ingest, preprocess, and validate dataset (>= 5,000 records)
-python scripts/prepare_dataset.py
+# Install and start Ollama (macOS / Linux)
+# Pull the recommended lightweight 3.2B parameter model
+ollama pull llama3.2
 
-# Step 2: Build ChromaDB persistent index & embeddings
-python scripts/build_database.py
+# Verify installation
+ollama list
+# Output should list: llama3.2:latest (2.0 GB)
+```
 
-# Step 3: Run semantic queries and metadata tests
-python scripts/run_queries.py
+### 3. Launching the Streamlit Application (Phase 7)
 
-# Step 4: Run exhaustive NumPy similarity comparison (Euclidean, Cosine, Dot)
-python scripts/run_similarity_comparison.py
-# (or: python scripts/run_experiments.py)
-
-# Step 5: Execute RAG evaluation & Context vs No-Context benchmarks
-python scripts/run_rag.py
-
-# Step 6: Validate the entire project against assignment rubrics
-python scripts/validate_project.py
-
-# Step 7: Launch Streamlit Application
+```bash
+# Launch the multi-page application
 streamlit run app.py
+```
+Open your browser at `http://localhost:8501`.
+
+---
+
+## Streamlit Application Pages (Phase 7)
+
+The application provides a 5-page analytical interface:
+
+1. **🏠 Home / Dashboard (`src/ui/home_page.py`)**:
+   - Executive metrics: 9,532 indexed records, 384 embedding dims, active Ollama LLM status, 10 assignment benchmark queries.
+   - Project objective and anti-hallucination motivation.
+   - Overview of the 5 backend automotive safety guardrails.
+   - Interactive RAG workflow architecture diagram.
+
+2. **🔧 Troubleshooting Assistant (`src/ui/assistant_page.py`)**:
+   - Natural language driver symptom input with one-click benchmark preset buttons (Q01, Q03, Q04, Q09, Q10).
+   - Vehicle powertrain selector (`ICE`, `Hybrid`, `EV`, `Unknown`) and optional make/model/year metadata.
+   - Tunable retrieval cutoff ($K$: 1–10) and configurable max output tokens (512–2048).
+   - Prominent automotive safety alert banners (SRS squib hazards, 400V EV loops, sinking brake pedals).
+   - Domain mismatch notice (e.g. 12V ICE alternator drain vs. EV charger codes).
+   - Grounded diagnostic answer with verified `[VTR-XXXXX]` source record badges and truncation warnings.
+   - Expandable retrieved diagnostic knowledge cards with Cosine distances and similarity scores.
+
+3. **🔍 Semantic Search Explorer (`src/ui/search_page.py`)**:
+   - Direct dense vector retrieval over 9,532 ChromaDB records.
+   - Compound metadata filtering ($and logic across `vehicle_system` and `severity`).
+   - Card view vs. interactive tabular dataframe view with distance ordering.
+
+4. **📊 Evaluation Dashboard (`src/ui/evaluation_page.py`)**:
+   - **Tab 1**: Phase 6.1 Real RAG vs. Baseline benchmark table (Q01–Q10) with side-by-side response inspector.
+   - **Tab 2**: Citation Fidelity & Anti-Hallucination analysis (Precision: 100%, Recall: 96%; reference provenance vs. factual truth).
+   - **Tab 3**: Phase 5 NumPy exhaustive metric comparisons (Euclidean L2 vs. Cosine vs. Dot Product; exact linear scan vs. HNSW).
+   - **Tab 4**: Phase 4 dense retrieval top-K benchmark distributions and filter tests.
+
+5. **📖 About & Dataset Provenance (`src/ui/about_page.py`)**:
+   - Zenodo (`15626055`) and OBDex knowledge base provenance under CC0 1.0 Public Domain license.
+   - Record distribution tables and interactive bar charts across subsystems and severity tiers.
+   - Full-stack technical architecture diagram.
+   - Correlation vs. causation boundaries in OBD-II diagnostics.
+
+---
+
+## Backend Automotive Safety Guardrails (`src/safety_guardrails.py`)
+
+1. **Supplemental Restraint Systems (SRS / Airbag)**:
+   - Targeted detection of airbag, clock spring, and squib queries (does NOT trigger on generic B-codes).
+   - Forbids ohmmeter / multimeter resistance checks across squib terminals (meter current triggers pyrotechnic detonation).
+2. **High-Voltage Hybrid/EV Loops**:
+   - Warns against touching orange 300V–800V cables or opening battery enclosures without Class-0 PPE.
+3. **ICE 12V Battery Drain vs. EV Charger Mismatch**:
+   - Detects when ordinary 12V alternator drains retrieve hybrid/EV high-voltage charger codes, preventing false EV diagnostics.
+4. **Hydraulic Braking System Safety**:
+   - Detects sinking/soft brake pedals, classifies vehicle as UNSAFE TO DRIVE, and mandates immediate towing.
+5. **Thermal Cooling Scald Hazards**:
+   - Warns never to open a hot pressurized radiator or reservoir cap due to explosive steam and burn risks.
+
+---
+
+## Running the Automated Test Suite
+
+```bash
+# Run all 68 automated unit, integration, and safety tests
+PYTHONPATH=. .venv/bin/pytest tests/ -v
 ```
 
 ---
 
-## Assignment Features
+## Known System Limitations
 
-- **Authenticated Dataset**: Strict volume requirement ($\ge 5,000$ unique automotive records) with verifiable provenance.
-- **Local Persistent Vector Store**: ChromaDB database persisted to disk with verified reload and isolated CRUD testing.
-- **Exhaustive Mathematical Similarity**: Rigorous NumPy computation of Euclidean ($L_2$), Cosine similarity, and Dot-Product across all records for $K=5$ and $K=10$.
-- **Retrieval-Augmented Generation (RAG)**: Context-grounded LLM generation with verbatim document citations and side-by-side Context vs. No-Context comparisons.
-- **Interactive UI**: Streamlit 7-page analytical dashboard.
+1. **Reference Provenance vs. Factual Truth**: Citation Precision measures whether cited IDs exist in the retrieved context set (guarding against hallucinated IDs). It does not evaluate mechanical correctness.
+2. **Correlation vs. Causation**: A Diagnostic Trouble Code indicates that an electrical sensor or rational parameter is out of threshold; it does not definitively prove the component has physically failed.
+3. **Token Limit Headroom**: Complex multi-system queries can exceed tight token caps; the assistant provides a configurable slider (up to 2,048 tokens) and surfaces explicit truncation notices.

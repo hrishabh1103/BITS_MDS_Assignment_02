@@ -40,11 +40,22 @@ def evaluate_safety_and_structure(answer_text: str) -> Dict[str, Any]:
     """Checks for presence of structured headers, safety disclaimers, and limitation disclosures."""
     lower_text = answer_text.lower()
 
-    # Safety disclaimer keywords
-    safety_keywords = [
-        "certified", "technician", "safety", "inspection", "hazard", "ase", "danger", "precaution", "caution"
+    # Safety disclaimer patterns (enforces whole-word boundary matching to prevent substring false-positives such as 'based' or 'case' matching 'ase')
+    safety_patterns = [
+        r"\bcertified\b",
+        r"\btechnician\b",
+        r"\bsafety\b",
+        r"\bhazard\b",
+        r"\bASE\b",
+        r"\base[- ]certified\b",
+        r"\bdanger\b",
+        r"\bprecaution\b",
+        r"\bcaution\b",
+        r"\bwarning\b",
+        r"\bprotective equipment\b",
+        r"\bppe\b",
     ]
-    has_safety = any(k in lower_text for k in safety_keywords)
+    has_safety = any(re.search(pat, answer_text, re.IGNORECASE) for pat in safety_patterns)
 
     # Limitations & uncertainty disclosure keywords
     limitation_keywords = [
