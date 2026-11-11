@@ -220,14 +220,15 @@ def generate_safety_alerts(triggers: Dict[str, Any]) -> List[SafetyAlert]:
             title="SCALD HAZARD: Pressurized High-Temperature Engine Coolant",
             message=(
                 "Engine coolant under operating conditions reaches temperatures above 100°C (212°F) under pressure (15–20 psi). "
-                "NEVER attempt to open the radiator cap, degas bottle, or coolant reservoir while the engine is hot. Rapid depressurization "
-                "will cause boiling coolant to erupt instantly, causing severe third-degree burns."
+                "NEVER attempt to open the radiator cap, degas bottle, or coolant reservoir while the cooling system is hot or pressurized. "
+                "Rapid depressurization causes boiling coolant and explosive steam to erupt instantaneously, causing severe third-degree burns. "
+                "Manual checks such as squeezing the upper radiator hose are unreliable and dangerous, as hoses can degrade, mislead under "
+                "closed thermostats, or rupture under manual pressure."
             ),
             recommended_action=(
-                "Do NOT rely on an arbitrary universal elapsed time (such as 45 minutes) to assume the system is safe. "
-                "Verify the cooling system has cooled completely by checking that the upper radiator hose is completely cold to the touch "
-                "and exhibits zero hydraulic pressure when squeezed, and the dashboard temperature gauge reads ambient. "
-                "Only when verified fully cold and depressurized should the pressure cap be slowly loosened using a thick shop towel."
+                "Never open a hot or pressurized cooling system. Wait until the engine and cooling system are completely cool. "
+                "Follow the vehicle manufacturer's official service procedure for inspection, depressurization, and cooling maintenance. "
+                "If uncertain, refer cooling system diagnosis and repair to a qualified technician."
             ),
         ))
 
@@ -273,9 +274,10 @@ def build_safety_augmented_instructions(triggers: Dict[str, Any]) -> str:
 
     if triggers.get("cooling_thermal"):
         rules.append(
-            "CRITICAL COOLING SAFETY DIRECTIVE: Warn never to open a hot, pressurized coolant reservoir cap due to explosive "
-            "steam and scald burn hazards. Advise waiting until the upper radiator hose is completely cold to the touch and depressurized, "
-            "rather than prescribing an arbitrary universal 45-minute elapsed time."
+            "CRITICAL COOLING SAFETY DIRECTIVE: Never open a hot or pressurized cooling system or radiator cap due to explosive "
+            "steam and severe scald burn hazards. Advise that users must wait until the engine and cooling system are completely cool, "
+            "strictly follow the vehicle manufacturer's official service procedure, and refer work to a qualified technician if uncertain. "
+            "Do NOT instruct users to squeeze the radiator hose or check it manually as a test for zero pressure."
         )
 
     if not rules:

@@ -206,16 +206,35 @@ def test_high_voltage_class0_gloves_alone_not_sufficient():
     assert "do not attempt diy" in action.lower() or "exclusively to certified" in action.lower()
 
 
-def test_cooling_warning_no_arbitrary_45min_period():
-    """Verifies requirement: cooling warnings do NOT prescribe an arbitrary universal 45-minute waiting period."""
+def test_cooling_warning_conservative_wording_and_no_arbitrary_time():
+    """Verifies Phase 7.2 requirement: conservative cooling safety wording without arbitrary times or unsafe hose squeezing."""
     triggers = {"cooling_thermal": True}
     alerts = generate_safety_alerts(triggers)
     thermal_alerts = [a for a in alerts if a.category == "THERMAL_SCALD"]
     assert len(thermal_alerts) == 1
-    action = thermal_alerts[0].recommended_action
-    assert "do not rely on an arbitrary" in action.lower()
-    assert "cold to the touch" in action.lower()
-    assert "zero" in action.lower() and "pressure" in action.lower()
+    action = thermal_alerts[0].recommended_action.lower()
+    msg = thermal_alerts[0].message.lower()
+
+    # Conservative required phrasing
+    assert "never open a hot or pressurized cooling system" in action
+    assert "wait until the engine and cooling system are completely cool" in action
+    assert "manufacturer" in action
+    assert "qualified technician" in action
+
+    # Unsafe hose squeezing must NOT be instructed as a reliable test
+    assert "squeezed" not in action
+    assert "squeeze" not in action
+    assert "unreliable and dangerous" in msg or "never rely on manual hose-squeezing" in msg
+
+
+def test_cooling_safety_instructions_forbid_hose_squeeze_criterion():
+    """Verifies that augmented system prompt explicitly warns LLM not to instruct hose squeezing."""
+    triggers = {"cooling_thermal": True}
+    instructions = build_safety_augmented_instructions(triggers)
+    assert "CRITICAL COOLING SAFETY DIRECTIVE" in instructions
+    assert "never open a hot or pressurized cooling system" in instructions.lower()
+    assert "completely cool" in instructions.lower()
+    assert "do not instruct users to squeeze the radiator hose" in instructions.lower()
 
 
 def test_false_positive_catalytic_and_torque_converter():
