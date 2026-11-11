@@ -144,3 +144,4 @@ def create_architecture_diagram(output_path: str = "reports/figures/system_archi
 
 if __name__ == "__main__":
     create_architecture_diagram()
+

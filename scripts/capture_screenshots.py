@@ -1,12 +1,14 @@
 """Captures genuine, authentic screenshots of the running Streamlit multi-page application.
 
-Uses Headless Google Chrome to take full-resolution screenshots directly from localhost.
+Uses Playwright with installed Google Chrome to wait for Streamlit's WebSocket connection
+and complete DOM rendering before capturing the screenshot.
 """
 
 import subprocess
 import time
 import requests
 from pathlib import Path
+from playwright.sync_api import sync_playwright
 
 
 def capture_app_screenshots():
@@ -29,7 +31,7 @@ def capture_app_screenshots():
         # Wait for server to become responsive
         url = f"http://localhost:{port}"
         started = False
-        for _ in range(15):
+        for _ in range(20):
             time.sleep(1)
             try:
                 r = requests.get(url, timeout=1)
@@ -40,28 +42,35 @@ def capture_app_screenshots():
                 pass
 
         if not started:
-            print("Failed to connect to Streamlit server within 15s")
+            print("Failed to connect to Streamlit server within 20s")
             return
 
-        print("Streamlit server is up. Capturing authentic UI screenshot...")
-        time.sleep(3)  # Allow initial component rendering
+        print("Streamlit server is up. Launching Playwright to render and capture screenshot...")
+        time.sleep(2)
 
         screenshot_path = out_dir / "streamlit_home_page.png"
-        chrome_cmd = [
-            chrome_path,
-            "--headless=new",
-            "--disable-gpu",
-            f"--window-size=1440,1080",
-            f"--screenshot={str(screenshot_path)}",
-            url
-        ]
 
-        res = subprocess.run(chrome_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        with sync_playwright() as p:
+            browser = p.chromium.launch(executable_path=chrome_path, headless=True)
+            context = browser.new_context(viewport={"width": 1440, "height": 1080})
+            page = context.new_page()
+
+            page.goto(url, wait_until="networkidle", timeout=30000)
+            # Wait for Streamlit root element and main header
+            page.wait_for_selector(".main-header", timeout=15000)
+            time.sleep(2)  # Allow charts and metrics to finish animating
+
+            page.screenshot(path=str(screenshot_path), full_page=False)
+            browser.close()
+
         if screenshot_path.exists():
-            print(f"Captured genuine screenshot: {screenshot_path} ({screenshot_path.stat().st_size} bytes)")
+            size = screenshot_path.stat().st_size
+            print(f"Successfully captured genuine, fully rendered screenshot: {screenshot_path} ({size:,} bytes)")
         else:
-            print(f"Chrome screenshot command finished with code {res.returncode}, but file not found. stderr: {res.stderr.decode('utf-8', errors='ignore')}")
+            print("Screenshot file was not created.")
 
+    except Exception as e:
+        print(f"Error capturing screenshot: {e}")
     finally:
         print("Stopping Streamlit server...")
         proc.terminate()

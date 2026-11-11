@@ -2,6 +2,13 @@
 
 **Course:** BITS Pilani WILP — Modern Database Systems (Assignment 2)  
 **Project Title:** Vehicle Troubleshooting Assistant using ChromaDB and Retrieval-Augmented Generation (RAG)  
+**Group Number:** Group 20  
+**Group Members:**
+1. Priya N (2026NS12087)
+2. Mohamed Ibrahim M (2026NS12021)
+3. Hrishabh Gupta (2026NS12122)
+4. Aditya Singhal (2026NS12028)
+5. Rupesh Kumar Singh (2026NS12128)  
 **Date of Audit:** November 2026  
 **Repository Branch:** `main`  
 **Verified Commit Hash:** `0c889c1`  
@@ -13,8 +20,8 @@
 
 | Category | Component / Artifact | Path | Status | Verification Detail |
 |:---|:---|:---|:---:|:---|
-| **Reports** | Academic Report (PDF) | `reports/Group-[number].pdf` | Ready | Professional PDF format, 20 sections, diagrams & tables included. |
-| **Reports** | Academic Report (DOCX) | `reports/Group-[number].docx` | Ready | Editable Microsoft Word format with styles, tables, and images. |
+| **Reports** | Academic Report (PDF) | `reports/Group-20.pdf` | Ready | Professional PDF format, 20 sections, diagrams & tables included. |
+| **Reports** | Academic Report (DOCX) | `reports/Group-20.docx` | Ready | Editable Microsoft Word format with styles, tables, and images. |
 | **Reports** | Requirement Matrix | `reports/requirement_evidence_matrix.md` | Ready | Traceability matrix for all 13 core assignment requirements. |
 | **Reports** | Architecture Diagram | `reports/figures/system_architecture.png` | Ready | High-res (300 DPI) end-to-end architecture flowchart. |
 | **Reports** | Genuine UI Screenshot | `reports/figures/streamlit_home_page.png` | Ready | 1440x1080 genuine screenshot from headless Chrome. |
@@ -65,10 +72,17 @@
 
 ## 3. Items Requiring Student / Group Confirmation Before Final Upload
 
-Before submitting the report through the BITS Pilani LMS portal, students must perform the following manual updates:
-1. **Group Number Replacement**:
-   - Replace placeholder `[number]` in `reports/Group-[number].pdf` and `reports/Group-[number].docx` with your official BITS Pilani assigned Group Number (e.g. `Group-12.pdf`).
+Before submitting the report through the BITS Pilani LMS portal, group members should verify:
+1. **Group Number & Details**:
+   - Confirmed as **Group 20**. Final reports generated at `reports/Group-20.pdf` and `reports/Group-20.docx`.
 2. **Student Member Names & BITS IDs**:
-   - Fill in actual Student Names, BITS Pilani Student IDs, and Course Section details on the Cover Page (Section 1) and Team Contribution Table (Section 19).
+   - Confirmed and embedded in reports:
+     - Priya N — BITS ID: `2026NS12087`
+     - Mohamed Ibrahim M — BITS ID: `2026NS12021`
+     - Hrishabh Gupta — BITS ID: `2026NS12122`
+     - Aditya Singhal — BITS ID: `2026NS12028`
+     - Rupesh Kumar Singh — BITS ID: `2026NS12128`
+   - Section 19 (Team Contributions) currently maintains clearly marked placeholders (`[Module Allocation Pending Internal Group Finalization]`, `[Pending Group Decision]`). Members may update individual module allocations and percentages prior to portal upload if required by course policy.
 3. **Repository URL**:
    - Confirm your GitHub submission URL is accessible by evaluators: `https://github.com/hrishabh1103/BITS_MDS_Assignment_02`.
+

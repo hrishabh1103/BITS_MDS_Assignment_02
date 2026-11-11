@@ -1,11 +1,12 @@
 """Generates the official BITS Pilani WILP Modern Database Systems Assignment 2 Report.
 
 Generates both:
-- reports/Group-[number].docx (Microsoft Word)
-- reports/Group-[number].pdf (PDF via ReportLab)
+- reports/Group-20.docx (Microsoft Word)
+- reports/Group-20.pdf (PDF via ReportLab)
 
 Contains all 20 required academic sections with real experimental data,
-embedded architecture diagrams, genuine UI screenshots, and traceability matrices.
+confirmed 5-member team information, embedded architecture diagrams,
+genuine UI screenshots, and traceability matrices.
 """
 
 import os
@@ -44,11 +45,20 @@ def set_cell_margins(cell, top=100, bottom=100, left=150, right=150):
     tcPr.append(tcMar)
 
 
+CONFIRMED_MEMBERS = [
+    ("Priya N", "2026NS12087"),
+    ("Mohamed Ibrahim M", "2026NS12021"),
+    ("Hrishabh Gupta", "2026NS12122"),
+    ("Aditya Singhal", "2026NS12028"),
+    ("Rupesh Kumar Singh", "2026NS12128"),
+]
+
+
 # ==============================================================================
 # 1. DOCX GENERATOR
 # ==============================================================================
 
-def generate_docx_report(output_path: str = "reports/Group-[number].docx"):
+def generate_docx_report(output_path: str = "reports/Group-20.docx"):
     doc = docx.Document()
 
     # Page Margins: 1 inch
@@ -75,7 +85,7 @@ def generate_docx_report(output_path: str = "reports/Group-[number].docx"):
     run_inst.font.bold = True
     run_inst.font.color.rgb = RGBColor(0x1E, 0x3A, 0x8A)
 
-    doc.add_paragraph().paragraph_format.space_before = Pt(24)
+    doc.add_paragraph().paragraph_format.space_before = Pt(20)
 
     p_course = doc.add_paragraph()
     p_course.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -85,7 +95,7 @@ def generate_docx_report(output_path: str = "reports/Group-[number].docx"):
     run_course.font.bold = True
     run_course.font.color.rgb = RGBColor(0x4B, 0x55, 0x63)
 
-    doc.add_paragraph().paragraph_format.space_before = Pt(36)
+    doc.add_paragraph().paragraph_format.space_before = Pt(28)
 
     p_title = doc.add_paragraph()
     p_title.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -97,23 +107,25 @@ def generate_docx_report(output_path: str = "reports/Group-[number].docx"):
 
     p_sub = doc.add_paragraph()
     p_sub.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    run_sub = p_sub.add_run("A Domain-Grounded Intelligent Diagnostic System with 9,532 Vectors, Exhaustive Mathematical Metric Validation, and Automotive Safety Guardrails")
+    run_sub = p_sub.add_run("A Domain-Grounded Diagnostic Intelligence System with 9,532 Vectors, Exhaustive Mathematical Validation, and Automotive Safety Guardrails")
     run_sub.font.name = 'Calibri'
     run_sub.font.size = Pt(12)
     run_sub.font.italic = True
     run_sub.font.color.rgb = RGBColor(0x4B, 0x55, 0x63)
 
-    doc.add_paragraph().paragraph_format.space_before = Pt(48)
+    doc.add_paragraph().paragraph_format.space_before = Pt(32)
 
-    # Group Details Table
+    # Five-Member Confirmed Table
+    members_str = "\n".join([f"{idx}. {name} — BITS ID: {bits_id}" for idx, (name, bits_id) in enumerate(CONFIRMED_MEMBERS, start=1)])
+
     table_group = doc.add_table(rows=5, cols=2)
     table_group.alignment = WD_TABLE_ALIGNMENT.CENTER
     group_data = [
-        ("Group Identifier:", "Group-[number] (Placeholder — Replace with Assigned Group ID)"),
+        ("Group Number:", "Group 20"),
         ("Programme / Semester:", "M.Tech / Post-Graduate WILP — Semester II"),
         ("Course Code / Name:", "Modern Database Systems (WILP Assignment 2)"),
-        ("Group Members:", "1. [Student 1 Name — BITS ID: 2024XXXXXXX]\n2. [Student 2 Name — BITS ID: 2024XXXXXXX]\n3. [Student 3 Name — BITS ID: 2024XXXXXXX]"),
-        ("Submission Date / Commit:", f"{datetime.now().strftime('%B %d, %Y')} | Git Commit: 0c889c1"),
+        ("Group Members (5):", members_str),
+        ("Submission Date / Commit:", f"{datetime.now().strftime('%B %d, %Y')} | Git Commit: 1a78cbb"),
     ]
     for idx, (label, val) in enumerate(group_data):
         row = table_group.rows[idx]
@@ -121,17 +133,16 @@ def generate_docx_report(output_path: str = "reports/Group-[number].docx"):
         cell_lbl.width = Inches(2.2)
         cell_val.width = Inches(4.3)
         cell_lbl.paragraphs[0].add_run(label).bold = True
-        cell_lbl.paragraphs[0].runs[0].font.size = Pt(10)
+        cell_lbl.paragraphs[0].runs[0].font.size = Pt(9.5)
         cell_val.paragraphs[0].add_run(val)
-        cell_val.paragraphs[0].runs[0].font.size = Pt(10)
+        cell_val.paragraphs[0].runs[0].font.size = Pt(9.5)
         set_cell_background(cell_lbl, "F3F4F6")
         set_cell_background(cell_val, "FFFFFF")
-        set_cell_margins(cell_lbl, top=80, bottom=80, left=100, right=100)
-        set_cell_margins(cell_val, top=80, bottom=80, left=100, right=100)
+        set_cell_margins(cell_lbl, top=70, bottom=70, left=100, right=100)
+        set_cell_margins(cell_val, top=70, bottom=70, left=100, right=100)
 
     doc.add_page_break()
 
-    # Helper function for adding sections
     def add_heading_1(text):
         h = doc.add_paragraph()
         h.paragraph_format.space_before = Pt(18)
@@ -163,22 +174,6 @@ def generate_docx_report(output_path: str = "reports/Group-[number].docx"):
         run = p.add_run(text)
         run.italic = italic
         return p
-
-    def add_callout(title, text, color_hex="EFF6FF", border_color="3B82F6"):
-        table = doc.add_table(rows=1, cols=1)
-        table.alignment = WD_TABLE_ALIGNMENT.CENTER
-        cell = table.cell(0, 0)
-        cell.width = Inches(6.5)
-        set_cell_background(cell, color_hex)
-        set_cell_margins(cell, top=120, bottom=120, left=150, right=150)
-        p = cell.paragraphs[0]
-        p.paragraph_format.space_after = Pt(3)
-        run_t = p.add_run(f"{title}\n")
-        run_t.bold = True
-        run_t.font.color.rgb = RGBColor(0x1E, 0x3A, 0x8A)
-        run_b = p.add_run(text)
-        run_b.font.size = Pt(10)
-        doc.add_paragraph().paragraph_format.space_after = Pt(6)
 
     # -------------------------------------------------------------
     # SECTION 2: ABSTRACT
@@ -280,7 +275,6 @@ def generate_docx_report(output_path: str = "reports/Group-[number].docx"):
         "mathematical metric validation, generative synthesis, safety guardrail validation, and user interface delivery."
     )
 
-    # Embed Architecture Diagram
     arch_img_path = "reports/figures/system_architecture.png"
     if Path(arch_img_path).exists():
         p_img = doc.add_paragraph()
@@ -311,8 +305,8 @@ def generate_docx_report(output_path: str = "reports/Group-[number].docx"):
         "probable causes, symptom presentations, and factory inspection protocols.\n"
         "• License: Creative Commons Zero 1.0 Universal (CC0 1.0) — Public Domain Dedication.\n"
         "• Strict Academic Characterization: The dataset contains 9,532 unique, validated Diagnostic Trouble Code (DTC) knowledge records. "
-        "It documents standardized trouble code definitions, physical causes, symptom presentations, and procedural diagnostic checks. "
-        "It is NOT a collection of 9,532 real-world repair invoices or historical fleet repair cases."
+        "Standardized DTC definitions, probable causes, and symptom presentations originate from verified engineering sources; "
+        "structured procedural guidance was normalized and synthesized into the schema. It is strictly NOT a collection of 9,532 real-world repair cases."
     )
     add_heading_2("7.2 Schema & Record Distributions")
     add_paragraph(
@@ -320,7 +314,6 @@ def generate_docx_report(output_path: str = "reports/Group-[number].docx"):
         "severity (critical, high, medium, low), symptoms, probable_causes, diagnostic_steps, safety_warnings, and document."
     )
 
-    # Dataset Distribution Table
     table_ds = doc.add_table(rows=5, cols=4)
     table_ds.alignment = WD_TABLE_ALIGNMENT.CENTER
     ds_headers = ["Vehicle Subsystem", "Record Count", "Percentage", "Example Diagnostic Codes"]
@@ -372,7 +365,6 @@ def generate_docx_report(output_path: str = "reports/Group-[number].docx"):
         "The queries and their primary retrieved records at K=5 are summarized below:"
     )
 
-    # 10 Queries Table
     table_q = doc.add_table(rows=11, cols=4)
     table_q.alignment = WD_TABLE_ALIGNMENT.CENTER
     q_headers = ["ID", "Topic / Subsystem", "Driver Complaint / Technical Query", "Top Retrieved Record ID (Distance)"]
@@ -459,7 +451,6 @@ def generate_docx_report(output_path: str = "reports/Group-[number].docx"):
         "via Ollama, comparing RAG (with context) against an unassisted Baseline (zero context). The results are saved in experiments/rag_real_*."
     )
 
-    # Comparative Metrics Table
     table_rag = doc.add_table(rows=11, cols=6)
     table_rag.alignment = WD_TABLE_ALIGNMENT.CENTER
     rag_hdrs = ["Query ID", "RAG Cited IDs", "Valid Citations", "RAG Words", "Base Words", "Latency (s)"]
@@ -495,7 +486,8 @@ def generate_docx_report(output_path: str = "reports/Group-[number].docx"):
         "A critical academic distinction must be emphasized: Citation Precision (100.0%, 48/48 valid citations) and Citation Recall "
         "(96.0%, 48/50 retrieved records cited) measure CITATION PROVENANCE CONSISTENCY. They verify that every record cited by the model "
         "actually existed within the retrieved context set and was not hallucinated. They DO NOT prove that the generated diagnosis is "
-        "100% factually or physically correct."
+        "100% factually or physically correct. Software guardrails provide diagnostic defense-in-depth, but physical on-vehicle testing "
+        "by certified technicians remains irreplaceable."
     )
 
     add_heading_2("12.2 Negative Findings & Discrepancy Analysis")
@@ -554,7 +546,6 @@ def generate_docx_report(output_path: str = "reports/Group-[number].docx"):
         "and dataframes showing record distributions across subsystems and severity classifications."
     )
 
-    # Embed UI Screenshot
     ui_img_path = "reports/figures/streamlit_home_page.png"
     if Path(ui_img_path).exists():
         p_ui = doc.add_paragraph()
@@ -581,7 +572,7 @@ def generate_docx_report(output_path: str = "reports/Group-[number].docx"):
         "• test_numpy_similarity.py (11 tests): Verifies hand-calculated Euclidean, Cosine, and Dot product calculations, zero-vector safety, dimension mismatch error handling, rank order preservation under normalization, tie-breaking, and Phase 4/5 Top-1 identity.\n"
         "• test_phase7_dashboard.py (8 tests): Verifies app.py compilation, UI component imports, cached manager singletons, search engine, RAG pipeline, preset queries loader, evaluation data loaders, and dataset summary loaders.\n"
         "• test_rag.py (11 tests): Verifies deterministic mock behavior, missing API key handling, Ollama unreachable fallback, LLM provider factory, context formatting, prompt construction, citation extraction, citation fidelity, and pipeline execution.\n"
-        "• test_safety_guardrails.py (15 tests): Verifies safety keyword false-positive prevention, SRS airbag warnings, generic B-code rejection, high-voltage EV isolation, battery drain domain mismatch, hydraulic brake failure, conservative cooling safety, truncation handling, provider failure handling, and false-positive rejection on catalytic/torque converters and washer fluids.\n"
+        "• test_safety_guardrails.py (15 tests): Verifies safety keyword false-positive prevention, SRS airbag warnings, generic B-code rejection, high-voltage EV isolation, battery drain domain mismatch, hydraulic brake failure, conservative cooling safety without hose-squeezing, truncation handling, provider failure handling, and false-positive rejection on catalytic/torque converters and washer fluids.\n"
         "• test_search.py (12 tests): Verifies collection count preservation post-experiment, query loading, search results structure, Top-5/Top-10 cardinalities, distance ordering, and multi-condition metadata filtering."
     )
 
@@ -629,34 +620,39 @@ def generate_docx_report(output_path: str = "reports/Group-[number].docx"):
     )
 
     # -------------------------------------------------------------
-    # SECTION 19: TEAM CONTRIBUTIONS
+    # SECTION 19: TEAM CONTRIBUTIONS (5 CONFIRMED MEMBERS)
     # -------------------------------------------------------------
     add_heading_1("19. Team Contributions")
     add_paragraph(
-        "In accordance with BITS Pilani WILP academic evaluation standards, the contribution breakdown across project phases is detailed below:"
+        "The project was executed by Group 20, comprising five members. In compliance with Phase 8.1 specifications, "
+        "individual module allocations and percentage distributions are marked with formal placeholders pending internal group confirmation:"
     )
 
-    table_team = doc.add_table(rows=4, cols=3)
+    table_team = doc.add_table(rows=6, cols=3)
     table_team.alignment = WD_TABLE_ALIGNMENT.CENTER
-    team_hdrs = ["Student Name & BITS ID", "Assigned Project Modules", "Percentage Contribution"]
-    team_data = [
-        ("[Student 1 Name — ID: 2024XXXXXXX]", "Phase 1 & 2: Dataset curation, preprocessing, schema validation; Phase 3: ChromaDB persistence and CRUD implementation.", "33.3%"),
-        ("[Student 2 Name — ID: 2024XXXXXXX]", "Phase 4: Semantic search, 10 queries, metadata filtering; Phase 5: NumPy similarity comparison engine & mathematical proof.", "33.3%"),
-        ("[Student 3 Name — ID: 2024XXXXXXX]", "Phase 6 & 6.1: RAG pipeline, Ollama Llama 3.2 integration; Phase 7: Streamlit dashboard, safety guardrails, test suite.", "33.4%"),
-    ]
+    team_hdrs = ["Student Name & BITS ID", "Assigned Project Modules / Areas of Responsibility", "Contribution Percentage"]
+    
     for c_idx, h in enumerate(team_hdrs):
         cell = table_team.rows[0].cells[c_idx]
         cell.paragraphs[0].add_run(h).bold = True
         set_cell_background(cell, "1E3A8A")
         cell.paragraphs[0].runs[0].font.color.rgb = RGBColor(0xFF, 0xFF, 0xFF)
         cell.paragraphs[0].runs[0].font.size = Pt(9.5)
-    for r_idx, row_data in enumerate(team_data, start=1):
-        for c_idx, val in enumerate(row_data):
-            cell = table_team.rows[r_idx].cells[c_idx]
-            cell.paragraphs[0].add_run(val)
-            cell.paragraphs[0].runs[0].font.size = Pt(9.5)
-            set_cell_background(cell, "F9FAFB" if r_idx % 2 == 1 else "FFFFFF")
+        
+    for idx, (name, bits_id) in enumerate(CONFIRMED_MEMBERS, start=1):
+        row = table_team.rows[idx]
+        c0, c1, c2 = row.cells[0], row.cells[1], row.cells[2]
+        c0.paragraphs[0].add_run(f"{name}\n(BITS ID: {bits_id})")
+        c1.paragraphs[0].add_run("[Module Allocation Pending Internal Group Finalization]")
+        c2.paragraphs[0].add_run("[Pending Group Decision]")
+        for c in (c0, c1, c2):
+            c.paragraphs[0].runs[0].font.size = Pt(9.5)
+            set_cell_background(c, "F9FAFB" if idx % 2 == 1 else "FFFFFF")
 
+    add_paragraph(
+        "*Note: Specific individual module allocations and percentage weightings will be finalized internally by Group 20 members prior to final course portal upload.*",
+        italic=True
+    )
     doc.add_paragraph().paragraph_format.space_after = Pt(6)
 
     # -------------------------------------------------------------
@@ -693,7 +689,7 @@ def generate_docx_report(output_path: str = "reports/Group-[number].docx"):
 # 2. PDF GENERATOR
 # ==============================================================================
 
-def generate_pdf_report(output_path: str = "reports/Group-[number].pdf"):
+def generate_pdf_report(output_path: str = "reports/Group-20.pdf"):
     pdf_path = Path(output_path)
     pdf_path.parent.mkdir(parents=True, exist_ok=True)
 
@@ -711,7 +707,7 @@ def generate_pdf_report(output_path: str = "reports/Group-[number].pdf"):
     # Custom Typography
     style_cover_inst = ParagraphStyle(
         'CoverInst', parent=styles['Normal'],
-        fontName='Helvetica-Bold', fontSize=14, leading=18,
+        fontName='Helvetica-Bold', fontSize=13, leading=17,
         textColor=colors.HexColor('#1E3A8A'), alignment=1
     )
     style_cover_course = ParagraphStyle(
@@ -721,61 +717,59 @@ def generate_pdf_report(output_path: str = "reports/Group-[number].pdf"):
     )
     style_cover_title = ParagraphStyle(
         'CoverTitle', parent=styles['Normal'],
-        fontName='Helvetica-Bold', fontSize=20, leading=24,
+        fontName='Helvetica-Bold', fontSize=19, leading=23,
         textColor=colors.HexColor('#111827'), alignment=1
     )
     style_cover_sub = ParagraphStyle(
         'CoverSub', parent=styles['Normal'],
-        fontName='Helvetica-Oblique', fontSize=11, leading=15,
+        fontName='Helvetica-Oblique', fontSize=10.5, leading=14.5,
         textColor=colors.HexColor('#4B5563'), alignment=1
     )
     style_h1 = ParagraphStyle(
         'H1', parent=styles['Heading1'],
-        fontName='Helvetica-Bold', fontSize=14, leading=18,
-        textColor=colors.HexColor('#1E3A8A'), spaceBefore=14, spaceAfter=6, keepWithNext=True
+        fontName='Helvetica-Bold', fontSize=13, leading=17,
+        textColor=colors.HexColor('#1E3A8A'), spaceBefore=12, spaceAfter=5, keepWithNext=True
     )
     style_h2 = ParagraphStyle(
         'H2', parent=styles['Heading2'],
-        fontName='Helvetica-Bold', fontSize=11, leading=15,
-        textColor=colors.HexColor('#374151'), spaceBefore=10, spaceAfter=4, keepWithNext=True
+        fontName='Helvetica-Bold', fontSize=10.5, leading=14,
+        textColor=colors.HexColor('#374151'), spaceBefore=8, spaceAfter=3, keepWithNext=True
     )
     style_body = ParagraphStyle(
         'Body', parent=styles['Normal'],
-        fontName='Helvetica', fontSize=9.5, leading=13.5,
-        textColor=colors.HexColor('#1F2937'), spaceAfter=5
-    )
-    style_body_bold = ParagraphStyle(
-        'BodyBold', parent=style_body,
-        fontName='Helvetica-Bold'
+        fontName='Helvetica', fontSize=9, leading=13,
+        textColor=colors.HexColor('#1F2937'), spaceAfter=4
     )
     style_caption = ParagraphStyle(
         'Caption', parent=styles['Normal'],
-        fontName='Helvetica-Oblique', fontSize=8.5, leading=11,
-        textColor=colors.HexColor('#4B5563'), alignment=1, spaceAfter=8
+        fontName='Helvetica-Oblique', fontSize=8, leading=11,
+        textColor=colors.HexColor('#4B5563'), alignment=1, spaceAfter=6
     )
 
     story = []
 
     # COVER PAGE
-    story.append(Spacer(1, 0.25 * inch))
+    story.append(Spacer(1, 0.2 * inch))
     story.append(Paragraph("BIRLA INSTITUTE OF TECHNOLOGY & SCIENCE, PILANI", style_cover_inst))
     story.append(Paragraph("Work Integrated Learning Programmes (WILP)", style_cover_inst))
-    story.append(Spacer(1, 0.4 * inch))
+    story.append(Spacer(1, 0.3 * inch))
     story.append(Paragraph("COURSE: MODERN DATABASE SYSTEMS", style_cover_course))
     story.append(Paragraph("ASSIGNMENT 2 COMPREHENSIVE ACADEMIC REPORT", style_cover_course))
-    story.append(Spacer(1, 0.6 * inch))
+    story.append(Spacer(1, 0.45 * inch))
     story.append(Paragraph("Vehicle Troubleshooting Assistant Using Persistent ChromaDB and Retrieval-Augmented Generation (RAG)", style_cover_title))
-    story.append(Spacer(1, 0.15 * inch))
+    story.append(Spacer(1, 0.12 * inch))
     story.append(Paragraph("A Domain-Grounded Diagnostic Intelligence System with 9,532 Vectors, Exhaustive Mathematical Validation, and Automotive Safety Guardrails", style_cover_sub))
-    story.append(Spacer(1, 0.8 * inch))
+    story.append(Spacer(1, 0.5 * inch))
 
-    # Group Details Box Table
+    # Five-Member Confirmed Table
+    members_pdf_str = "<br/>".join([f"{idx}. {name} — BITS ID: {bits_id}" for idx, (name, bits_id) in enumerate(CONFIRMED_MEMBERS, start=1)])
+
     group_box_data = [
-        [Paragraph("<b>Group Identifier:</b>", style_body), Paragraph("Group-[number] (Placeholder — Replace with Assigned Group ID)", style_body)],
+        [Paragraph("<b>Group Number:</b>", style_body), Paragraph("Group 20", style_body)],
         [Paragraph("<b>Programme / Semester:</b>", style_body), Paragraph("M.Tech / Post-Graduate WILP — Semester II", style_body)],
         [Paragraph("<b>Course Code / Name:</b>", style_body), Paragraph("Modern Database Systems (WILP Assignment 2)", style_body)],
-        [Paragraph("<b>Group Members:</b>", style_body), Paragraph("1. [Student 1 Name — BITS ID: 2024XXXXXXX]<br/>2. [Student 2 Name — BITS ID: 2024XXXXXXX]<br/>3. [Student 3 Name — BITS ID: 2024XXXXXXX]", style_body)],
-        [Paragraph("<b>Submission Date / Hash:</b>", style_body), Paragraph(f"{datetime.now().strftime('%B %d, %Y')} | Git Commit: 0c889c1", style_body)],
+        [Paragraph("<b>Group Members (5):</b>", style_body), Paragraph(members_pdf_str, style_body)],
+        [Paragraph("<b>Submission Date / Hash:</b>", style_body), Paragraph(f"{datetime.now().strftime('%B %d, %Y')} | Git Commit: 1a78cbb", style_body)],
     ]
     t_group = Table(group_box_data, colWidths=[2.2 * inch, 4.5 * inch])
     t_group.setStyle(TableStyle([
@@ -783,8 +777,8 @@ def generate_pdf_report(output_path: str = "reports/Group-[number].pdf"):
         ('BACKGROUND', (1, 0), (1, -1), colors.HexColor('#FFFFFF')),
         ('BOX', (0, 0), (-1, -1), 1, colors.HexColor('#D1D5DB')),
         ('INNERGRID', (0, 0), (-1, -1), 0.5, colors.HexColor('#E5E7EB')),
-        ('TOPPADDING', (0, 0), (-1, -1), 6),
-        ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
+        ('TOPPADDING', (0, 0), (-1, -1), 5),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 5),
         ('LEFTPADDING', (0, 0), (-1, -1), 8),
         ('RIGHTPADDING', (0, 0), (-1, -1), 8),
     ]))
@@ -869,8 +863,8 @@ def generate_pdf_report(output_path: str = "reports/Group-[number].pdf"):
     story.append(Paragraph(
         "<b>7.1 Origin, Provenance & Licensing:</b> Sourced from Zenodo Diagnostic Trouble Code Knowledge Base (Record 15626055) and the OBDex Automotive "
         "Knowledge Base under Creative Commons Zero 1.0 Universal (CC0 1.0) Public Domain Dedication. The dataset contains <b>9,532 unique, validated records</b>. "
-        "It documents standardized trouble code definitions, physical causes, symptom presentations, and procedural diagnostic checks. "
-        "It is strictly NOT a collection of 9,532 real-world repair cases.",
+        "Standardized DTC definitions, probable causes, and symptom presentations originate from verified engineering sources; "
+        "structured procedural guidance was normalized and synthesized into the schema. It is strictly NOT a collection of 9,532 real-world repair cases.",
         style_body
     ))
 
@@ -886,14 +880,14 @@ def generate_pdf_report(output_path: str = "reports/Group-[number].pdf"):
         ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#1E3A8A')),
         ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
         ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor('#D1D5DB')),
-        ('TOPPADDING', (0, 0), (-1, -1), 4),
-        ('BOTTOMPADDING', (0, 0), (-1, -1), 4),
+        ('TOPPADDING', (0, 0), (-1, -1), 3),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 3),
     ]))
     for r in range(1, len(ds_table_data)):
         bg = colors.HexColor('#F9FAFB') if r % 2 == 1 else colors.white
         t_ds.setStyle(TableStyle([('BACKGROUND', (0, r), (-1, r), bg)]))
     story.append(t_ds)
-    story.append(Spacer(1, 0.15 * inch))
+    story.append(Spacer(1, 0.12 * inch))
 
     # 8. CHROMADB IMPLEMENTATION
     story.append(Paragraph("8. ChromaDB Implementation", style_h1))
@@ -940,7 +934,7 @@ def generate_pdf_report(output_path: str = "reports/Group-[number].pdf"):
         bg = colors.HexColor('#F9FAFB') if r % 2 == 1 else colors.white
         t_q.setStyle(TableStyle([('BACKGROUND', (0, r), (-1, r), bg)]))
     story.append(t_q)
-    story.append(Spacer(1, 0.15 * inch))
+    story.append(Spacer(1, 0.12 * inch))
 
     # 10. NUMPY SIMILARITY EXPERIMENTS
     story.append(Paragraph("10. NumPy Exhaustive Similarity Comparison", style_h1))
@@ -1047,27 +1041,41 @@ def generate_pdf_report(output_path: str = "reports/Group-[number].pdf"):
         style_body
     ))
 
-    # 19. TEAM CONTRIBUTIONS
+    # 19. TEAM CONTRIBUTIONS (5 CONFIRMED MEMBERS)
     story.append(Paragraph("19. Team Contributions", style_h1))
+    story.append(Paragraph(
+        "The project was executed by Group 20, comprising five members. In compliance with Phase 8.1 specifications, "
+        "individual module allocations and percentage distributions are marked with formal placeholders pending internal group confirmation:",
+        style_body
+    ))
+
     team_table_data = [
-        [Paragraph("<b>Student Name & BITS ID</b>", style_body), Paragraph("<b>Assigned Project Modules</b>", style_body), Paragraph("<b>Contribution</b>", style_body)],
-        [Paragraph("[Student 1 Name — ID: 2024XXXXXXX]", style_body), Paragraph("Phases 1 & 2: Dataset curation, preprocessing, validation; Phase 3: ChromaDB persistence and CRUD implementation.", style_body), Paragraph("33.3%", style_body)],
-        [Paragraph("[Student 2 Name — ID: 2024XXXXXXX]", style_body), Paragraph("Phase 4: Semantic search, 10 queries, metadata filtering; Phase 5: NumPy similarity comparison engine & mathematical proof.", style_body), Paragraph("33.3%", style_body)],
-        [Paragraph("[Student 3 Name — ID: 2024XXXXXXX]", style_body), Paragraph("Phase 6 & 6.1: RAG pipeline, Ollama Llama 3.2 integration; Phase 7: Streamlit dashboard, safety guardrails, test suite.", style_body), Paragraph("33.4%", style_body)],
+        [Paragraph("<b>Student Name & BITS ID</b>", style_body), Paragraph("<b>Assigned Project Modules / Areas of Responsibility</b>", style_body), Paragraph("<b>Contribution</b>", style_body)],
     ]
+    for name, bits_id in CONFIRMED_MEMBERS:
+        team_table_data.append([
+            Paragraph(f"{name}<br/>(BITS ID: {bits_id})", style_body),
+            Paragraph("[Module Allocation Pending Internal Group Finalization]", style_body),
+            Paragraph("[Pending Group Decision]", style_body),
+        ])
+
     t_team = Table(team_table_data, colWidths=[2.2 * inch, 3.8 * inch, 0.7 * inch])
     t_team.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#1E3A8A')),
         ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
         ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor('#D1D5DB')),
-        ('TOPPADDING', (0, 0), (-1, -1), 4),
-        ('BOTTOMPADDING', (0, 0), (-1, -1), 4),
+        ('TOPPADDING', (0, 0), (-1, -1), 3),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 3),
     ]))
     for r in range(1, len(team_table_data)):
         bg = colors.HexColor('#F9FAFB') if r % 2 == 1 else colors.white
         t_team.setStyle(TableStyle([('BACKGROUND', (0, r), (-1, r), bg)]))
     story.append(t_team)
-    story.append(Spacer(1, 0.15 * inch))
+    story.append(Paragraph(
+        "<i>*Note: Specific individual module allocations and percentage weightings will be finalized internally by Group 20 members prior to final course portal upload.</i>",
+        style_caption
+    ))
+    story.append(Spacer(1, 0.12 * inch))
 
     # 20. INSTALLATION & EXECUTION INSTRUCTIONS
     story.append(Paragraph("20. Installation & Execution Instructions", style_h1))
@@ -1092,5 +1100,5 @@ def generate_pdf_report(output_path: str = "reports/Group-[number].pdf"):
 
 
 if __name__ == "__main__":
-    generate_docx_report("reports/Group-[number].docx")
-    generate_pdf_report("reports/Group-[number].pdf")
+    generate_docx_report("reports/Group-20.docx")
+    generate_pdf_report("reports/Group-20.pdf")
