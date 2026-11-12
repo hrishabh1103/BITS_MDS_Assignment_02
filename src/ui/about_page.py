@@ -2,10 +2,13 @@
 
 import json
 from collections import Counter
+from pathlib import Path
 import pandas as pd
+import plotly.express as px
 import streamlit as st
 
 from src.config import PROCESSED_DATASET_FILE
+from src.ui.components import render_hero_header
 
 
 @st.cache_data
@@ -29,12 +32,13 @@ def load_dataset_summary():
 
 def render_about_page() -> None:
     """Renders dataset provenance, preprocessing pipeline, and system boundaries."""
-    st.markdown('<div class="main-header">📖 Dataset Provenance & System Architecture</div>', unsafe_allow_html=True)
-    st.markdown(
-        '<div class="sub-header">'
-        'Authentic automotive diagnostic records, open-access licensing, and academic methodology.'
-        '</div>',
-        unsafe_allow_html=True,
+    render_hero_header(
+        title="Dataset Provenance & System Architecture",
+        subtitle=(
+            "Documentation on the 9,532 authentic diagnostic records, CC0 1.0 public domain licensing, "
+            "subsystem distributions, and academic methodology boundaries."
+        ),
+        badge="Data Engineering & Methodology",
     )
 
     total_records, systems, severities = load_dataset_summary()
@@ -50,89 +54,93 @@ def render_about_page() -> None:
             - **OBDex Automotive Knowledge Base**: Comprehensive Diagnostic Trouble Code (DTC) descriptions, probable causes, symptom presentations, and factory inspection protocols.
             - **License**: **Creative Commons Zero 1.0 Universal (CC0 1.0)** — Public Domain Dedication.
             - **Authenticity Assurance**: Zero synthetic or fabricated records were generated to meet volume targets. All **9,532 records** originate from verified technical diagnostic sources.
+            - **Strict Academic Characterization**: Sourced standardized DTC definitions, causes, and symptoms; step-by-step troubleshooting procedures were synthesized for exploration and are not necessarily OEM-verified workshop procedures. Strictly **NOT** 9,532 real repair workshop invoices.
             """
         )
     with col2:
-        st.info(
-            f"**Dataset Summary Stats:**\n\n"
-            f"- **Total Records**: `{total_records:,}` unique records\n"
-            f"- **Volume Requirement**: Exceeds 5,000 threshold by **+90.6%**\n"
-            f"- **Embedding Dimensions**: `384` dense vector float32\n"
-            f"- **Vector Index**: Persistent ChromaDB HNSW (Cosine Space)\n"
-            f"- **Storage Footprint**: ~180 MB persistent SQLite + binary graph index"
+        st.markdown(
+            f"""
+            <div class="kpi-card">
+                <div class="kpi-card-header">
+                    <span class="kpi-label">Knowledge Base Metrics</span>
+                    <span class="kpi-icon">📋</span>
+                </div>
+                <div style="font-size:0.92rem; line-height:1.6; color:#334155;">
+                    • <strong>Total Records:</strong> <code style="font-weight:700;">{total_records:,}</code><br/>
+                    • <strong>Surplus:</strong> +90.6% above 5,000 threshold<br/>
+                    • <strong>Vector Space:</strong> 384-dim (Cosine HNSW)<br/>
+                    • <strong>Footprint:</strong> ~180 MB persistent SQLite<br/>
+                    • <strong>License:</strong> CC0 1.0 Public Domain
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True,
         )
 
     st.markdown("---")
 
-    # Section 2: Distributions by Category and Severity
+    # Section 2: Distributions by Category and Severity with Plotly
     st.markdown("### 📊 2. Record Distributions by Category & Severity")
     col_sys, col_sev = st.columns(2)
 
     with col_sys:
-        st.markdown("**Vehicle Subsystem Breakdown:**")
+        st.markdown("#### Vehicle Subsystem Breakdown")
         df_sys = pd.DataFrame([
-            {"Subsystem": k.replace("_", " ").title(), "Record Count": v, "Percentage": f"{(v / total_records) * 100:.1f}%"}
+            {"Subsystem": k.replace("_", " ").title(), "Count": v, "Percentage": f"{(v / total_records) * 100:.1f}%"}
             for k, v in systems.items()
         ])
+        fig_donut = px.pie(
+            df_sys,
+            names="Subsystem",
+            values="Count",
+            hole=0.45,
+            color_discrete_sequence=["#2563EB", "#4F46E5", "#059669", "#D97706"],
+        )
+        fig_donut.update_layout(height=320, margin=dict(l=10, r=10, t=10, b=10))
+        st.plotly_chart(fig_donut, use_container_width=True)
         st.dataframe(df_sys, use_container_width=True, hide_index=True)
-        st.bar_chart(df_sys.set_index("Subsystem")["Record Count"])
 
     with col_sev:
-        st.markdown("**Severity Classification Breakdown:**")
+        st.markdown("#### Severity Classification Breakdown")
         df_sev = pd.DataFrame([
-            {"Severity": k.upper(), "Record Count": v, "Percentage": f"{(v / total_records) * 100:.1f}%"}
+            {"Severity": k.upper(), "Count": v, "Percentage": f"{(v / total_records) * 100:.1f}%"}
             for k, v in severities.items()
         ])
+        fig_bar = px.bar(
+            df_sev,
+            x="Severity",
+            y="Count",
+            text="Count",
+            color="Severity",
+            color_discrete_map={"CRITICAL": "#DC2626", "HIGH": "#EA580C", "MEDIUM": "#D97706", "LOW": "#059669"},
+        )
+        fig_bar.update_layout(height=320, showlegend=False, margin=dict(l=10, r=10, t=10, b=10))
+        st.plotly_chart(fig_bar, use_container_width=True)
         st.dataframe(df_sev, use_container_width=True, hide_index=True)
-        st.bar_chart(df_sev.set_index("Severity")["Record Count"])
 
     st.markdown("---")
 
-    # Section 3: Technical Architecture
-    st.markdown("### 🏗️ 3. Full-Stack System Architecture")
-    st.markdown(
-        """
-        ```
-        +-----------------------------------------------------------------------------------+
-        |                         STREAMLIT APPLICATION (PHASE 7)                           |
-        |  Home Dashboard | Troubleshooting Assistant | Semantic Search | Evaluation | About |
-        +-----------------------------------------+-----------------------------------------+
-                                                  |
-                                                  v
-        +-----------------------------------------------------------------------------------+
-        |                       BACKEND RAG PIPELINE (src/rag_pipeline.py)                  |
-        |  - Context Formatting with Provenance Metadata                                   |
-        |  - Automotive Safety Guardrail Engine (src/safety_guardrails.py)                 |
-        |  - Dynamic Grounded Prompt Synthesis (Prompt Version 2.2.0)                      |
-        |  - Truncation Detection & Token Cap Management (1,536 tokens)                     |
-        +--------------------+------------------------------------+-------------------------+
-                             |                                    |
-                             v                                    v
-        +------------------------------------+   +------------------------------------------+
-        |      VECTOR RETRIEVAL ENGINE       |   |           LLM PROVIDER LAYER             |
-        |  - sentence-transformers           |   |   (src/llm_provider.py)                  |
-        |    (all-MiniLM-L6-v2, 384 dims)    |   |  - Local Ollama Daemon (Llama 3.2 3B)    |
-        |  - ChromaDB Persistent Store       |   |  - OpenAI-compatible API (Cloud Option)  |
-        |    (vehicle_troubleshooting_kb)    |   |  - MockLLMProvider (Offline CI Testing)  |
-        +------------------------------------+   +------------------------------------------+
-        ```
-        """
-    )
+    # Section 3: Schema Specification
+    st.markdown("### 📐 3. Normalized Record Schema Specification")
+    schema_data = [
+        {"Field": "record_id", "Type": "STRING", "Description": "Unique identifier with VTR- prefix (e.g. VTR-P00B7)"},
+        {"Field": "diagnostic_codes", "Type": "STRING", "Description": "Standardized SAE J2012 DTC (e.g. P00B7, C0291, B0005, U0100)"},
+        {"Field": "title", "Type": "STRING", "Description": "Human-readable diagnostic technical title"},
+        {"Field": "vehicle_system", "Type": "STRING", "Description": "Domain category (engine, transmission, brakes, electrical, network)"},
+        {"Field": "severity", "Type": "STRING", "Description": "Risk classification (critical, high, medium, low)"},
+        {"Field": "symptoms", "Type": "LIST[STRING]", "Description": "Observable driver complaints and vehicle behaviors"},
+        {"Field": "probable_causes", "Type": "LIST[STRING]", "Description": "Root cause mechanical or electrical failure hypotheses"},
+        {"Field": "diagnostic_steps", "Type": "LIST[STRING]", "Description": "Step-by-step factory inspection and testing procedures"},
+        {"Field": "safety_warnings", "Type": "LIST[STRING]", "Description": "Domain-specific physical hazard warnings (HV, SRS, thermal)"},
+        {"Field": "document", "Type": "STRING", "Description": "Normalized composite text representation used for vector embedding"},
+    ]
+    st.dataframe(pd.DataFrame(schema_data), use_container_width=True, hide_index=True)
 
+    # Section 4: System Architecture
     st.markdown("---")
-
-    # Section 4: Known System Limitations & Boundary Definitions
-    st.markdown("### ⚠️ 4. Known System Limitations & Boundary Definitions")
-    st.write(
-        """
-        1. **Distinction Between Source Records and Synthesized Guidance**:
-           - **Retrieved Records**: Authentic historical Diagnostic Trouble Code technical definitions, symptoms, and OEM inspection procedures stored in ChromaDB.
-           - **Generated Troubleshooting Guidance**: Synthesized reasoning generated by the language model. While strictly constrained by prompt guardrails, it represents probabilistic assistance, not a guaranteed mechanical diagnosis.
-        2. **Correlation vs. Causation in OBD-II Diagnostics**:
-           - An OBD-II trouble code indicates that an electronic circuit or monitored rational parameter is outside expected calibration.
-           - **A code does not prove component failure**. (e.g. an O2 sensor code P0171 is frequently caused by a vacuum hose leak or exhaust leak, rather than a defective O2 sensor).
-        3. **Safety & Professional Equipment Requirement**:
-           - Modern vehicles feature lethal high-voltage circuits (300V–800V DC on hybrids and EVs) and explosive pyrotechnic restraint charges (SRS airbags).
-           - This tool is designed as an educational and diagnostic aid for automotive engineering students and technicians, and must not replace professional ASE-certified service manual procedures.
-        """
-    )
+    st.markdown("### 🏗️ 4. Full-Stack System Architecture Diagram")
+    arch_img_path = Path("reports/figures/system_architecture.png")
+    if arch_img_path.exists():
+        st.image(str(arch_img_path), caption="Figure: High-Resolution End-to-End System Architecture (300 DPI)", use_container_width=True)
+    else:
+        st.info("Architecture diagram available at reports/figures/system_architecture.png")

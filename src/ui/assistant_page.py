@@ -8,6 +8,7 @@ from src.config import QUERIES_FILE
 from src.ui.components import (
     get_cached_rag_pipeline,
     render_diagnostic_card,
+    render_hero_header,
     render_safety_alerts,
 )
 
@@ -29,25 +30,39 @@ def load_preset_queries() -> Dict[str, str]:
 
 
 def render_assistant_page() -> None:
-    """Renders the interactive AI troubleshooting assistant interface."""
-    st.markdown('<div class="main-header">🔧 Vehicle Troubleshooting Assistant</div>', unsafe_allow_html=True)
-    st.markdown(
-        '<div class="sub-header">'
-        'Query the 9,532-record ChromaDB knowledge base with grounded retrieval, in-text citations, and automotive safety guardrails.'
-        '</div>',
-        unsafe_allow_html=True,
+    """Renders the enhanced interactive AI troubleshooting assistant interface."""
+    render_hero_header(
+        title="Vehicle Troubleshooting Assistant",
+        subtitle=(
+            "Execute domain-grounded diagnostic analysis over 9,532 persistent ChromaDB records. "
+            "Features automated citation attribution [VTR-XXXXX], anti-hallucination guardrails, and active shop-safety interceptors."
+        ),
+        badge="Grounded RAG & Safety Validation Engine",
     )
 
     preset_map = load_preset_queries()
 
-    # Form inputs
-    with st.expander("⚡ Quick Demo Presets (Assignment Benchmark Queries)", expanded=False):
-        preset_cols = st.columns(len(preset_map) if len(preset_map) <= 5 else 5)
-        for idx, (label, text) in enumerate(list(preset_map.items())[:5]):
-            col = preset_cols[idx % 5]
-            if col.button(label.split(":")[0], key=f"preset_{idx}", help=label):
-                st.session_state["query_input"] = text
+    # -------------------------------------------------------------
+    # 1. QUICK DEMO PRESET CHIPS
+    # -------------------------------------------------------------
+    st.markdown("#### ⚡ Quick Demo Presets (Select a Benchmark Diagnostic Query)")
+    
+    preset_items = list(preset_map.items())[:5]
+    preset_icons = ["❄️", "⚡", "🛑", "🎈", "🏎️"]
+    cols = st.columns(len(preset_items))
+    for idx, (label, query_val) in enumerate(preset_items):
+        icon = preset_icons[idx % len(preset_icons)]
+        short_label = f"{icon} {label.split(':')[0]}"
+        tooltip = f"{label}: {query_val}"
+        if cols[idx].button(short_label, key=f"btn_preset_{idx}", help=tooltip, use_container_width=True):
+            st.session_state["query_input"] = query_val
+            st.rerun()
 
+    st.markdown("<div style='height: 0.75rem;'></div>", unsafe_allow_html=True)
+
+    # -------------------------------------------------------------
+    # 2. INPUT FORM
+    # -------------------------------------------------------------
     with st.form("troubleshooting_form"):
         col_main, col_side = st.columns([1.6, 1.0])
 
@@ -57,9 +72,9 @@ def render_assistant_page() -> None:
                 "Brake pedal sinks slowly to the floorboard at red lights with ABS warning light illuminated on dashboard",
             )
             query_text = st.text_area(
-                "Describe the Vehicle Problem / Symptom:",
+                "Describe Vehicle Symptoms, Driver Complaint, or Observed DTC Codes:",
                 value=default_query,
-                height=110,
+                height=120,
                 placeholder="e.g. Engine overheating rapidly at highway speeds with boiling coolant in reservoir...",
                 help="Enter natural language driver complaints, symptoms, or observed DTC codes.",
             )
@@ -81,9 +96,9 @@ def render_assistant_page() -> None:
 
         col_k, col_tokens, col_btn = st.columns([1, 1, 1])
         with col_k:
-            top_k = st.slider("Retrieval Cutoff ($K$):", min_value=1, max_value=10, value=5, step=1)
+            top_k = st.slider("Retrieval Cutoff ($K$):", min_value=1, max_value=10, value=5, step=1, help="Number of nearest-neighbor records to retrieve from ChromaDB")
         with col_tokens:
-            max_tokens = st.slider("Max Output Tokens:", min_value=512, max_value=2048, value=1536, step=256)
+            max_tokens = st.slider("Max Output Tokens:", min_value=512, max_value=2048, value=1536, step=256, help="Cap to prevent output truncation while maintaining generation safety")
         with col_btn:
             st.write("")
             st.write("")
@@ -114,10 +129,11 @@ def render_assistant_page() -> None:
 
         st.session_state["last_result"] = result
 
-    # Display Results if available
+    # -------------------------------------------------------------
+    # 3. RESULTS DISPLAY
+    # -------------------------------------------------------------
     if "last_result" in st.session_state:
         res = st.session_state["last_result"]
-
         st.markdown("---")
 
         # 1. Prominent Safety Alerts Banner
@@ -128,43 +144,62 @@ def render_assistant_page() -> None:
         # 2. Context Mismatch Banner (ICE 12V vs EV records)
         if res.get("context_mismatch"):
             st.warning(
-                "⚠️ **Context Domain Mismatch Notice**: The query describes an ICE 12V electrical system, "
-                "but retrieved records involve High-Voltage EV/Hybrid charging systems. The response has been "
-                "guarded against incorrectly attributing 12V issues to EV high-voltage loops."
+                "⚠️ **Context Domain Mismatch Intercepted**: The query describes an ICE 12V electrical system, "
+                "but retrieved records involve High-Voltage EV/Hybrid charging systems. The backend safety engine "
+                "has injected directives instructing standard 12V parasitic draw millivolt testing."
             )
 
         # 3. Provider Availability and Simulation Notice
         if res.get("generation_mode") == "mock":
             st.warning(
                 "⚠️ **Ollama Local Service Unavailable — Simulated Response Active**: "
-                "The local Ollama server is not running on localhost:11434. "
+                "The local Ollama server is not reachable on localhost:11434. "
                 "This response was generated using **MockLLMProvider** for offline demonstration. "
-                "Mock outputs are deterministic simulations and are NEVER silently presented as real LLM inference."
+                "Mock outputs are deterministic simulations and are NEVER silently presented as live LLM inference."
             )
         elif res.get("generation_mode") == "real":
             st.success(
-                f"✅ **Live LLM Output**: Generated via real provider `{res.get('llm_provider')}` "
-                f"using model `{res.get('llm_model')}`."
+                f"✅ **Live LLM Output**: Generated via `{res.get('llm_provider')}` "
+                f"using model `{res.get('llm_model')}` on local hardware."
             )
 
         # 4. Truncation Disclaimer
         if res.get("is_truncated"):
             st.error(
-                f"⚠️ **Response Truncated**: Model output reached the configured token limit ({max_tokens} tokens). "
-                "Portions of the diagnostic procedures or limitations section may be cut off. "
+                f"⚠️ **Response Truncated**: Model output reached configured limit ({max_tokens} tokens). "
                 "Increase 'Max Output Tokens' in the input form if needed."
             )
 
-        col_ans, col_ctx = st.columns([1.3, 0.9])
+        col_ans, col_ctx = st.columns([1.35, 0.9])
 
         with col_ans:
-            st.markdown("### 🤖 Grounded Diagnostic Analysis")
             st.markdown(
-                f"<div style='font-size:0.85rem; color:#6B7280; margin-bottom:0.75rem;'>"
-                f"Provider: <code>{res.get('llm_provider')}</code> | Model: <code>{res.get('llm_model')}</code> | "
-                f"Mode: <code>{res.get('generation_mode', '').upper()}</code> | "
-                f"Latency: <code>{res.get('latency_ms', 0):.0f} ms</code>"
-                f"</div>",
+                f"""
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+                    <h3 style="margin:0;">🤖 Grounded Diagnostic Report</h3>
+                    <span style="font-size:0.8rem; background:#F1F5F9; padding:0.25rem 0.6rem; border-radius:6px; font-family:monospace; color:#334155;">
+                        ⏱️ Latency: {res.get('latency_ms', 0):.0f} ms
+                    </span>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+
+            # Diagnostic Report Body Container
+            st.markdown(
+                f"""
+                <div class="report-container">
+                    <div class="report-header">
+                        <div>
+                            <strong>Provider:</strong> <code>{res.get('llm_provider')}</code> | 
+                            <strong>Model:</strong> <code>{res.get('llm_model')}</code>
+                        </div>
+                        <div>
+                            <span class="metric-badge badge-system">Mode: {res.get('generation_mode', '').upper()}</span>
+                        </div>
+                    </div>
+                </div>
+                """,
                 unsafe_allow_html=True,
             )
 
@@ -176,24 +211,30 @@ def render_assistant_page() -> None:
             st.markdown("#### 📑 Verified Source Record Citations")
             if cited:
                 pill_html = " ".join([
-                    f"<span style='background-color:#DBEAFE; color:#1E40AF; padding:0.2rem 0.5rem; "
-                    f"border-radius:4px; font-family:monospace; font-weight:600;'>[{c}]</span>"
+                    f"<span style='background-color:#DBEAFE; color:#1E40AF; padding:0.25rem 0.65rem; "
+                    f"border-radius:6px; font-family:monospace; font-weight:700; border:1px solid #BFDBFE;'>[{c}]</span>"
                     for c in cited
                 ])
                 st.markdown(pill_html, unsafe_allow_html=True)
             else:
                 st.write("*No direct record citations identified in output.*")
 
+            # Download Diagnosis Summary Button
+            st.markdown("<div style='height: 0.75rem;'></div>", unsafe_allow_html=True)
+            report_text = f"# Vehicle Diagnostic Report\n\n**Query:** {query_text}\n**Vehicle:** {vehicle_type}\n**Latency:** {res.get('latency_ms', 0):.0f} ms\n\n## Grounded Diagnosis\n\n{res.get('generated_answer', '')}\n\n## Verified Citations\n\n{', '.join(cited)}"
+            st.download_button(
+                label="📥 Download Diagnostic Report (.md)",
+                data=report_text,
+                file_name="vehicle_diagnostic_report.md",
+                mime="text/markdown",
+                use_container_width=True,
+            )
+
         with col_ctx:
             st.markdown(f"### 📚 Retrieved Context ({len(res.get('retrieved_documents', []))} Records)")
-            st.markdown(
-                "<div style='font-size:0.85rem; color:#6B7280; margin-bottom:0.75rem;'>"
-                "Dense vector matches retrieved from persistent ChromaDB collection <code>vehicle_troubleshooting_kb</code>."
-                "</div>",
-                unsafe_allow_html=True,
-            )
+            st.caption("Top nearest-neighbor matches from persistent collection `vehicle_troubleshooting_kb`:")
 
             for doc in res.get("retrieved_documents", []):
                 render_diagnostic_card(doc, rank=doc.get("rank", 1))
-                with st.expander(f"Full Diagnostic Text for {doc.get('record_id')}", expanded=False):
+                with st.expander(f"🔍 Inspect Full Record {doc.get('record_id')}", expanded=False):
                     st.text(doc.get("excerpt", doc.get("document", "N/A")))

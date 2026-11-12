@@ -3,9 +3,12 @@
 import json
 from pathlib import Path
 import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
 import streamlit as st
 
 from src.config import EXPERIMENTS_DIR
+from src.ui.components import render_hero_header
 
 
 @st.cache_data
@@ -46,13 +49,13 @@ def load_semantic_search_data():
 
 def render_evaluation_page() -> None:
     """Renders the comprehensive multi-phase empirical evaluation dashboard."""
-    st.markdown('<div class="main-header">📊 Empirical Evaluation Dashboard</div>', unsafe_allow_html=True)
-    st.markdown(
-        '<div class="sub-header">'
-        'Comprehensive empirical benchmark results across Phase 4 (Semantic Search), Phase 5 (NumPy Metric Comparison), '
-        'and Phase 6.1 (Real LLM Generation & Grounding Audit).'
-        '</div>',
-        unsafe_allow_html=True,
+    render_hero_header(
+        title="Empirical Evaluation Dashboard",
+        subtitle=(
+            "Quantitative benchmarks, mathematical ranking proofs, and real LLM inference audits across "
+            "Phase 4 (Dense Retrieval), Phase 5 (NumPy Metric Equivalence), and Phase 6.1 (Grounded RAG vs. Baseline)."
+        ),
+        badge="Empirical Quality & Rigor Audit",
     )
 
     df_eval, real_results, comps = load_real_evaluation_data()
@@ -61,7 +64,7 @@ def render_evaluation_page() -> None:
 
     tab_rag, tab_fidelity, tab_metrics, tab_search = st.tabs([
         "🔬 Phase 6.1: Real RAG vs. Baseline",
-        "📑 Citation Fidelity & Anti-Hallucination",
+        "📑 Citation Fidelity & Provenance",
         "📐 Phase 5: NumPy Similarity Metrics",
         "🔍 Phase 4: Dense Retrieval Benchmarks",
     ])
@@ -70,10 +73,10 @@ def render_evaluation_page() -> None:
     # TAB 1: Real RAG vs. Baseline
     # -------------------------------------------------------------
     with tab_rag:
-        st.markdown("### 🤖 Phase 6.1 Real LLM Inference (Meta Llama 3.2 on Ollama)")
+        st.markdown("### 🤖 Phase 6.1 Real LLM Inference (Meta Llama 3.2 on Local Hardware)")
         st.caption(
-            "Empirical results from 20 live local generations across 10 benchmark queries (Q01–Q10). "
-            "Real outputs persisted in experiments/rag_real_* without mock fallback."
+            "Quantitative comparison from 20 live local generations across 10 benchmark queries (Q01–Q10). "
+            "Data loaded directly from `experiments/rag_real_*`."
         )
 
         col1, col2, col3, col4 = st.columns(4)
@@ -84,10 +87,46 @@ def render_evaluation_page() -> None:
         with col3:
             st.metric("Avg RAG Length", "487 words", delta="+120 vs baseline")
         with col4:
-            st.metric("Avg Latency", "118.3s", delta="Local 3.2B Metal")
+            st.metric("Avg Latency", "118.3s", delta="Local Apple Silicon MPS")
 
-        st.markdown("#### 📋 Q01 – Q10 Comparative Benchmark Table")
+        st.markdown("<div style='height: 0.75rem;'></div>", unsafe_allow_html=True)
+
+        # Plotly Comparison Charts
         if not df_eval.empty:
+            col_chart1, col_chart2 = st.columns(2)
+
+            with col_chart1:
+                st.markdown("#### 📊 Response Specificity (Word Count Comparison)")
+                fig_words = go.Figure(data=[
+                    go.Bar(name='Grounded RAG', x=df_eval['query_id'], y=df_eval['rag_word_count'], marker_color='#2563EB'),
+                    go.Bar(name='Unassisted Baseline', x=df_eval['query_id'], y=df_eval['baseline_word_count'], marker_color='#94A3B8')
+                ])
+                fig_words.update_layout(
+                    barmode='group',
+                    height=330,
+                    margin=dict(l=20, r=20, t=30, b=20),
+                    legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+                )
+                st.plotly_chart(fig_words, use_container_width=True)
+
+            with col_chart2:
+                st.markdown("#### ⏱️ Real LLM Inference Latency (Seconds)")
+                latency_values = [
+                    real_results.get(qid, {}).get("latency_seconds", 118.0)
+                    for qid in df_eval['query_id']
+                ]
+                fig_lat = px.line(
+                    x=df_eval['query_id'],
+                    y=latency_values,
+                    markers=True,
+                    labels={"x": "Benchmark Query ID", "y": "Latency (s)"},
+                    title="Per-Query Generation Latency (Meta Llama 3.2 3B)",
+                )
+                fig_lat.update_traces(line_color="#4F46E5", marker=dict(size=8, color="#1E40AF"))
+                fig_lat.update_layout(height=330, margin=dict(l=20, r=20, t=30, b=20))
+                st.plotly_chart(fig_lat, use_container_width=True)
+
+            st.markdown("#### 📋 Q01 – Q10 Comprehensive Benchmark Metrics")
             display_df = df_eval[[
                 "query_id", "rag_retrieved_k", "rag_cited_count", "rag_valid_citations",
                 "rag_dtcs", "rag_word_count", "baseline_cited_count", "baseline_word_count"
@@ -101,9 +140,9 @@ def render_evaluation_page() -> None:
         st.markdown("---")
         st.markdown("#### 🔍 Side-by-Side Response Inspector (Q01 – Q10)")
         
-        q_options = [c.get("query_id") + ": " + c.get("query")[:60] + "..." for c in comps] if comps else []
+        q_options = [c.get("query_id") + ": " + c.get("query")[:65] + "..." for c in comps] if comps else []
         if q_options:
-            selected_idx = st.selectbox("Select Query to Inspect:", options=range(len(q_options)), format_func=lambda i: q_options[i])
+            selected_idx = st.selectbox("Select Benchmark Query to Inspect:", options=range(len(q_options)), format_func=lambda i: q_options[i])
             selected_comp = comps[selected_idx]
 
             col_l, col_r = st.columns(2)
@@ -111,7 +150,7 @@ def render_evaluation_page() -> None:
                 st.markdown(f"**Grounded RAG Answer ({selected_comp['query_id']})**")
                 rag_ans = selected_comp.get("rag", {}).get("generated_answer", "N/A")
                 st.info(rag_ans)
-                st.caption(f"Retrieved Records Cited: `{selected_comp['rag'].get('cited_record_ids')}`")
+                st.caption(f"Cited Record Provenance: `{selected_comp['rag'].get('cited_record_ids')}`")
 
             with col_r:
                 st.markdown(f"**Unassisted Baseline Answer ({selected_comp['query_id']})**")
@@ -123,14 +162,15 @@ def render_evaluation_page() -> None:
     # TAB 2: Citation Fidelity & Anti-Hallucination
     # -------------------------------------------------------------
     with tab_fidelity:
-        st.markdown("### 📑 Citation Provenance vs. Factual Accuracy")
+        st.markdown("### 📑 Citation Provenance Consistency vs. Factual Ground Truth")
         
         st.warning(
-            "⚠️ **Methodological Boundary Note**: In retrieval-augmented generation evaluation, "
-            "**Citation Precision** measures **reference provenance** (i.e. whether cited IDs belong to the retrieved set "
-            "without fabricating synthetic IDs). It does NOT equate to 100% factual or mechanical truthfulness. "
-            "For example, in Q03 the model cited `[VTR-P0D17]` with 100% precision because it was retrieved, "
-            "even though connecting an EV high-voltage code to an ICE 12V battery drain is mechanically mismatched."
+            "⚠️ **Methodological Boundary Disclosure**: In retrieval-augmented generation evaluation, "
+            "**Citation Precision** measures **reference provenance consistency** (verifying that cited record IDs "
+            "belong to the retrieved context set without fabricating synthetic IDs). It does NOT equate to 100% mechanical "
+            "truthfulness or replace certified technician inspection. For example, in Q03 the model cited `[VTR-P0D17]` with "
+            "100% precision because it was retrieved, even though connecting an EV high-voltage code to an ICE 12V battery drain "
+            "is mechanically mismatched."
         )
 
         st.markdown(
@@ -141,12 +181,12 @@ def render_evaluation_page() -> None:
             """
         )
 
-        st.markdown("#### 🔬 Detailed Findings from the Phase 6.1 Audit")
+        st.markdown("#### 🔬 Detailed Findings from the Empirical Audit")
         col_a, col_b = st.columns(2)
         with col_a:
             st.markdown(
                 """
-                **1. Zero Hallucinated Citations**:
+                **1. Zero Fabricated Citations**:
                 - Across all 10 real queries, the model cited 48 record IDs.
                 - Exactly 0 non-existent record IDs were generated.
                 - All 48 cited IDs corresponded to actual ChromaDB database records.
@@ -159,12 +199,12 @@ def render_evaluation_page() -> None:
         with col_b:
             st.markdown(
                 """
-                **3. Evaluation Keyword Bug Corrected**:
-                - During audit, we identified that the legacy check `'ase' in lower_text` matched substring words like *based* and *cases*, falsely flagging safety compliance.
-                - Corrected in `src/rag_evaluation.py` using whole-word boundary regex patterns (`r"\\bASE\\b"`).
+                **3. Boundary Keyword Pattern Hardening**:
+                - Legacy substring checks (`'ase' in text`) matched common words like *based* and *cases*.
+                - Patched using whole-word boundary regular expressions (`r"\\bASE\\b"`).
                 
-                **4. Authentic Diagnostic Discrepancies**:
-                - Q03 (12V drain vs EV charger) and Q09 (airbag squib resistance warning) represent authentic AI behavioral observations documented in `docs/phase6_1_final_audit.md`.
+                **4. Transparent Negative Findings**:
+                - Q03 (12V drain vs EV charger) and Q09 (airbag squib resistance warning) represent authentic AI behavioral observations documented in `docs/phase8_2_final_audit.md`.
                 """
             )
 
@@ -203,13 +243,24 @@ def render_evaluation_page() -> None:
             with c_d:
                 st.metric("Dot Product Avg", f"{lat.get('dot_product', {}).get('mean_ms', 0):.2f} ms")
 
-        st.markdown(
-            """
-            **Approximate kNN (HNSW in ChromaDB) vs. Exact Linear Scan (NumPy)**:
-            - **NumPy Linear Scan**: Computes exact distances across all 9,532 records in ~5.8 ms per query. Guaranteed 100% recall.
-            - **ChromaDB HNSW Graph Index**: Navigates hierarchical graph clusters in ~1.2 ms per query. Trade-off: logarithmic search speed with minor graph pruning approximations.
-            """
-        )
+            # Mini bar chart of latencies
+            metric_names = ["Euclidean Distance", "Cosine Similarity", "Dot Product"]
+            mean_latencies = [
+                lat.get('euclidean_distance', {}).get('mean_ms', 0),
+                lat.get('cosine_similarity', {}).get('mean_ms', 0),
+                lat.get('dot_product', {}).get('mean_ms', 0),
+            ]
+            fig_np = px.bar(
+                x=metric_names,
+                y=mean_latencies,
+                text=[f"{v:.2f} ms" for v in mean_latencies],
+                labels={"x": "NumPy Metric", "y": "Mean Execution Time (ms)"},
+                color=metric_names,
+                color_discrete_sequence=["#3B82F6", "#10B981", "#8B5CF6"],
+                title="Linear Scan Compute Latency over 9,532 Records",
+            )
+            fig_np.update_layout(height=300, showlegend=False, margin=dict(l=20, r=20, t=35, b=20))
+            st.plotly_chart(fig_np, use_container_width=True)
 
     # -------------------------------------------------------------
     # TAB 4: Phase 4 Retrieval Benchmarks
@@ -238,6 +289,19 @@ def render_evaluation_page() -> None:
                     "Top-1 Record": top1.get("record_id"),
                     "Top-1 DTC": top1.get("diagnostic_codes"),
                     "Top-1 Distance": round(top1.get("distance", 0.0), 4),
+                    "Cosine Similarity": round(max(0.0, 1.0 - top1.get("distance", 0.0)) * 100, 1),
                 })
             df_p4 = pd.DataFrame(p4_rows)
             st.dataframe(df_p4, use_container_width=True, hide_index=True)
+
+            fig_p4 = px.bar(
+                df_p4,
+                x="Query ID",
+                y="Top-1 Distance",
+                color="Subsystem",
+                text="Top-1 Distance",
+                hover_data=["Topic", "Top-1 DTC"],
+                title="Phase 4 Top-1 Cosine Distance (Lower is Closer Match)",
+            )
+            fig_p4.update_layout(height=350, margin=dict(l=20, r=20, t=35, b=20))
+            st.plotly_chart(fig_p4, use_container_width=True)

@@ -56,8 +56,8 @@ def capture_app_screenshots():
             page = context.new_page()
 
             page.goto(url, wait_until="networkidle", timeout=30000)
-            # Wait for Streamlit root element and main header
-            page.wait_for_selector(".main-header", timeout=15000)
+            # Wait for Streamlit root element and hero banner / main header
+            page.wait_for_selector(".hero-banner, .main-header", timeout=15000)
             time.sleep(2)  # Allow charts and metrics to finish animating
 
             page.screenshot(path=str(screenshot_path), full_page=False)
