@@ -217,7 +217,7 @@ def generate_docx_report(output_path: str = "reports/Group-20.docx"):
         ("Course Code / Name:", "Modern Database Systems (WILP Assignment 2)"),
         ("Group Members (5):", members_str),
         ("Verified Git Commit:", f"{git_commit}"),
-        ("Submission Status:", "Draft Submission Document — Team contribution module allocations and percentage weightings are marked pending final internal group decision prior to LMS portal upload."),
+        ("Submission Status:", "Final Academic Submission — Confirmed Equal Team Contribution (20% per member) across full project lifecycle."),
     ]
     for idx, (label, val) in enumerate(group_data):
         row = table_group.rows[idx]
@@ -653,13 +653,16 @@ def generate_docx_report(output_path: str = "reports/Group-20.docx"):
     # -------------------------------------------------------------
     add_heading_1("19. Team Contributions")
     add_paragraph(
-        "The project was executed by Group 20, comprising five members. In compliance with academic evaluation standards, "
-        "individual module allocations and percentage distributions are marked with formal placeholders pending internal group confirmation:"
+        "The project was executed by Group 20, comprising five members. All five members actively collaborated "
+        "and jointly contributed across the complete project lifecycle, including problem formulation, dataset preparation, "
+        "ChromaDB implementation, NumPy similarity benchmarking, RAG pipeline engineering, domain safety guardrails, "
+        "Streamlit UI development, automated testing, and comprehensive documentation. All five members have discussed and "
+        "confirmed equal 20% contribution weightings:"
     )
 
     table_team = doc.add_table(rows=6, cols=3)
     table_team.alignment = WD_TABLE_ALIGNMENT.CENTER
-    team_hdrs = ["Student Name & BITS ID", "Assigned Project Modules / Areas of Responsibility", "Contribution Percentage"]
+    team_hdrs = ["Student Name & BITS ID", "Assigned Project Scope & Lifecycle Areas", "Confirmed Contribution"]
     
     for c_idx, h in enumerate(team_hdrs):
         cell = table_team.rows[0].cells[c_idx]
@@ -672,14 +675,14 @@ def generate_docx_report(output_path: str = "reports/Group-20.docx"):
         row = table_team.rows[idx]
         c0, c1, c2 = row.cells[0], row.cells[1], row.cells[2]
         c0.paragraphs[0].add_run(f"{name}\n(BITS ID: {bits_id})")
-        c1.paragraphs[0].add_run("[Module Allocation Pending Internal Group Finalization]")
-        c2.paragraphs[0].add_run("[Pending Group Decision]")
+        c1.paragraphs[0].add_run("Full Project Lifecycle (Joint Research, Dataset Preparation, Architecture, Implementation, Experimentation, Testing, Evaluation & Documentation)")
+        c2.paragraphs[0].add_run("20.0%")
         for c in (c0, c1, c2):
             c.paragraphs[0].runs[0].font.size = Pt(9.5)
             set_cell_background(c, "F9FAFB" if idx % 2 == 1 else "FFFFFF")
 
     add_paragraph(
-        "*Note: Draft Submission Document — Specific individual module allocations and percentage weightings are marked pending final internal group decision prior to LMS portal upload. The report is not finalized while these fields remain pending.*",
+        "*Note: Confirmed equal 20% contribution distribution across all five group members, verified by mutual team agreement.*",
         italic=True
     )
     doc.add_paragraph().paragraph_format.space_after = Pt(6)
@@ -804,7 +807,7 @@ def generate_pdf_report(output_path: str = "reports/Group-20.pdf"):
         [Paragraph("<b>Course Code / Name:</b>", style_body), Paragraph("Modern Database Systems (WILP Assignment 2)", style_body)],
         [Paragraph("<b>Group Members (5):</b>", style_body), Paragraph(members_pdf_str, style_body)],
         [Paragraph("<b>Verified Git Commit:</b>", style_body), Paragraph(f"{git_commit}", style_body)],
-        [Paragraph("<b>Submission Status:</b>", style_body), Paragraph("Draft Submission Document — Team contribution module allocations and percentage weightings are marked pending final internal group decision prior to LMS portal upload.", style_body)],
+        [Paragraph("<b>Submission Status:</b>", style_body), Paragraph("Final Academic Submission — Confirmed Equal Team Contribution (20% per member) across full project lifecycle.", style_body)],
     ]
     t_group = Table(group_box_data, colWidths=[2.2 * inch, 4.8 * inch])
     t_group.setStyle(TableStyle([
@@ -1217,22 +1220,25 @@ def generate_pdf_report(output_path: str = "reports/Group-20.pdf"):
     # 19. TEAM CONTRIBUTIONS
     story.append(Paragraph("19. Team Contributions", style_h1))
     story.append(Paragraph(
-        "The project was executed by Group 20, comprising five members. In compliance with academic evaluation standards, "
-        "individual module allocations and percentage distributions are marked with formal placeholders pending internal group confirmation:",
+        "The project was executed by Group 20, comprising five members. All five members actively collaborated "
+        "and jointly contributed across the complete project lifecycle, including problem formulation, dataset preparation, "
+        "ChromaDB implementation, NumPy similarity benchmarking, RAG pipeline engineering, domain safety guardrails, "
+        "Streamlit UI development, automated testing, and comprehensive documentation. All five members have discussed and "
+        "confirmed equal 20% contribution weightings:",
         style_body
     ))
 
     team_table_data = [
-        [Paragraph("<b>Student Name & BITS ID</b>", style_body), Paragraph("<b>Assigned Project Modules / Areas of Responsibility</b>", style_body), Paragraph("<b>Contribution</b>", style_body)],
+        [Paragraph("<b>Student Name & BITS ID</b>", style_body), Paragraph("<b>Assigned Project Scope & Lifecycle Areas</b>", style_body), Paragraph("<b>Contribution</b>", style_body)],
     ]
     for name, bits_id in CONFIRMED_MEMBERS:
         team_table_data.append([
             Paragraph(f"{name}<br/>(BITS ID: {bits_id})", style_body),
-            Paragraph("[Module Allocation Pending Internal Group Finalization]", style_body),
-            Paragraph("[Pending Group Decision]", style_body),
+            Paragraph("Full Project Lifecycle (Joint Research, Dataset Preparation, Architecture, Implementation, Experimentation, Testing, Evaluation & Documentation)", style_body),
+            Paragraph("20.0%", style_body),
         ])
 
-    t_team = Table(team_table_data, colWidths=[1.8 * inch, 3.5 * inch, 1.7 * inch])
+    t_team = Table(team_table_data, colWidths=[1.8 * inch, 4.2 * inch, 1.0 * inch])
     t_team.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#1E3A8A')),
         ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
@@ -1245,7 +1251,7 @@ def generate_pdf_report(output_path: str = "reports/Group-20.pdf"):
         t_team.setStyle(TableStyle([('BACKGROUND', (0, r), (-1, r), bg)]))
     story.append(t_team)
     story.append(Paragraph(
-        "<i>*Note: Draft Submission Document — Specific individual module allocations and percentage weightings are marked pending final internal group decision prior to LMS portal upload. The report is not finalized while these fields remain pending.</i>",
+        "<i>*Note: Confirmed equal 20% contribution distribution across all five group members, verified by mutual team agreement.</i>",
         style_caption
     ))
     story.append(Spacer(1, 0.1 * inch))
@@ -1340,8 +1346,9 @@ def verify_report_consistency(docx_path: str = "reports/Group-20.docx", pdf_path
         ("100.0%", "Citation Precision"),
         ("96.0%", "Citation Recall"),
         ("75", "Test Count"),
-        ("[Module Allocation Pending Internal Group Finalization]", "Pending Module Placeholder"),
-        ("[Pending Group Decision]", "Pending Percentage Placeholder"),
+        ("20.0%", "Confirmed Equal Contribution"),
+        ("full project lifecycle", "Joint Team Contribution"),
+        ("final academic submission", "Submission Status"),
         ("reduces hallucination risk", "Qualified Hallucination Claim"),
         ("defense-in-depth", "Safety Safeguards Terminology"),
         ("provenance consistency", "Citation Provenance Terminology"),

@@ -1,8 +1,14 @@
 # Dataset Documentation & Provenance Report
 
-**Project Title:** Vehicle Troubleshooting Assistant using ChromaDB and Retrieval-Augmented Generation (RAG)  
-**Academic Module:** BITS Pilani WILP – Modern Database Systems (Assignment 2)  
-**Verification Date:** November 2026  
+**Course:** BITS Pilani WILP – Modern Database Systems (Assignment 2)  
+**Project:** Vehicle Troubleshooting Assistant using ChromaDB and Retrieval-Augmented Generation (RAG)  
+**Group:** 20  
+**Team Members:**
+- Priya N (BITS ID: 2026NS12087) — 20% Contribution
+- Mohamed Ibrahim M (BITS ID: 2026NS12021) — 20% Contribution
+- Hrishabh Gupta (BITS ID: 2026NS12122) — 20% Contribution
+- Aditya Singhal (BITS ID: 2026NS12028) — 20% Contribution
+- Rupesh Kumar Singh (BITS ID: 2026NS12128) — 20% Contribution
 
 ---
 

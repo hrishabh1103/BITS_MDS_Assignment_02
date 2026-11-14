@@ -82,7 +82,7 @@ Before submitting the report through the BITS Pilani LMS portal, group members s
      - Hrishabh Gupta — BITS ID: `2026NS12122`
      - Aditya Singhal — BITS ID: `2026NS12028`
      - Rupesh Kumar Singh — BITS ID: `2026NS12128`
-   - Section 19 (Team Contributions) currently maintains clearly marked placeholders (`[Module Allocation Pending Internal Group Finalization]`, `[Pending Group Decision]`). Members may update individual module allocations and percentages prior to portal upload if required by course policy.
+   - Section 19 (Team Contributions) documents confirmed equal 20.0% contribution across all 5 members based on joint collaboration throughout the project lifecycle.
 3. **Repository URL**:
    - Confirm your GitHub submission URL is accessible by evaluators: `https://github.com/hrishabh1103/BITS_MDS_Assignment_02`.
 

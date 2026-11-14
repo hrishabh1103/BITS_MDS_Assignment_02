@@ -6,12 +6,12 @@
 **Verified Commit:** `a073712`  
 **Date of Audit:** November 2026  
 **Group Number:** Group 20  
-**Group Members (5 Confirmed):**
-1. Priya N — 2026NS12087
-2. Mohamed Ibrahim M — 2026NS12021
-3. Hrishabh Gupta — 2026NS12122
-4. Aditya Singhal — 2026NS12028
-5. Rupesh Kumar Singh — 2026NS12128  
+**Group Members (5 Confirmed — Equal 20% Contribution):**
+1. Priya N — 2026NS12087 (20.0%)
+2. Mohamed Ibrahim M — 2026NS12021 (20.0%)
+3. Hrishabh Gupta — 2026NS12122 (20.0%)
+4. Aditya Singhal — 2026NS12028 (20.0%)
+5. Rupesh Kumar Singh — 2026NS12128 (20.0%)  
 
 ---
 
@@ -31,7 +31,7 @@
 | **REQ-10** | **Domain Safety Guardrails & Validation Engine**:<br>Automated detection and warnings for safety-critical vehicle domains (SRS airbags, EV high-voltage, hydraulic brake failure, cooling system scald, and ICE vs. EV context mismatch). | `src/safety_guardrails.py`<br>`src/rag_pipeline.py` | `tests/test_safety_guardrails.py`<br>`docs/phase7_1_final_verification.md`<br>`docs/phase7_2_final_closure.md` | **Fully Satisfied** | Active guardrails establish defense-in-depth safety safeguards: (1) Airbag squib ohmmeter/multimeter probing strictly forbidden; (2) Battery disconnect stated as insufficient by itself; (3) High-voltage EV systems require certified technician LOTO and zero-energy verification (Class-0 gloves alone do not make DIY work safe); (4) Sinking brake pedal produces mandatory **DO NOT DRIVE** warning and towing instruction; (5) Cooling warnings forbid unsafe hose-squeezing and mandate waiting until cold; (6) 12V ICE battery drain queries flag retrieved EV records as domain mismatch. |
 | **REQ-11** | **Interactive Multi-Page Streamlit Dashboard**:<br>User-facing interface with multi-page navigation, diagnostic cards, filter controls, empirical evaluation tables, and dataset distribution charts. | `app.py`<br>`src/ui/home_page.py`<br>`src/ui/assistant_page.py`<br>`src/ui/search_page.py`<br>`src/ui/evaluation_page.py`<br>`src/ui/about_page.py`<br>`src/ui/components.py` | `reports/figures/streamlit_home_page.png`<br>`tests/test_phase7_dashboard.py`<br>`docs/phase7_dashboard.md` | **Fully Satisfied** | 5 functional pages: (1) Home / Dashboard with KPI metrics and Mermaid flowcharts; (2) Troubleshooting Assistant with demo presets and safety callouts; (3) Semantic Search Explorer with dual card/table views; (4) Empirical Evaluation Dashboard with 4 tabbed benchmark views; (5) Dataset Provenance & Distributions with interactive bar charts. Empty-input validation, configurable token caps, and explicit mock fallback warnings tested. |
 | **REQ-12** | **Test Suite & Regression Verification**:<br>Comprehensive test suite covering all project components with high code coverage and persistence safety. | `tests/test_chroma.py`<br>`tests/test_dataset.py`<br>`tests/test_numpy_similarity.py`<br>`tests/test_phase7_dashboard.py`<br>`tests/test_rag.py`<br>`tests/test_safety_guardrails.py`<br>`tests/test_search.py` | Pytest output log: **75 passed, 0 failed** in ~16s | **Fully Satisfied** | 75 automated tests passing with zero failures. Collection count post-test remains strictly 9,532 records. |
-| **REQ-13** | **Academic Report & Deliverables**:<br>Formal academic report in PDF and DOCX formats with architecture diagrams, experimental analysis, honest discussion of limitations, and contribution breakdown. | `reports/Group-20.pdf`<br>`reports/Group-20.docx`<br>`docs/phase8_submission_checklist.md` | `reports/Group-20.pdf`<br>`reports/Group-20.docx`<br>`reports/figures/system_architecture.png` | **Fully Satisfied** | Comprehensive 20-section academic report generated in dual formats for **Group 20** (5 members). Architecture diagram and genuine Streamlit UI screenshot embedded. Negative findings (Q03 EV mismatch, Q09 airbag instruction risk) and technical resolutions transparently analyzed. Note: Draft status with individual module allocations marked pending group finalization. |
+| **REQ-13** | **Academic Report & Deliverables**:<br>Formal academic report in PDF and DOCX formats with architecture diagrams, experimental analysis, honest discussion of limitations, and contribution breakdown. | `reports/Group-20.pdf`<br>`reports/Group-20.docx`<br>`docs/phase8_submission_checklist.md` | `reports/Group-20.pdf`<br>`reports/Group-20.docx`<br>`reports/figures/system_architecture.png` | **Fully Satisfied** | Comprehensive 20-section academic report generated in dual formats for **Group 20** (5 members). Architecture diagram and genuine Streamlit UI screenshot embedded. Negative findings (Q03 EV mismatch, Q09 airbag instruction risk) and technical resolutions transparently analyzed. All 5 members confirmed with strictly equal 20.0% contribution across the entire collaborative lifecycle. |
 
 ---
 

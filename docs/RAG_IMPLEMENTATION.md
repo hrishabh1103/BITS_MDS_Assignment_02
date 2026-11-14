@@ -1,12 +1,20 @@
 # Retrieval-Augmented Generation (RAG) Architecture & Implementation
 
-## BITS Pilani WILP — Modern Database Systems (Assignment 2)
-**Project Title**: Vehicle Troubleshooting Assistant using ChromaDB and Retrieval-Augmented Generation (RAG)  
-**Document**: Phase 6 & 6.1 RAG Architecture, Provider Abstraction, Real LLM Validation, and Baseline Comparative Evaluation  
-**Dataset**: 9,532 authentic vehicle diagnostic records (`data/processed/vehicle_troubleshooting.json`)  
-**Vector Store**: ChromaDB persistent collection `vehicle_troubleshooting_kb` (Cosine space)  
-**Embedding Model**: `sentence-transformers/all-MiniLM-L6-v2` (384 dimensions, $L_2$-normalized)  
-**Active Real LLM**: Ollama (`llama3.2:latest`, 3.2B parameters, Metal accelerated)  
+**Course:** BITS Pilani WILP – Modern Database Systems (Assignment 2)  
+**Project:** Vehicle Troubleshooting Assistant using ChromaDB and Retrieval-Augmented Generation (RAG)  
+**Group:** 20  
+**Team Members:**
+- Priya N (BITS ID: 2026NS12087) — 20% Contribution
+- Mohamed Ibrahim M (BITS ID: 2026NS12021) — 20% Contribution
+- Hrishabh Gupta (BITS ID: 2026NS12122) — 20% Contribution
+- Aditya Singhal (BITS ID: 2026NS12028) — 20% Contribution
+- Rupesh Kumar Singh (BITS ID: 2026NS12128) — 20% Contribution
+
+**Dataset:** 9,532 authentic vehicle diagnostic records (`data/processed/vehicle_troubleshooting.json`)  
+**Vector Store:** ChromaDB persistent collection `vehicle_troubleshooting_kb` (Cosine space)  
+**Embedding Model:** `sentence-transformers/all-MiniLM-L6-v2` (384 dimensions, $L_2$-normalized)  
+**Active Real LLM:** Ollama (`llama3.2:latest`, 3.2B parameters, Metal accelerated)  
+**Offline CI LLM:** Deterministic Mock Provider  
 
 ---
 
