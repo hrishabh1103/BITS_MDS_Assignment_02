@@ -10,13 +10,14 @@
 
 Following full group discussion and unanimous consensus across all team members, the contribution percentage is agreed to be **strictly equal (20.0% each)** across all five students. The project was executed through continuous pair-programming, joint architecture reviews, collaborative verification sessions, and shared academic documentation drafting.
 
-| Member Name | BITS Student ID | Confirmed Contribution | Primary Collaborative Focus |
+| Member Name | BITS Student ID | Confirmed Contribution | Project Engagement |
 |---|---|---|---|
-| **Priya N** | `2026NS12087` | **20.0%** | Dataset provenance, schema design, and validation |
-| **Mohamed Ibrahim M** | `2026NS12021` | **20.0%** | ChromaDB persistence, HNSW indexing, and CRUD verification |
-| **Hrishabh Gupta** | `2026NS12122` | **20.0%** | Vector similarity math, NumPy benchmarks, and embedding engine |
-| **Aditya Singhal** | `2026NS12028` | **20.0%** | RAG pipeline, prompt engineering, and LLM abstraction layer |
-| **Rupesh Kumar Singh** | `2026NS12128` | **20.0%** | Safety guardrails, Streamlit UI dashboard, and testing |
+| **Priya N** | `2026NS12087` | **20.0%** | Full collaborative lifecycle (All phases) |
+| **Mohamed Ibrahim M** | `2026NS12021` | **20.0%** | Full collaborative lifecycle (All phases) |
+| **Hrishabh Gupta** | `2026NS12122` | **20.0%** | Full collaborative lifecycle (All phases) |
+| **Aditya Singhal** | `2026NS12028` | **20.0%** | Full collaborative lifecycle (All phases) |
+| **Rupesh Kumar Singh** | `2026NS12128` | **20.0%** | Full collaborative lifecycle (All phases) |
+| **Total** | | **100.0%** | Equal joint collaboration across all modules |
 
 ---
 

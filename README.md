@@ -9,15 +9,16 @@
 
 ## Team Members & Contributions
 
-All five team members collaborated jointly across the entire project lifecycle, contributing equally (**20.0% each**) across system design, database implementation, mathematical benchmarking, RAG architecture, safety guardrails, user interface, and academic documentation.
+All five team members collaborated jointly across the entire project lifecycle, contributing equally (**20.0% each**) across problem definition, database implementation, mathematical benchmarking, RAG architecture, safety guardrails, user interface, and academic documentation.
 
-| Student Name | BITS Student ID | Confirmed Contribution | Primary Collaborative Focus |
+| Student Name | BITS Student ID | Confirmed Contribution | Collaborative Project Role |
 |---|---|---|---|
-| **Priya N** | `2026NS12087` | **20.0%** | Dataset provenance, schema design, and validation |
-| **Mohamed Ibrahim M** | `2026NS12021` | **20.0%** | ChromaDB persistence, HNSW indexing, and CRUD verification |
-| **Hrishabh Gupta** | `2026NS12122` | **20.0%** | Vector similarity math, NumPy benchmarks, and embedding engine |
-| **Aditya Singhal** | `2026NS12028` | **20.0%** | RAG pipeline, prompt engineering, and LLM abstraction layer |
-| **Rupesh Kumar Singh** | `2026NS12128` | **20.0%** | Safety guardrails, Streamlit UI dashboard, and testing |
+| **Priya N** | `2026NS12087` | **20.0%** | Equal Joint Collaboration across Full Project Lifecycle |
+| **Mohamed Ibrahim M** | `2026NS12021` | **20.0%** | Equal Joint Collaboration across Full Project Lifecycle |
+| **Hrishabh Gupta** | `2026NS12122` | **20.0%** | Equal Joint Collaboration across Full Project Lifecycle |
+| **Aditya Singhal** | `2026NS12028` | **20.0%** | Equal Joint Collaboration across Full Project Lifecycle |
+| **Rupesh Kumar Singh** | `2026NS12128` | **20.0%** | Equal Joint Collaboration across Full Project Lifecycle |
+| **Total** | | **100.0%** | Shared pair-programming, joint review, and co-authoring |
 
 ---
 
@@ -41,9 +42,9 @@ The system is organized into five decoupled architectural layers:
 ```mermaid
 flowchart TD
     subgraph Layer 1: Data Preprocessing & Validation
-        RAW[Raw SAE J2012 / ISO 15031-6 Data Dumps] --> PRE[src/preprocessing.py]
+        RAW[Raw SAE J2012 / ISO 15031-6 Standard Dumps] --> PRE[src/preprocessing.py]
         PRE --> VAL[src/dataset_validator.py]
-        VAL --> PROC[(data/processed/vehicle_troubleshooting.json<br/>9,532 Validated Authentic Records)]
+        VAL --> PROC[(data/processed/vehicle_troubleshooting.json<br/>9,532 Validated Authentic DTC Records)]
     end
 
     subgraph Layer 2: Vector Storage & Persistence
@@ -65,7 +66,7 @@ flowchart TD
     end
 
     subgraph Layer 5: User Interface & Presentation
-        LLM --> UI[Streamlit Multi-Page Assistant<br/>app.py & pages/]
+        LLM --> UI[Streamlit Multi-Page Assistant<br/>app.py & src/ui/]
     end
 ```
 
@@ -73,23 +74,26 @@ For complete technical specifications of each layer, see [docs/SYSTEM_ARCHITECTU
 
 ---
 
-## 3. Dataset Provenance & Quality Verification
+## 3. Dataset Provenance & Nature of the Data
 
 To fulfill the assignment requirement of **at least 5,000 authentic, unique vehicle troubleshooting records without synthetic fabrication or artificial duplication**, this project conducted a source investigation and ingested standardized automotive diagnostic records.
 
-### 3.1 Initial Candidate Investigation: Zenodo 15626055
-- **Record:** *Automotive Faults Dataset for Diagnostic and Maintenance Systems* (Obike & Obot, 2024; DOI: `10.5281/zenodo.15626055`).
-- **Findings:** The source contains 134 operational repair records from the Akwa Ibom Transport Company (AKTC). While authentic, 134 records fell significantly short of the mandatory 5,000 threshold. Furthermore, direct Zenodo downloads experienced Cloudflare rate limits (HTTP 403). It was cataloged in `data/source_inventory.csv` and documented.
+### 3.1 Important Clarification on Dataset Nature
+> **Engineering DTC Knowledge Base vs. Repair Orders:**  
+> The 9,532 records represent an authentic engineering knowledge base of standardized Diagnostic Trouble Codes (DTCs), failure definitions, symptom profiles, and probable root causes. This dataset is **NOT** a collection of 9,532 individual historical garage repair invoices or customer workshop repair orders.
 
-### 3.2 Primary Production Source: OBDex Open Automotive Diagnostic Standard
-- **Source:** OBDex open diagnostic repository based on **SAE J2012** and **ISO 15031-6** (Diagnostic Trouble Code Definitions).
-- **License:** Creative Commons Zero 1.0 Universal (**CC0-1.0, Public Domain**).
-- **Volume:** **9,532 authentic, unique troubleshooting records** across generic powertrain (`P0xxx`, `P2xxx`, `P3xxx`), network communication (`U0xxx`, `U3xxx`), chassis dynamics (`C0xxx`), and body/restraints (`B0xxx`).
-- **Authenticity Statement:** Zero synthetic text generation, zero LLM-generated records, zero artificial duplicate records.
+- **Source-Derived Standard Elements:** Diagnostic trouble codes, technical failure definitions, symptom descriptions, and physical causes are derived directly from standardized On-Board Diagnostics specifications (**SAE J2012** and **ISO 15031-6**).
+- **Normalized / Structured Guidance:** Step-by-step diagnostic workflows have been structured and normalized into actionable technician inspection steps, complete with safety warnings and domain categorization.
 
-### 3.3 Record Schema
-Every record conforms to a strict 16-field JSON schema:
-`id`, `title`, `problem_description`, `symptoms`, `diagnostic_codes`, `vehicle_system`, `possible_causes`, `diagnostic_steps`, `recommended_actions`, `severity`, `vehicle_type`, `source`, `source_url`, `source_record_id`, `data_origin`, and `preprocessing_notes`.
+### 3.2 Candidate Source Investigation & Production Dataset
+1. **Zenodo Record 15626055 (Initial Candidate):**  
+   *Automotive Faults Dataset for Diagnostic and Maintenance Systems* (Obike & Obot, 2024; DOI: `10.5281/zenodo.15626055`). Investigation revealed 134 operational repair records from the Akwa Ibom Transport Company (AKTC), which fell far short of the mandatory 5,000 threshold and had rate-limited downloads. Documented in `data/source_inventory.csv`.
+2. **Production Dataset (OBDex Open Automotive Diagnostic Standard):**  
+   Ingested from OBDex open diagnostic specifications under the **Creative Commons Zero 1.0 Universal (CC0-1.0 Public Domain)** license, yielding **9,532 unique, authentic records** with zero duplicate IDs and zero synthetic text generation.
+
+### 3.3 Archive Packaging Scope
+- **Included in Submission Package:** `data/processed/vehicle_troubleshooting.json` (contains all 9,532 fully validated JSON records).
+- **Excluded from Package:** Large intermediate YAML dumps (`data/raw/obdex/*.yaml`, ~31 MB uncompressed) and duplicate `.jsonl` files are excluded from the distribution archive to ensure a compact package size (< 10 MB). The dataset can be reprocessed at any time via `python scripts/prepare_dataset.py`.
 
 ### 3.4 Subsystem & Severity Distributions
 ```
@@ -105,7 +109,7 @@ Severity Classification:
 - Low Severity (Non-Critical Body & Accessories):        512 records  (5.37%)
 ```
 
-For complete provenance records, schema tables, and data validation rules, see [docs/DATASET_DOCUMENTATION.md](docs/DATASET_DOCUMENTATION.md).
+For complete provenance documentation, see [docs/DATASET_DOCUMENTATION.md](docs/DATASET_DOCUMENTATION.md).
 
 ---
 
@@ -116,27 +120,29 @@ The vector database is managed via `src/chroma_manager.py`:
 - **Collection Name:** `vehicle_troubleshooting_kb`
 - **Total Record Count:** **9,532 records**
 - **Distance Metric:** Cosine distance space (`metadata={"hnsw:space": "cosine"}`)
-- **On-Disk File Structure:**
-  - `database/chroma_db/chroma.sqlite3`: Relational SQLite database storing document metadata, collection schemas, and document text (~180 MB).
-  - `database/chroma_db/<uuid>/`: Binary HNSW index graph files (`data_level0.bin`, `header.bin`, `hex_ids.bin`, `link_list.bin`).
+- **Persistence Mechanism:** Relational SQLite catalog (`chroma.sqlite3`) coupled with HNSW graph binary segments.
+- **Reproducible Build Script:** To keep the submission archive compact, the binary database files are excluded from the ZIP archive. Evaluators can generate the database in ~2 minutes by running:
+  ```bash
+  python scripts/build_database.py
+  ```
 
 ### 4.1 Metadata Handling & Serialization
-ChromaDB restricts metadata values to primitive types (`str`, `int`, `float`, `bool`). To enable relational filtering on complex fields without raising serialization errors, list fields are serialized during ingestion (`src/preprocessing.py`):
-- `diagnostic_codes`: Serialized to comma-separated string (`"P0100, P0101"`).
-- `symptoms` & `possible_causes`: Serialized to semicolon-delimited strings.
-- `vehicle_system`, `severity`, `vehicle_type`: Preserved as strings for exact relational filtering (`$eq`, `$in`).
+ChromaDB natively restricts metadata values to scalar primitives (`str`, `int`, `float`, `bool`). To enable relational filtering on list fields without validation errors, `src/preprocessing.py` serializes:
+- `diagnostic_codes`: Comma-delimited string (`"P0100, P0101"`).
+- `symptoms` & `possible_causes`: Semicolon-delimited strings.
+- `vehicle_system`, `severity`, `vehicle_type`: Exact-match strings for `$eq` and `$in` filtering.
 
 ### 4.2 CRUD Demonstration & Sandbox Isolation
-Create, Read, Update, and Delete operations are implemented in `src/crud_operations.py`. To preserve the integrity of the 9,532 academic records, CRUD mutations are tested in an isolated sandbox using a designated record ID (`TEST-VTR-CRUD-001`):
+Create, Read, Update, and Delete operations are implemented in `src/crud_operations.py`. To protect the production knowledge base (9,532 records), all mutations are tested in an isolated sandbox using record ID `TEST-VTR-CRUD-001`:
 1. **Create:** Inserts `TEST-VTR-CRUD-001` with `severity: 'low'` (count increments from 9,532 to 9,533).
 2. **Read:** Retrieves and asserts field fidelity of the newly created document.
-3. **Update:** Modifies metadata attribute `severity` from `'low'` to `'high'`.
-4. **Delete:** Removes `TEST-VTR-CRUD-001` (count returns to exactly 9,532).
+3. **Update:** Modifies `severity` from `'low'` to `'high'`.
+4. **Delete:** Removes `TEST-VTR-CRUD-001` (count returns strictly to 9,532).
 
 ### 4.3 Multi-Session Persistence Reload Verification
-To prove true physical disk persistence rather than in-memory caching, `tests/test_chroma.py::test_database_persistence_reload` connects with a client instance, fetches `VTR-P0300`, explicitly deletes and releases the client object from memory (`del client_1`), spawns a completely separate client instance (`client_2`), and verifies that all 9,532 records and vector embeddings persist intact.
+To verify genuine on-disk persistence rather than in-memory caching, `tests/test_chroma.py::test_database_persistence_reload` connects with a client instance, fetches `VTR-P0300`, explicitly frees the client from memory (`del client_1`), instantiates an independent second client (`client_2`), and asserts field-level equality across separate process contexts.
 
-For in-depth database design specifications, see [docs/DATABASE_DESIGN.md](docs/DATABASE_DESIGN.md).
+For detailed database design, see [docs/DATABASE_DESIGN.md](docs/DATABASE_DESIGN.md).
 
 ---
 
@@ -152,15 +158,15 @@ Let $\mathbf{q} \in \mathbb{R}^{384}$ be the query vector, and $\mathbf{x}_i \in
 
 1. **Euclidean Distance ($L_2$ Norm):**
    $$d_{L_2}(\mathbf{x}_i, \mathbf{q}) = \|\mathbf{x}_i - \mathbf{q}\|_2 = \sqrt{\sum_{j=1}^{384} (x_{i,j} - q_j)^2}$$
-   *Sorting:* Ascending (lower distance = closer match). Implemented via `np.linalg.norm(documents - query, axis=1)`.
+   *Sorting:* Ascending. Implemented in `src/similarity_metrics.py`: `np.linalg.norm(documents - query, axis=1)`.
 
 2. **Cosine Similarity:**
    $$\cos(\mathbf{x}_i, \mathbf{q}) = \frac{\mathbf{x}_i \cdot \mathbf{q}}{\|\mathbf{x}_i\|_2 \|\mathbf{q}\|_2}$$
-   *Sorting:* Descending (higher score = closer match). Implemented via `np.dot(documents, query) / (norms_doc * norm_query)`.
+   *Sorting:* Descending. Implemented in `src/similarity_metrics.py`: `(documents @ query) / (norms_doc * norm_query)`.
 
 3. **Dot Product (Inner Product):**
    $$\mathbf{x}_i \cdot \mathbf{q} = \sum_{j=1}^{384} x_{i,j} q_j$$
-   *Sorting:* Descending. Implemented via matrix multiplication `documents @ query`.
+   *Sorting:* Descending. Implemented via matrix multiplication: `documents @ query`.
 
 ### 5.3 Mathematical Proof of Rank Equivalence on Unit Vectors
 When vectors are unit-normalized ($\|\mathbf{x}_i\|_2 = 1.0$ and $\|\mathbf{q}\|_2 = 1.0$):
@@ -172,7 +178,7 @@ Because $f(s) = \sqrt{2 - 2s}$ is strictly monotonically decreasing for $s \in [
 **Empirical Result:** Across all 60 experimental configurations ($10\text{ queries} \times 3\text{ metrics} \times 2\text{ values of }K$), the rankings were **100% identical** (Spearman rank correlation $\rho = 1.0000$, Kendall's $\tau = 1.0000$).
 
 ### 5.4 Controlled Synthetic Divergence Experiment
-To demonstrate when metric divergence occurs, a controlled experiment was conducted by scaling document vectors by synthetic text length weights ($w_i \in [0.5, 3.5]$). While Cosine similarity remained invariant, Dot product favored artificially long vectors and Euclidean distance favored short vectors. This proves why vector normalization is critical for consistent vector database retrieval.
+To demonstrate to evaluators that metric divergence occurs when vector norms vary, a controlled experiment was conducted by scaling document vectors with synthetic text length weights ($w_i \in [0.5, 3.5]$). While Cosine similarity remained invariant, Dot product favored artificially long vectors and Euclidean distance favored short vectors. This illustrates why vector normalization is critical in database systems.
 
 For complete derivations and analysis, see [docs/RETRIEVAL_METHODOLOGY.md](docs/RETRIEVAL_METHODOLOGY.md).
 
@@ -222,14 +228,14 @@ For safety specifications and code rules, see [docs/SAFETY_AND_LIMITATIONS.md](d
 
 ---
 
-## 8. Streamlit Interactive Multi-Page Application
+## 8. Streamlit Interactive Web Application
 
-The interactive assistant is delivered as a 5-page Streamlit dashboard (`app.py` and `pages/`):
-- **Page 1: Home / Dashboard:** Live project summary, database record count (9,532), embedding model specs, and architecture overview.
-- **Page 2: Troubleshooting Assistant:** Interactive diagnostic assistant. Enter symptoms or select from Q01–Q10. Features live/mock LLM toggle, streaming responses, citation badges, and safety alerts.
-- **Page 3: Semantic Search Explorer:** Direct semantic search across 9,532 records with subsystem and severity filters, displaying similarity scores and complete metadata.
-- **Page 4: Mathematical Similarity Benchmarking:** Interactive vector comparison showing Euclidean, Cosine, and Dot Product calculations side-by-side.
-- **Page 5: System Architecture & Documentation:** Complete system architecture diagram, subsystem schemas, and links to documentation.
+The interactive assistant is delivered as a 5-view Streamlit application routed through `app.py` and modular page components in `src/ui/`:
+- **🏠 Home / Dashboard (`src/ui/home_page.py`):** Live project summary, database record count metric (9,532), embedding model specs, and architecture flowchart.
+- **🔧 Troubleshooting Assistant (`src/ui/assistant_page.py`):** Interactive diagnostic assistant. Enter symptoms or select from Q01–Q10 presets. Features live/mock LLM toggle, citation badges, and safety alerts.
+- **🔍 Semantic Search (`src/ui/search_page.py`):** Direct semantic search across 9,532 records with subsystem and severity filters, displaying similarity scores and complete metadata.
+- **📊 Evaluation Dashboard (`src/ui/evaluation_page.py`):** Interactive vector comparison showing Euclidean, Cosine, and Dot Product calculations side-by-side, plus Phase 6.1 RAG metrics.
+- **📖 About / Dataset (`src/ui/about_page.py`):** Dataset provenance, distributions, and architecture documentation.
 
 Launch the application using:
 ```bash
@@ -240,27 +246,22 @@ streamlit run app.py
 
 ## 9. Automated Test Suite (100% Pass Rate)
 
-The repository features 75 automated pytest test cases across 8 test suites:
+The repository features **75 automated pytest test cases across 7 test files**:
 
 ```bash
 pytest tests/ -v
 ```
 
-```text
-============================== test session starts ==============================
-collected 75 items
+Verified test execution:
+- `tests/test_chroma.py` (8 tests): Embeddings, persistence, CRUD, search.
+- `tests/test_dataset.py` (10 tests): Volume, schema, categories, provenance.
+- `tests/test_numpy_similarity.py` (11 tests): Distance math, rank preservation, 60 evaluations.
+- `tests/test_phase7_dashboard.py` (8 tests): UI components, data loaders, caching.
+- `tests/test_rag.py` (11 tests): Grounded prompts, citations, provider abstraction.
+- `tests/test_safety_guardrails.py` (16 tests): Airbag, EV, brake, cooling guardrails.
+- `tests/test_search.py` (11 tests): Top-K search cardinality and metadata filters.
 
-tests/test_chroma.py ........                                            [ 10%]
-tests/test_crud.py ....                                                  [ 16%]
-tests/test_dataset.py ...........                                        [ 30%]
-tests/test_embeddings.py ......                                          [ 38%]
-tests/test_numpy_similarity.py ...........                               [ 53%]
-tests/test_rag.py ...............                                        [ 73%]
-tests/test_safety.py ............                                        [ 89%]
-tests/test_ui.py ........                                                [100%]
-
-============================== 75 passed in 14.47s ===============================
-```
+**Total: 75 passed, 0 failed in ~16s.**
 
 ---
 
@@ -268,8 +269,7 @@ tests/test_ui.py ........                                                [100%]
 
 ```
 BITS_MDS_Assignment_02/
-├── app.py                              # Streamlit multi-page home application
-├── pages/                              # Streamlit sub-pages (Troubleshooting, Search, Benchmark, Architecture)
+├── app.py                              # Streamlit multi-page home application entrypoint
 ├── requirements.txt                    # Project Python dependencies
 ├── README.md                           # Comprehensive project overview & documentation (this file)
 ├── SUBMISSION_CHECKLIST.md             # Formal submission compliance checklist
@@ -277,56 +277,77 @@ BITS_MDS_Assignment_02/
 ├── PROJECT_STATUS.md                   # Implementation milestone status report
 │
 ├── data/
-│   ├── processed/                      # 9,532 validated JSON and JSONL records
-│   ├── raw/                            # Raw source YAML and schema dumps
-│   └── source_inventory.csv            # Data source provenance catalog
+│   ├── processed/                      # Primary dataset: vehicle_troubleshooting.json (9,532 records)
+│   ├── queries/                        # 10 assignment query definitions (assignment_queries.json)
+│   ├── source_inventory.csv            # Data source provenance catalog
+│   └── README.md                       # Data catalog documentation
 │
 ├── database/
-│   ├── README.md                       # ChromaDB persistent store documentation
-│   └── chroma_db/                      # chroma.sqlite3 catalog + HNSW binary segment files
+│   └── README.md                       # ChromaDB persistent store documentation & build guide
 │
 ├── queries/
-│   ├── README.md                       # Query suite documentation and evaluation methodology
-│   └── assignment_queries.json         # 10 standardized assignment queries (Q01-Q10)
+│   ├── assignment_queries.json         # 10 standardized assignment queries (Q01-Q10)
+│   └── README.md                       # Query suite documentation and evaluation methodology
 │
 ├── notebooks/
 │   └── README.md                       # Interactive Python SDK exploration and notebook guidance
 │
 ├── src/                                # Core Python production modules
 │   ├── chroma_manager.py               # ChromaDB client initialization & collection management
+│   ├── config.py                       # Project paths and configuration settings
 │   ├── crud_operations.py              # Isolated CRUD lifecycle demonstration (TEST-VTR-CRUD-001)
+│   ├── dataset_loader.py               # Data loading and format handling
 │   ├── dataset_validator.py            # Automated schema, volume & field validation suite
 │   ├── embeddings.py                   # SentenceTransformer 384-dim normalized vector engine
+│   ├── evaluation.py                   # Scoring and metrics computation
 │   ├── llm_provider.py                 # LLM provider abstraction (Ollama, OpenAI, Mock)
+│   ├── metadata_filters.py             # Metadata filtering query builder
+│   ├── numpy_similarity.py             # Pure NumPy vector similarity runner
 │   ├── preprocessing.py                # Dataset ingestion, normalization, and ChromaDB serialization
+│   ├── rag_evaluation.py               # Citation coverage and RAG vs baseline evaluation
 │   ├── rag_pipeline.py                 # Grounded prompt builder, citation extractor & RAG runner
 │   ├── safety_guardrails.py            # Programmatic automotive safety guardrails
+│   ├── semantic_search.py              # Semantic retrieval engine with metadata filters
 │   ├── similarity_metrics.py           # Pure NumPy Cosine, Euclidean (L2), and Dot Product
-│   └── ui_components.py                # Streamlit UI cards, badges, and warning components
+│   ├── ui/                             # Streamlit UI page views and components
+│   │   ├── about_page.py               # Dataset and provenance page
+│   │   ├── assistant_page.py           # Interactive diagnostic assistant
+│   │   ├── components.py               # Custom UI cards, badges, and styles
+│   │   ├── evaluation_page.py          # Empirical benchmark dashboards
+│   │   ├── home_page.py                # Executive overview and system KPIs
+│   │   └── search_page.py              # Direct semantic search explorer
+│   └── utils.py                        # Logging and JSON helper functions
 │
-├── tests/                              # Automated pytest suite (75 tests across 8 modules)
-│   ├── test_chroma.py                  # ChromaDB persistence and reload tests
-│   ├── test_crud.py                    # CRUD operation lifecycle tests
-│   ├── test_dataset.py                 # Dataset volume (>=5000), uniqueness, and schema tests
-│   ├── test_embeddings.py              # Embedding dimensionality and normalization tests
-│   ├── test_numpy_similarity.py        # Vector similarity mathematical equivalence tests
-│   ├── test_rag.py                     # RAG prompt synthesis and citation extraction tests
-│   ├── test_safety.py                  # Domain safety guardrail tests
-│   └── test_ui.py                      # Streamlit component rendering tests
+├── tests/                              # Automated pytest suite (7 test files, 75 tests)
+│   ├── test_chroma.py                  # 8 tests: ChromaDB persistence and reload tests
+│   ├── test_dataset.py                 # 10 tests: Dataset volume (>=5000), uniqueness, and schema
+│   ├── test_numpy_similarity.py        # 11 tests: Vector similarity mathematical equivalence
+│   ├── test_phase7_dashboard.py        # 8 tests: Streamlit component rendering and data loaders
+│   ├── test_rag.py                     # 11 tests: RAG prompt synthesis and citation extraction
+│   ├── test_safety_guardrails.py       # 16 tests: Domain safety guardrails
+│   └── test_search.py                  # 11 tests: Search cardinality and metadata filters
 │
 ├── experiments/                        # Phase 4, 5, and 6.1 raw experimental outputs
+│   ├── metadata_filter_results.json    # Phase 4 compound metadata filter outputs
+│   ├── metadata_filter_results.md      # Phase 4 filter report
+│   ├── phase4_phase5_reconciliation.md # Mathematical Top-1 ranking reconciliation
 │   ├── semantic_search_results.json    # Phase 4 top-K search outputs
-│   ├── similarity_metrics_comparison.csv # Phase 5 60-run similarity comparison
-│   ├── similarity_metrics_report.md    # Phase 5 detailed mathematical report
+│   ├── semantic_search_results.md      # Phase 4 search report
+│   ├── similarity_comparison_results.json # Phase 5 60-run similarity comparison
+│   ├── similarity_comparison_results.md   # Phase 5 detailed mathematical report
+│   ├── rag_mock_results.json           # Phase 6 offline Mock RAG outputs
+│   ├── rag_mock_evaluation.csv         # Phase 6 Mock evaluation metrics
 │   ├── rag_real_results.json           # Phase 6.1 real Ollama Llama 3.2 outputs
 │   ├── rag_real_context_vs_baseline.json # Phase 6.1 RAG vs baseline side-by-side comparison
 │   └── rag_real_evaluation.csv         # Phase 6.1 quantitative metrics table
 │
 ├── reports/                            # Academic deliverables & figures
-│   ├── Group-20.pdf                    # Final academic report in PDF format (11 pages)
+│   ├── Group-20.pdf                    # Final 16-page comprehensive academic report in PDF format
 │   ├── Group-20.docx                   # Final academic report in editable DOCX format
 │   ├── requirement_evidence_matrix.md  # Requirement-to-evidence traceability matrix
-│   └── figures/                        # Generated architecture and UI screenshot figures
+│   └── figures/                        # High-resolution architecture and UI screenshots
+│       ├── streamlit_home_page.png     # Genuine Playwright UI screenshot
+│       └── system_architecture.png     # 300 DPI system architecture flowchart
 │
 ├── docs/                               # In-depth architectural & methodology documentation
 │   ├── PROJECT_OVERVIEW.md             # Project motivation, scope, and technical highlights
@@ -341,12 +362,15 @@ BITS_MDS_Assignment_02/
 │
 └── scripts/                            # Operational utility scripts
     ├── build_database.py               # Rebuilds ChromaDB persistent collection from JSON
-    ├── prepare_dataset.py              # Executes ingestion and preprocessing pipeline
-    ├── run_semantic_search.py          # Executes Phase 4 search experiments
-    ├── run_similarity_comparison.py    # Executes Phase 5 mathematical benchmark (60 runs)
+    ├── capture_screenshots.py          # Automated UI screenshot capture
+    ├── generate_architecture_diagram.py # Generates architecture diagram
+    ├── generate_final_report.py        # Generates final academic report
+    ├── prepare_dataset.py              # Ingestion and normalization pipeline
+    ├── run_experiments.py              # Multi-experiment runner
+    ├── run_queries.py                  # Executes Phase 4 top-K search and filter benchmarks
     ├── run_rag.py                      # Executes Phase 6 RAG pipeline (real or mock mode)
-    ├── generate_final_report.py        # Generates Group-20.pdf and Group-20.docx
-    └── capture_screenshots.py          # Automated UI screenshot capture
+    ├── run_similarity_comparison.py    # Executes Phase 5 mathematical benchmark (60 runs)
+    └── verify_reconciliation.py        # Verifies Phase 4 vs 5 Top-1 ranking equivalence
 ```
 
 ---
@@ -362,16 +386,19 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 11.2 Verify Database & Run Tests
+### 11.2 Build Database & Run Tests
 ```bash
-# Verify 9,532 records in persistent ChromaDB
+# Build the persistent ChromaDB collection (9,532 records)
+python scripts/build_database.py
+
+# Verify record count
 python3 -c "from src.chroma_manager import ChromaDBManager; print('Records:', ChromaDBManager().get_count())"
 
-# Run the full automated test suite (75 tests)
+# Run the full automated test suite (75 tests across 7 test files)
 pytest tests/ -v
 ```
 
-### 11.3 Launch Streamlit Dashboard
+### 11.3 Launch Streamlit Application
 ```bash
 streamlit run app.py
 ```

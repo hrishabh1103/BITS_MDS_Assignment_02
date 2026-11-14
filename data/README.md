@@ -1,72 +1,79 @@
-# Vehicle Troubleshooting Knowledge Base: Data Catalog
+# Automotive Diagnostic Knowledge Base: Data Catalog
 
-This directory contains the authentic automotive diagnostic datasets used by the **Vehicle Troubleshooting Assistant using ChromaDB and RAG** for BITS Pilani WILP Modern Database Systems (Assignment 2).
+**Course:** BITS Pilani WILP — Modern Database Systems (Assignment 2)  
+**Project:** Vehicle Troubleshooting Assistant using Persistent ChromaDB and RAG  
+**Group:** Group 20  
 
 ---
 
-## 1. Directory Structure
+## 1. Dataset Nature & Scope
+
+The dataset comprises **9,532 authentic, unique On-Board Diagnostics (OBD-II) diagnostic trouble code (DTC) knowledge records** conforming to international automotive engineering standards (**SAE J2012** and **ISO 15031-6**).
+
+> **Clarification of Data Type:**  
+> This dataset is an engineering knowledge base of standardized Diagnostic Trouble Codes, standard symptom descriptions, and root cause mappings. It is **NOT** a historical repository of 9,532 garage repair orders, shop invoices, or individual customer vehicles.
+
+### Source Derivation vs. Synthesized Guidance
+- **Source-Derived Standard Content:**
+  - Standardized Diagnostic Trouble Codes (DTCs) across generic powertrain (`P0xxx`, `P2xxx`, `P3xxx`), network communication (`U0xxx`, `U3xxx`), chassis dynamics (`C0xxx`), and body/restraints (`B0xxx`).
+  - Standard engineering definitions of fault conditions and electrical Rationality/Circuit/Performance failure modes.
+  - Observable vehicle operating symptoms and documented probable causes.
+- **Normalized / Structured Guidance:**
+  - Standardized step-by-step diagnostic workflows structured into actionable technician inspection steps.
+  - Recommended actions and safety warnings normalized to prevent dangerous operations (e.g., SRS pyrotechnic testing, high-voltage battery contact).
+  - Categorization into four standardized vehicle subsystems (`engine_and_transmission`, `brakes_and_suspension`, `electrical_and_body`, `network_and_communication`) and three operational severity tiers (`high`, `medium`, `low`).
+
+---
+
+## 2. Actual Repository & Archive Data Files
+
+To keep the submission archive clean, lightweight (under 10 MB), and focused on operational reproducibility, the repository and release package include:
 
 ```
 data/
-├── raw/
-│   └── obdex/                               # Raw unmodified YAML dumps (CC0-1.0 Public Domain)
-│       ├── B0xxx_enriched.yaml               # 323 body/SRS airbag codes
-│       ├── C0xxx_enriched.yaml               # 626 chassis/ABS/traction control codes
-│       ├── P0xxx_enriched.yaml               # 3,705 generic powertrain codes
-│       ├── P2xxx_enriched.yaml               # 3,495 extended powertrain/sensor codes
-│       ├── P3xxx_enriched.yaml               # 155 auxiliary emissions codes
-│       ├── U0xxx_enriched.yaml               # 1,055 network/CAN bus communication codes
-│       └── U3xxx_enriched.yaml               # 174 ECU module internal diagnostic codes
-│
 ├── processed/
-│   ├── vehicle_troubleshooting.json          # 9,532 standardized JSON records (25 MB)
-│   └── vehicle_troubleshooting.jsonl         # 9,532 JSON-Lines records (23 MB)
-│
+│   └── vehicle_troubleshooting.json          # Primary validated dataset (9,532 records, 26 MB uncompressed, ~3 MB compressed)
 ├── queries/
-│   └── assignment_queries.json               # 10 assignment query definitions (Phase 4)
-│
-├── source_inventory.csv                      # Documented inventory of all investigated candidate sources
-└── README.md                                 # This document
+│   └── assignment_queries.json               # 10 standardized assignment benchmark queries (Q01-Q10)
+├── source_inventory.csv                      # Documented investigation of investigated candidate sources
+└── README.md                                 # This data documentation file
 ```
 
----
-
-## 2. Dataset Verification Summary
-
-- **Total Ingested Raw Records:** 9,533
-- **Validated Unique Records:** 9,532
-- **Discarded Undocumented Padding Records:** 1 (`VTR-P0FFF` - undocumented placeholder code)
-- **Duplicate Records:** 0 (zero duplicate IDs)
-- **Target Threshold Satisfied:** **9,532 / 5,000 records (190.6% of requirement)**
-- **Authenticity Origin:** 100% authentic, standard-compliant automotive diagnostic records conforming to SAE J2012 and ISO 15031-6 specifications. No synthetic records or artificial duplicates.
+### Archive Inclusions & Exclusions:
+- **Included:** `data/processed/vehicle_troubleshooting.json` contains the complete, canonical 9,532 records adhering to the full 16-field schema.
+- **Excluded:** Unprocessed raw YAML dumps (`data/raw/obdex/*.yaml`, ~31 MB uncompressed) and redundant line-delimited files (`vehicle_troubleshooting.jsonl`) are excluded from the final submission archive to ensure an efficient package size. If required, raw data can be re-fetched or reprocessed via `python scripts/prepare_dataset.py`.
 
 ---
 
-## 3. Subsystem Breakdown
+## 3. Dataset Summary & Distributions
 
-| Subsystem Category | Internal Key | Validated Records | Share |
+- **Total Validated Records:** 9,532 unique DTC records
+- **Duplicate Records:** 0 (zero ID collisions)
+- **Missing Required Fields:** 0 instances across all 9,532 records
+- **License:** Creative Commons Zero 1.0 Universal (**CC0-1.0 Public Domain**)
+
+### Subsystem Distribution
+| Subsystem Domain | Internal Key | Validated Records | Percentage |
 |---|---|---|---|
-| **Engine & Powertrain** | `engine_and_transmission` | 7,354 | 77.1% |
-| **Network & Bus Communication** | `network_and_communication` | 1,229 | 12.9% |
-| **Chassis, Brakes & Suspension** | `brakes_and_suspension` | 626 | 6.6% |
-| **Electrical & Body Control** | `electrical_and_body` | 323 | 3.4% |
+| **Engine & Powertrain** | `engine_and_transmission` | 7,354 | 77.15% |
+| **Network & Communication** | `network_and_communication` | 1,229 | 12.89% |
+| **Chassis, Brakes & Suspension** | `brakes_and_suspension` | 626 | 6.57% |
+| **Electrical & Body Systems** | `electrical_and_body` | 323 | 3.39% |
+| **Total** | | **9,532** | **100.0%** |
+
+### Severity Distribution
+| Severity Level | Definition / Criteria | Record Count | Percentage |
+|---|---|---|---|
+| **High** | Braking, steering, airbags/SRS, limp-mode activation, severe mechanical risk | 5,694 | 59.74% |
+| **Medium** | Check Engine Light (MIL), emissions degradation, sensor circuit faults | 3,326 | 34.89% |
+| **Low** | Non-critical body accessories, convenience modules, informational status | 512 | 5.37% |
 | **Total** | | **9,532** | **100.0%** |
 
 ---
 
-## 4. Severity Breakdown
+## 4. Record Schema Specification
 
-| Severity Level | Criteria | Record Count | Share |
-|---|---|---|---|
-| **High** | Braking, steering, airbags/SRS, limp mode activation, severe mechanical damage | 5,694 | 59.7% |
-| **Medium** | Check engine light (MIL), emissions, sensors, general powertrain | 3,326 | 34.9% |
-| **Low** | Non-critical accessory, convenience, informational body modules | 512 | 5.4% |
-
----
-
-## 5. Schema Definition
-
-Each record adheres to the 16-field standardized JSON schema:
+Each record in `data/processed/vehicle_troubleshooting.json` adheres to the following 16-field JSON schema:
 
 ```json
 {
@@ -86,11 +93,10 @@ Each record adheres to the 16-field standardized JSON schema:
     "Intake air leak after sensor (likelihood: medium)"
   ],
   "diagnostic_steps": [
-    "Connect OBD-II diagnostic scanner and verify active code P0100 (Mass or Volume Air Flow Circuit Malfunction).",
-    "Perform visual and physical inspection of affected components: maf sensor, intake ducting.",
+    "Connect OBD-II diagnostic scanner and verify active code P0100.",
+    "Perform visual and physical inspection of affected components: MAF sensor, intake ducting.",
     "Check electrical wiring harnesses and connectors for looseness, corrosion, or pin displacement.",
-    "Measure reference voltage, ground continuity, and component resistance against manufacturer specifications.",
-    "Repair guidance: DIY feasible. Estimated labor time: 0.5-2.0 hours"
+    "Measure reference voltage, ground continuity, and component resistance against manufacturer specifications."
   ],
   "recommended_actions": [
     "Prioritize inspection of primary cause: MAF sensor connector loose or corroded.",

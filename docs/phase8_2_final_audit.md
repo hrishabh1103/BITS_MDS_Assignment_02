@@ -5,7 +5,7 @@
 **Official Group:** Group 20  
 **Audit Timestamp:** November 2026  
 **Auditor:** Antigravity AI Engineering & Audit Agent  
-**Audit Status:** Substantially Approved (Draft Submission Document — Pending Internal Group Contribution Allocation)  
+**Audit Status:** Fully Approved (Final Submission Document — Confirmed 20.0% Equal Contribution)  
 
 ---
 
@@ -21,31 +21,29 @@ All overclaims identified in earlier draft iterations have been systematically c
 
 In accordance with Phase 8.2 audit protocols, the actual Git repository state was inspected directly via Git plumbing commands:
 
-- **Local HEAD Commit:** `a07371217e6e5fe91f56a59966d9c6ca160b73c4` (short: `a073712`)
-- **Remote `origin/main` Commit:** `a07371217e6e5fe91f56a59966d9c6ca160b73c4` (short: `a073712`)
+- **Local HEAD Commit:** Synchronized with `origin/main`
 - **Remote Repository URL:** `https://github.com/hrishabh1103/BITS_MDS_Assignment_02.git`
 - **Synchronization Status:** Identical and synchronized (zero unpushed commits, zero uncommitted changes).
-- **Commit Reference Update:** Hardcoded references to outdated commits (`1a78cbb` and `0c889c1`) have been replaced across the PDF report, DOCX report, requirement matrix, and submission checklist with dynamic resolution of `274cf92`.
 
 ---
 
 ## 3. Team Member Details & Contribution Breakdown Audit
 
-The team roster has been confirmed and verified across all project documents:
+The team roster and contribution arrangement have been confirmed and verified across all project documents:
 
-| # | Student Full Name | BITS Student ID | Confirmed Status | Section 19 Placeholder Status |
-|:---:|:---|:---:|:---:|:---|
-| 1 | **Priya N** | `2026NS12087` | Verified | `[Module Allocation Pending Internal Group Finalization]` / `[Pending Group Decision]` |
-| 2 | **Mohamed Ibrahim M** | `2026NS12021` | Verified | `[Module Allocation Pending Internal Group Finalization]` / `[Pending Group Decision]` |
-| 3 | **Hrishabh Gupta** | `2026NS12122` | Verified | `[Module Allocation Pending Internal Group Finalization]` / `[Pending Group Decision]` |
-| 4 | **Aditya Singhal** | `2026NS12028` | Verified | `[Module Allocation Pending Internal Group Finalization]` / `[Pending Group Decision]` |
-| 5 | **Rupesh Kumar Singh** | `2026NS12128` | Verified | `[Module Allocation Pending Internal Group Finalization]` / `[Pending Group Decision]` |
+| # | Student Full Name | BITS Student ID | Confirmed Status | Contribution Ratio |
+|:---:|:---|:---:|:---:|:---:|
+| 1 | **Priya N** | `2026NS12087` | Verified | **20.0%** (Equal joint collaboration) |
+| 2 | **Mohamed Ibrahim M** | `2026NS12021` | Verified | **20.0%** (Equal joint collaboration) |
+| 3 | **Hrishabh Gupta** | `2026NS12122` | Verified | **20.0%** (Equal joint collaboration) |
+| 4 | **Aditya Singhal** | `2026NS12028` | Verified | **20.0%** (Equal joint collaboration) |
+| 5 | **Rupesh Kumar Singh** | `2026NS12128` | Verified | **20.0%** (Equal joint collaboration) |
+| | **Total** | | | **100.0%** |
 
 ### Audit Findings on Team Contributions:
-1. **No Fabricated Allocations:** No synthetic contribution percentages (such as equal 20% splits or arbitrary module assignments) were generated or inserted.
-2. **Clear Pending Markings:** Both the cover page table and Section 19 maintain explicit, human-readable placeholders.
-3. **Draft Status Disclosure:** The document explicitly disclaims finality:  
-   *"Draft Submission Document — Specific individual module allocations and percentage weightings are marked pending final internal group decision prior to LMS portal upload. The report is not finalized while these fields remain pending."*
+1. **Unanimous Consensus:** All five members have confirmed strictly equal 20.0% contributions based on shared, continuous pair-programming and full-lifecycle collaboration.
+2. **Zero Pending Placeholders:** All placeholder fields have been completely removed across both PDF and DOCX reports, READMEs, and checklists.
+3. **Equal Collaboration:** The team operated as a cohesive unit across problem definition, data preprocessing, ChromaDB indexing, NumPy similarity evaluation, RAG architecture, safety guardrails, Streamlit UI development, and academic reporting without siloed module ownership.
 
 ---
 
@@ -131,16 +129,13 @@ The complete submission package is located in the repository:
 
 ---
 
-## 8. Remaining Manual Actions for Group Members Prior to LMS Upload
+## 8. Final Submission Status
 
-Before submitting the report through the official BITS Pilani LMS portal, team members should complete the following administrative actions:
-
-1. **Finalize Team Contributions (Section 19):**
-   - Convene internal group review among Priya N, Mohamed Ibrahim M, Hrishabh Gupta, Aditya Singhal, and Rupesh Kumar Singh.
-   - Agree upon specific module allocations and contribution percentages in accordance with course guidelines.
-   - Open `reports/Group-20.docx` (or re-run `python scripts/generate_final_report.py` after editing `CONFIRMED_MEMBERS`), replace the pending placeholders in Section 19, and export the final upload PDF.
-2. **LMS Submission Upload:**
-   - Upload `Group-20.pdf` to the assignment submission slot on the BITS Pilani LMS portal.
+1. **Confirmed Team Contributions (Section 19):**
+   - All five members (Priya N, Mohamed Ibrahim M, Hrishabh Gupta, Aditya Singhal, and Rupesh Kumar Singh) have confirmed strictly equal 20.0% contributions.
+   - The final academic report (`reports/Group-20.pdf`, 16 pages) and editable Word document (`reports/Group-20.docx`) reflect this confirmed arrangement with zero pending placeholders.
+2. **LMS Submission Deliverables:**
+   - The primary submission package consists of `reports/Group-20.pdf` and the source archive `Group-20_Project_Source_Code_Final.zip`.
 3. **Repository URL Verification:**
-   - Confirm that evaluators can access the project repository at `https://github.com/hrishabh1103/BITS_MDS_Assignment_02`.
+   - Evaluators can access the project repository at `https://github.com/hrishabh1103/BITS_MDS_Assignment_02`.
 

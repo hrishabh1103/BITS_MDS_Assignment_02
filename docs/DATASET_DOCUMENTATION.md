@@ -18,6 +18,13 @@ This document provides complete provenance, structural specifications, preproces
 
 To satisfy the academic requirement of **at least 5,000 authentic, unique vehicle troubleshooting records without synthetic fabrication or artificial duplication**, this project ingested, standardized, and validated **9,532 authentic automotive diagnostic troubleshooting records** based on internationally standardized On-Board Diagnostics (OBD-II) specifications (SAE J2012 / ISO 15031-6).
 
+> **Important Distinction on Data Nature:**  
+> The 9,532 records constitute an engineering knowledge base of standardized Diagnostic Trouble Codes (DTCs), engineering failure descriptions, observable symptom profiles, and probable causes. This dataset is **NOT** a collection of 9,532 individual real-world garage repair invoices or customer workshop repair orders. Diagnostic Trouble Code definitions and failure modes are derived directly from the international standards, while step-by-step diagnostic workflows have been structured and normalized into standardized technician inspection steps.
+
+### Archive File Scope
+- **Included in Archive:** `data/processed/vehicle_troubleshooting.json` contains all 9,532 fully validated records adhering to the 16-field schema.
+- **Excluded from Archive:** Large unprocessed YAML files (`data/raw/obdex/*.yaml`, ~31 MB uncompressed) and duplicate line-delimited files (`vehicle_troubleshooting.jsonl`) are excluded from the distribution archive to maintain a lightweight package size (< 10 MB). The raw data can be fetched and reprocessed at any time via `python scripts/prepare_dataset.py`.
+
 ---
 
 ## 2. Source Investigation & Provenance
