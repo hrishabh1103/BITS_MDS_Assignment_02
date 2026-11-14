@@ -92,3 +92,4 @@ To evaluate whether RAG delivers substantive value over an ungrounded LLM, all 1
 The evaluation deliberately analyzed where the system reached its design boundaries:
 1. **Q03 (ICE 12V Parasitic Drain):** The generic OBD-II standard primarily indexes electrical DTCs relating to charging circuit low voltage (`P0562`) or hybrid DC-DC converters (`P0A1F`). Parasitic 12V standby draw (e.g., sticking glovebox relay) typically does not set a DTC. The RAG pipeline correctly warned that parasitic draw requires physical milliammeter fuse-pull testing rather than relying solely on scanner codes.
 2. **Q09 (SRS Airbag Warning):** The RAG pipeline successfully retrieved driver airbag squib circuit codes (`B0001`), but the safety guardrails intervened to prohibit ohmmeter continuity probing across airbag detonator squibs, preventing accidental pyrotechnic deployment.
+

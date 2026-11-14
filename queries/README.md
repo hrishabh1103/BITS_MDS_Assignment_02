@@ -28,3 +28,4 @@ Each query entry contains:
 - `query_text`: Natural-language driver complaint or technician symptom
 - `expected_dtc_prefix`: Primary expected DTC category (e.g. `P00B7`, `P0300`, `C0291`)
 - `relevance_criteria`: Guidance on what constitutes a diagnostically relevant retrieved record
+

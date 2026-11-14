@@ -133,3 +133,4 @@ python scripts/run_rag.py --mode real
 python scripts/generate_final_report.py
 # Regenerates reports/Group-20.pdf and reports/Group-20.docx with 100% equivalence
 ```
+

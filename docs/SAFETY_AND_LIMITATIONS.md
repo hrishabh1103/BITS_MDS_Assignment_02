@@ -83,3 +83,4 @@ flowchart TD
    Semantic retrieval and AI reasoning cannot substitute for physical scan tools, calibrated pressure gauges, oscilloscope waveform analysis, or smoke leak detection equipment.
 4. **Computational Latency in Local Real LLM Mode:**
    Running Meta Llama 3.2 (3.2B parameters) locally via Ollama on Apple Silicon CPU/Metal requires approximately 80 to 150 seconds per complete structured response. While latency is noticeable on CPU, it guarantees 100% data privacy and offline execution without cloud API subscription dependencies.
+

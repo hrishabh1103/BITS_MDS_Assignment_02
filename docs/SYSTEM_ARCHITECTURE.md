@@ -92,3 +92,4 @@ flowchart TD
 
 - **Local Persistence:** ChromaDB writes metadata directly to `database/chroma_db/chroma.sqlite3`. This file is completely self-contained and does not require an external database service.
 - **Streamlit Resource Caching:** Expensive objects (the ChromaDB client, the sentence-transformer neural network weights, and the RAG pipeline) are wrapped in `@st.cache_resource(show_spinner=False)`. This ensures that weights are loaded into memory exactly once per session, allowing page transitions and query evaluations to respond with sub-second retrieval latency.
+

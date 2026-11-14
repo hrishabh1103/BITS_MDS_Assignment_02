@@ -65,3 +65,4 @@ In Phase 6.1 real LLM evaluation using Meta Llama 3.2 (3B), our grounded RAG pip
 
 ### 4.4 Defense-in-Depth Safety Guardrails
 Our evaluation revealed critical negative findings when using raw LLM outputs (e.g., advising an ohmmeter resistance check across an airbag squib, or suggesting EV high-voltage cable inspection for an ordinary 12V alternator drain). We designed backend safety interceptors in `src/safety_guardrails.py` that detect these conditions and inject mandatory safety warnings and technician protocols before the diagnostic advice reaches the user.
+
